@@ -1,0 +1,70 @@
+$line-height: (
+    '12px': 16px,
+    '14px': 20px,
+    '16px': 24px,
+    '18px': 28px,
+    '20px': 28px,
+    '24px': 32px,
+    '30px': 36px,
+    '36px': 40px,
+    '48px': 1,
+    '60px': 1,
+    '72px': 1,
+    '96px': 1,
+    '128px': 1
+);
+
+$typography: (
+    12: (
+        size: 12px,
+        height: 16px
+    ),
+    14: (
+        size: 14px,
+        height: 20px
+    ),
+    16: (
+        size: 16px,
+        height: 24px
+    ),
+    18: (
+        size: 18px,
+        height: 28px
+    ),
+    20: (
+        size: 20px,
+        height: 28px
+    ),
+    24: (
+        size: 24px,
+        height: 32px
+    ),
+    30: (
+        size: 30px,
+        height: 36px
+    ),
+    36: (
+        size: 36px,
+        height: 40px
+    ),
+    48: (
+        size: 48px,
+        height: 1
+    ),
+    60: (
+        size: 60px,
+        height: 1
+    ),
+    72: (
+        size: 72px,
+        height: 1
+    ),
+    96: (
+        size: 96px,
+        height: 1
+    ),
+    128: (
+        size: 128px,
+        height: 1
+    )
+);
