@@ -183,13 +183,14 @@
     }
 
     .user-detail {
-        width: 100%;
         padding: 8px 10px;
         margin: 0 -10px;
-        border-radius: 26px;
 
+        flex: 1;
         display: flex;
         align-items: center;
+
+        border-radius: 26px;
 
         cursor: pointer;
 
@@ -209,6 +210,10 @@
             background: #f6f6f6;
         }
     }
+}
+
+.bottom-spacer {
+    height: 24px;
 }
 
 .bottom-navbar {
@@ -325,5 +330,9 @@
 
     .bottom-navbar {
         display: flex;
+    }
+
+    .bottom-spacer {
+        height: 96px;
     }
 }

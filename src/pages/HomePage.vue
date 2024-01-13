@@ -1,4 +1,6 @@
 <template>
+    <router-link to="/article"> Go to Article </router-link>
+
     <div class="home-header">
         <div>
             <p class="home-header__greeting">Good Afternoon</p>

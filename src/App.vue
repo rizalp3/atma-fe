@@ -70,6 +70,8 @@
 
             <!-- Page View -->
             <router-view></router-view>
+
+            <div class="bottom-spacer"></div>
         </div>
 
         <!-- Utility Bar (Right) -->

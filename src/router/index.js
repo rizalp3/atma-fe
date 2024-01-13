@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
+import ArticleListPage from '@/pages/article/ArticleListPage.vue';
+import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
 
 /**
  * List of Meta Attribute
@@ -19,10 +21,22 @@ const routes = [
         component: NotFoundPage,
         meta: { title: 'Page Not Found', blank: true }
     },
+
     {
         path: '/',
         component: HomePage,
         meta: { title: 'Home' }
+    },
+
+    {
+        path: '/article',
+        component: ArticleListPage,
+        meta: { title: 'Articles', back: '/' }
+    },
+    {
+        path: '/article/:id',
+        component: ArticleDetailPage,
+        meta: { back: '/article' }
     }
 ];
 
