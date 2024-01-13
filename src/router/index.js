@@ -4,51 +4,41 @@ import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
 
-import BottomBar from '@/components/layout/BottomBar.vue';
-import TopBar from '@/components/layout/TopBar.vue';
-
-import AtmaModalVue from '@/components/atma/AtmaModal.vue';
-import AtmaButtonVue from '@/components/atma/AtmaButton.vue';
-
-// Compose Layout Components
-const components = (component, bottomBar, topBar) => {
-    const data = {
-        default: component
-    };
-
-    if (bottomBar) {
-        data.bottombar = BottomBar;
-    }
-
-    if (topBar) {
-        data.topbar = TopBar;
-    }
-
-    return data;
-};
+/**
+ * List of Meta Attribute
+ *
+ * title - Page Title and Title Bar Text
+ * back - Show Back Button and The Target for It
+ * blank - Render Blank Layout
+ * */
 
 // Routes
 const routes = [
     {
         path: '/:pathMatch(.*)*',
-        component: NotFoundPage
+        component: NotFoundPage,
+        meta: { title: 'Page Not Found', blank: true }
     },
     {
         path: '/',
-        components: components(HomePage, true)
-    },
-    {
-        path: '/about',
-        components: components(AtmaButtonVue, true, true),
-        props: {
-            topbar: {
-                title: 'Halaman About',
-                showBackButton: true
-            }
-        }
+        component: HomePage,
+        meta: { title: 'Home' }
     }
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
+
+// Change Page Title
+router.beforeEach((to) => {
+    let pageTitle = to?.meta?.title || '';
+
+    if (pageTitle) {
+        pageTitle += ' | Atma';
+    } else if (pageTitle === '') {
+        pageTitle = 'Atma';
+    }
+
+    document.title = pageTitle;
+});
 
 export default router;
