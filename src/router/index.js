@@ -5,6 +5,8 @@ import NotFoundPage from '@/pages/NotFoundPage.vue';
 import HomePage from '@/pages/HomePage.vue';
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
+import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
+import CommunitySidebar from '@/pages/community/CommunitySidebar.vue';
 
 /**
  * List of Meta Attribute
@@ -37,6 +39,15 @@ const routes = [
         path: '/article/:id',
         component: ArticleDetailPage,
         meta: { back: '/article' }
+    },
+
+    {
+        path: '/community',
+        components: {
+            default: CommunityBoardPage,
+            utilityBar: CommunitySidebar
+        },
+        meta: { title: 'Community Board' }
     }
 ];
 
