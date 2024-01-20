@@ -1,24 +1,38 @@
 :root {
-  --white: #ffffff;
+    --white: #ffffff;
 
-  /* Primary Shade */
-  --victoria-50: #f1f2fc;
-  --victoria-100: #e5e7fa;
-  --victoria-200: #d0d2f5;
-  --victoria-300: #b3b5ee;
-  --victoria-400: #9694e5;
-  --victoria-500: #847ada;
-  --victoria-600: #7460cb;
-  --victoria-700: #6350b2;
-  --victoria-800: #59499e;
-  --victoria-900: #453b74;
-  --victoria-950: #292343;
+    /* Primary Shade */
+    --victoria-50: #f1f2fc;
+    --victoria-100: #e5e7fa;
+    --victoria-200: #d0d2f5;
+    --victoria-300: #b3b5ee;
+    --victoria-400: #9694e5;
+    --victoria-500: #847ada;
+    --victoria-600: #7460cb;
+    --victoria-700: #6350b2;
+    --victoria-800: #59499e;
+    --victoria-900: #453b74;
+    --victoria-950: #292343;
 
-  /* Button Color */
-  --button-primary: var(--victoria-800);
-  --button-primary-hover: var(--victoria-700);
-  --button-primary-active: var(--victoria-900);
-  --button-secondary: var(--white);
-  --button-secondary-hover: var(--victoria-50);
-  --button-secondary-active: var(--victoria-100);
+    /* Button Color */
+    --button-primary: var(--victoria-800);
+    --button-primary-hover: var(--victoria-700);
+    --button-primary-active: var(--victoria-900);
+    --button-secondary: var(--white);
+    --button-secondary-hover: var(--victoria-50);
+    --button-secondary-active: var(--victoria-100);
+}
+
+/* VCalendar Primary Color */
+.vc-primary {
+    --vc-accent-50: #f1f2fc;
+    --vc-accent-100: #e5e7fa;
+    --vc-accent-200: #d0d2f5;
+    --vc-accent-300: #b3b5ee;
+    --vc-accent-400: #9694e5;
+    --vc-accent-500: #847ada;
+    --vc-accent-600: #7460cb;
+    --vc-accent-700: #6350b2;
+    --vc-accent-800: #59499e;
+    --vc-accent-900: #453b74;
 }
