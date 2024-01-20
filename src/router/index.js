@@ -3,10 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
+
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
+
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
-import CommunitySidebar from '@/pages/community/CommunitySidebar.vue';
+import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
+import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
 
 /**
  * List of Meta Attribute
@@ -48,6 +51,11 @@ const routes = [
             utilityBar: CommunitySidebar
         },
         meta: { title: 'Community Board' }
+    },
+    {
+        path: '/community/:id',
+        component: CommunityDetailPage,
+        meta: { title: '', back: '/community' }
     }
 ];
 
