@@ -171,6 +171,7 @@
     .header-wrapper {
         position: fixed;
         top: 0;
+        z-index: 3;
 
         width: 340px;
         height: 64px;

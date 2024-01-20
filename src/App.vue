@@ -98,7 +98,15 @@
             </div>
 
             <!-- Utility Bar Content -->
-            <router-view name="utilityBar"></router-view>
+            <router-view v-slot="{ Component: UtilityBar }" name="utilityBar">
+                <!-- Rendered View -->
+                <component v-if="UtilityBar" :is="UtilityBar" />
+
+                <!-- Default Fallback -->
+                <template v-else>
+                    <moodboard />
+                </template>
+            </router-view>
         </div>
 
         <!-- Bottom Bar -->
@@ -125,6 +133,8 @@
 import Logo from './assets/image/logo.svg';
 import MoodIcon from './assets/image/mood-colored.svg';
 import ReportIcon from './assets/image/report-colored.svg';
+
+import Moodboard from './components/Moodboard.vue';
 
 const items = [
     {
