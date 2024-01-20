@@ -134,6 +134,7 @@
     position: fixed;
     display: flex;
     align-items: center;
+    z-index: 100;
 
     background: white;
     border: 1px solid #f0f0f0;
@@ -171,7 +172,7 @@
     .header-wrapper {
         position: fixed;
         top: 0;
-        z-index: 3;
+        z-index: 100;
 
         width: 340px;
         height: 64px;
