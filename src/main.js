@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
 // Vue Feather
 import VueFeather from 'vue-feather';
@@ -22,8 +23,10 @@ import './assets/main.css';
 
 import App from './App.vue';
 
+const pinia = createPinia();
 const app = createApp(App);
 
+app.use(pinia);
 app.use(router);
 app.use(VCalendar, {});
 
