@@ -3,10 +3,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
+
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
+
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
-import CommunitySidebar from '@/pages/community/CommunitySidebar.vue';
+import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
+import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
+import SessionDetail from '@/components/community/SessionDetail.vue';
 
 /**
  * List of Meta Attribute
@@ -14,6 +18,7 @@ import CommunitySidebar from '@/pages/community/CommunitySidebar.vue';
  * title - Page Title and Title Bar Text
  * back - Show Back Button and The Target for It
  * blank - Render Blank Layout
+ * customBottomBar - Hide Bottom Navbar on Mobile
  * */
 
 // Routes
@@ -48,6 +53,19 @@ const routes = [
             utilityBar: CommunitySidebar
         },
         meta: { title: 'Community Board' }
+    },
+    {
+        path: '/community/session/:id',
+        components: {
+            default: CommunityDetailPage,
+            utilityBar: SessionDetail
+        },
+        meta: { title: '', back: '/community', customBottomBar: true }
+    },
+    {
+        path: '/community/:id',
+        component: CommunityDetailPage,
+        meta: { title: '', back: '/community' }
     }
 ];
 
