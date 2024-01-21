@@ -55,12 +55,17 @@ const routes = [
         meta: { title: 'Community Board' }
     },
     {
-        path: '/community/:id',
+        path: '/community/session/:id',
         components: {
             default: CommunityDetailPage,
             utilityBar: SessionDetail
         },
         meta: { title: '', back: '/community', customBottomBar: true }
+    },
+    {
+        path: '/community/:id',
+        component: CommunityDetailPage,
+        meta: { title: '', back: '/community' }
     }
 ];
 

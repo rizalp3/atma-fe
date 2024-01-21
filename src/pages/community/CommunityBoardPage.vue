@@ -17,111 +17,84 @@
             <vue-feather type="chevron-right" size="24" />
         </div>
 
-        <div class="timeline-item">
+        <!-- Timeline Item -->
+        <div
+            v-for="(post, i) in posts"
+            :key="i"
+            class="timeline-item"
+            @click="redirectToDetailPage(post, i)"
+        >
             <div class="timeline-item__side">
                 <div class="timeline-item__box">
-                    <div class="timeline-item__date">16</div>
-                    <div class="timeline-item__month">Nov</div>
-                </div>
-                <div class="timeline-item__line"></div>
-            </div>
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">
-                    Podcast Special Edition: Social Connect Ambassador Program
-                    (SCAP) 2023
-                </h2>
-
-                <div class="timeline-item__description">
-                    Podcast Social Connect edisi spesial Ambassador Program
-                    (SCAP 2023) telah berhasil kami rilis via Spotify!
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-item__side">
-                <div class="timeline-item__box">
-                    <div class="timeline-item__date">7</div>
-                    <div class="timeline-item__month">Nov</div>
-                </div>
-                <div class="timeline-item__line"></div>
-            </div>
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">
-                    EvoTalks Session: Kick Out The Burnout
-                </h2>
-
-                <img
-                    src="https://picsum.photos/id/13/1200/1800"
-                    alt="image"
-                    class="timeline-item__image"
-                />
-
-                <div class="timeline-item__description">
-                    EvoTalks is collaborating with Zakaria Anshari, a psychology
-                    specialist, to delve deeper into many aspects of burnout and
-                    how we should effectively face it!
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-item__side">
-                <div class="timeline-item__box">
-                    <div class="timeline-item__date">13</div>
-                    <div class="timeline-item__month">Oct</div>
-                </div>
-                <div class="timeline-item__line"></div>
-            </div>
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">
-                    Intip Keseruan: Kaef x Social Connect Goes to Campus IPB
-                    University
-                </h2>
-
-                <div class="timeline-item__gallery">
-                    <div class="gallery-main">
-                        <img
-                            src="https://picsum.photos/id/95/600/400"
-                            alt="image"
-                        />
+                    <div class="timeline-item__date">
+                        {{ moment(post.date).date() }}
                     </div>
-                    <div class="gallery-side">
-                        <img
-                            src="https://picsum.photos/id/112/600/400"
-                            alt="image"
-                            class="gallery-photo"
-                        />
-                        <img
-                            src="https://picsum.photos/id/110/600/400"
-                            alt="image"
-                            class="gallery-photo"
-                        />
+
+                    <div class="timeline-item__month">
+                        {{ moment(post.date).format('MMM') }}
                     </div>
                 </div>
 
-                <div class="timeline-item__description">
-                    Sebanyak 475 mahasiswa baru dibekali materi mengenai
-                    Kekerasan Seksual di Lingkungan Pendidikan Tinggi yang
-                    disampaikan oleh dr. Ayudya Cenderasari, MKK.
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-item__side">
-                <div class="timeline-item__box">
-                    <div class="timeline-item__date">2</div>
-                    <div class="timeline-item__month">Okt</div>
-                </div>
                 <div class="timeline-item__line"></div>
             </div>
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">Read Our Latest Article!</h2>
 
+            <div class="timeline-item__content">
+                <h2 class="timeline-item__title">
+                    {{ post.title }}
+                </h2>
+
+                <!-- Link -->
                 <atma-link-preview
-                    url="https://narasi.tv/read/narasi-daily/generasi-stroberi-adalah"
+                    v-if="post.category === 'link'"
+                    :url="post.link"
                 />
+
+                <template v-else>
+                    <!-- Single Image -->
+                    <img
+                        v-if="post.images.length === 1"
+                        :src="post.images[0]"
+                        alt="Community Post"
+                        class="timeline-item__image"
+                    />
+
+                    <!-- Talk Session -->
+                    <img
+                        v-else-if="post?.session?.image"
+                        :src="post.session.image"
+                        alt="Community Post"
+                        class="timeline-item__image"
+                    />
+
+                    <!-- Gallery -->
+                    <div
+                        v-else-if="post.images.length > 2"
+                        class="timeline-item__gallery"
+                    >
+                        <div class="gallery-main">
+                            <img
+                                :src="post.images[0]"
+                                alt="Gallery Image Main"
+                            />
+                        </div>
+                        <div class="gallery-side">
+                            <img
+                                :src="post.images[1]"
+                                alt="Gallery Image Secondary"
+                                class="gallery-photo"
+                            />
+                            <img
+                                :src="post.images[2]"
+                                alt="Gallery Image Ternary"
+                                class="gallery-photo"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="timeline-item__description">
+                        {{ post.summary }}
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -181,15 +154,49 @@
 
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+
+import moment from 'moment';
+
+import { useCommunityStore } from '@/stores/community';
+import communityPosts from '@/mocks/community.json';
 
 import AtmaModal from '@/components/atma/AtmaModal.vue';
 import AtmaLinkPreview from '@/components/atma/AtmaLinkPreview.vue';
+
 import Logo from '@/assets/image/community.png';
 
+/* Store Data Initialization */
+const store = useCommunityStore();
+
+const { posts } = storeToRefs(store);
+
+store.$patch({ posts: communityPosts });
+
+/* Community Detail Modal */
 const isShowModal = ref(false);
 
 const showCommunityDetail = () => {
     isShowModal.value = true;
+};
+
+/* Redirect to Detail Page */
+const router = useRouter();
+
+const redirectToDetailPage = (post, index) => {
+    if (post.category === 'link') {
+        return;
+    }
+
+    store.$patch({ post: post });
+
+    const target =
+        post.category === 'question'
+            ? `/community/session/${index}`
+            : `/community/${index}`;
+
+    router.push(target);
 };
 </script>
 
