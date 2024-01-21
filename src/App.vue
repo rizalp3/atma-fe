@@ -71,7 +71,10 @@
             <!-- Page View -->
             <router-view></router-view>
 
-            <div class="bottom-spacer"></div>
+            <div
+                v-if="!$route.meta.customBottomBar"
+                class="bottom-spacer"
+            ></div>
         </div>
 
         <!-- Utility Bar (Right) -->
@@ -110,7 +113,7 @@
         </div>
 
         <!-- Bottom Bar -->
-        <div class="bottom-navbar">
+        <div v-if="!$route.meta.customBottomBar" class="bottom-navbar">
             <nav class="bottom-navbar__wrapper" role="navigation">
                 <div v-for="(item, i) in items" :key="`bottom-navbar-${i}`">
                     <router-link

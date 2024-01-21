@@ -10,6 +10,7 @@ import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
 import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
 import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
+import SessionDetail from '@/components/community/SessionDetail.vue';
 
 /**
  * List of Meta Attribute
@@ -17,6 +18,7 @@ import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
  * title - Page Title and Title Bar Text
  * back - Show Back Button and The Target for It
  * blank - Render Blank Layout
+ * customBottomBar - Hide Bottom Navbar on Mobile
  * */
 
 // Routes
@@ -54,8 +56,11 @@ const routes = [
     },
     {
         path: '/community/:id',
-        component: CommunityDetailPage,
-        meta: { title: '', back: '/community' }
+        components: {
+            default: CommunityDetailPage,
+            utilityBar: SessionDetail
+        },
+        meta: { title: '', back: '/community', customBottomBar: true }
     }
 ];
 

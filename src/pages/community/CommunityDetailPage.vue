@@ -13,7 +13,12 @@
         </div>
 
         <div class="community-detail__content">
-            <community-post :images="article.images" :text="article.text" />
+            <community-post
+                v-if="false"
+                :images="article.images"
+                :text="article.text"
+            />
+            <community-question />
         </div>
     </div>
 </template>
@@ -22,6 +27,7 @@
 import moment from 'moment';
 
 import CommunityPost from '@/components/community/CommunityPost.vue';
+import CommunityQuestion from '@/components/community/CommunityQuestion.vue';
 
 const article = {
     title: 'Podcast Special Edition: Social Connect Ambassador Program (SCAP) 2023',
