@@ -19,17 +19,19 @@
                 v-if="secondaryButton.title"
                 class="atma-modal__button"
                 variant="secondary"
-                :title="secondaryButton.title"
-                :icon="primaryButton.icon"
-            />
+                :icon="secondaryButton.icon"
+            >
+                {{ secondaryButton.title }}
+            </atma-button>
 
             <atma-button
                 v-if="primaryButton.title"
                 class="atma-modal__button"
                 variant="primary"
-                :title="primaryButton.title"
                 :icon="primaryButton.icon"
-            />
+            >
+                {{ primaryButton.title }}
+            </atma-button>
         </div>
     </VueFinalModal>
 </template>

@@ -1,75 +1,95 @@
 <template>
-  <button :class="['atma-button', `atma-button--${props.variant}`]">
-    <vue-feather v-if="icon" :type="icon" size="18" />
-    {{ title }}
-  </button>
+    <button :class="composeButtonClass">
+        <vue-feather v-if="icon" :type="icon" :size="iconSize" />
+        <slot></slot>
+    </button>
 </template>
 
-<script setup>
-import VueFeather from 'vue-feather';
+<script>
+export default {
+    name: 'AtmaButton',
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
-  icon: {
-    type: String,
-    default: ''
-  },
-  variant: {
-    type: String,
-    default: 'primary'
-  }
-});
+    props: {
+        size: {
+            type: String,
+            default: 'md'
+        },
+        variant: {
+            type: String,
+            default: 'primary'
+        },
+        icon: {
+            type: String,
+            default: ''
+        }
+    },
+
+    computed: {
+        composeButtonClass() {
+            return [
+                'atma-button',
+                `atma-button--${this.size}`,
+                `atma-button--${this.variant}`
+            ];
+        },
+
+        iconSize() {
+            const sizes = {
+                xs: '12',
+                sm: '12',
+                md: '14',
+                lg: '16',
+                xl: '16'
+            };
+
+            return sizes[this.size];
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
 .atma-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 
-  padding: 12px 18px;
-  gap: 8px;
+    font-weight: 500;
 
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+    border-radius: 8px;
+    border: 0;
 
-  border-radius: 12px;
-  border: 0;
+    cursor: pointer;
+}
 
-  cursor: pointer;
+// Variant
+@each $variant, $color in $button-variant {
+    .atma-button--#{$variant} {
+        background: map-get($color, 'default', 'background');
+        border: 1px solid map-get($color, 'default', 'border');
+        color: map-get($color, 'default', 'text');
 
-  &--primary {
-    border: 1px solid var(--button-primary);
-    background: var(--button-primary);
-    color: var(--white);
+        &:hover {
+            background: map-get($color, 'hover', 'background');
+            border-color: map-get($color, 'hover', 'border');
+            color: map-get($color, 'hover', 'text');
+        }
 
-    &:hover {
-      border-color: var(--button-primary-hover);
-      background: var(--button-primary-hover);
+        &:active {
+            background: map-get($color, 'active', 'background');
+            border-color: map-get($color, 'active', 'border');
+            color: map-get($color, 'active', 'text');
+        }
     }
+}
 
-    &:active {
-      border-color: var(--button-primary-active);
-      background: var(--button-primary-active);
+// Size
+@each $size, $font in $button-size {
+    .atma-button--#{$size} {
+        font-size: map-get($font, 'font-size');
+        line-height: map-get($font, 'line-height');
+        padding: map-get($font, 'padding');
     }
-  }
-
-  &--secondary {
-    border: 1px solid var(--button-primary);
-    background: var(--button-secondary);
-    color: var(--button-primary);
-
-    &:hover {
-      background: var(--button-secondary-hover);
-    }
-
-    &:active {
-      background: var(--button-secondary-active);
-    }
-  }
 }
 </style>
