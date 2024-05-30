@@ -32,6 +32,8 @@ import AtmaButtonIcon from './components/atma/AtmaButtonIcon.vue';
 import AtmaLinkPreview from './components/atma/AtmaLinkPreview.vue';
 import AtmaModal from './components/atma/AtmaModal.vue';
 
+import MixinDevice from './mixins/device';
+
 const pinia = createPinia();
 const vfm = createVfm();
 
@@ -49,5 +51,7 @@ app.component('AtmaButton', AtmaButton)
     .component('AtmaButtonIcon', AtmaButtonIcon)
     .component('AtmaLinkPreview', AtmaLinkPreview)
     .component('AtmaModal', AtmaModal);
+
+app.mixin(MixinDevice);
 
 app.mount('#app');
