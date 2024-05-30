@@ -16,14 +16,8 @@
 </template>
 
 <script>
-import AtmaButtonIcon from '@/components/atma/AtmaButtonIcon.vue';
-
 export default {
     name: 'ExploreHeader',
-
-    components: {
-        AtmaButtonIcon
-    },
 
     props: ['modelValue'],
 

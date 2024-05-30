@@ -162,9 +162,6 @@ import moment from 'moment';
 import { useCommunityStore } from '@/stores/community';
 import communityPosts from '@/mocks/community.json';
 
-import AtmaModal from '@/components/atma/AtmaModal.vue';
-import AtmaLinkPreview from '@/components/atma/AtmaLinkPreview.vue';
-
 import Logo from '@/assets/image/community.png';
 
 /* Store Data Initialization */

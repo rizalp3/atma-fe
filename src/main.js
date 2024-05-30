@@ -27,6 +27,11 @@ import './assets/main.css';
 
 import App from './App.vue';
 
+import AtmaButton from './components/atma/AtmaButton.vue';
+import AtmaButtonIcon from './components/atma/AtmaButtonIcon.vue';
+import AtmaLinkPreview from './components/atma/AtmaLinkPreview.vue';
+import AtmaModal from './components/atma/AtmaModal.vue';
+
 const pinia = createPinia();
 const vfm = createVfm();
 
@@ -38,5 +43,11 @@ app.use(router);
 app.use(VCalendar, {});
 
 app.component(VueFeather.name, VueFeather);
+
+// Atma Component
+app.component('AtmaButton', AtmaButton)
+    .component('AtmaButtonIcon', AtmaButtonIcon)
+    .component('AtmaLinkPreview', AtmaLinkPreview)
+    .component('AtmaModal', AtmaModal);
 
 app.mount('#app');

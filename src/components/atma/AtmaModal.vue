@@ -39,14 +39,11 @@
 <script>
 import { VueFinalModal } from 'vue-final-modal';
 
-import AtmaButton from './AtmaButton.vue';
-
 export default {
     name: 'AtmaModal',
 
     components: {
-        VueFinalModal,
-        AtmaButton
+        VueFinalModal
     },
 
     props: {
