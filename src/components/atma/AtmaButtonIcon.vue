@@ -1,13 +1,12 @@
 <template>
     <button :class="composeButtonClass">
-        <vue-feather v-if="icon" :type="icon" :size="iconSize" />
-        <slot></slot>
+        <vue-feather :type="icon" :size="iconSize" />
     </button>
 </template>
 
 <script>
 export default {
-    name: 'AtmaButton',
+    name: 'AtmaButtonIcon',
 
     props: {
         size: {
@@ -20,26 +19,31 @@ export default {
         },
         icon: {
             type: String,
-            default: ''
+            required: true
+        },
+        round: {
+            type: Boolean,
+            default: false
         }
     },
 
     computed: {
         composeButtonClass() {
             return [
-                'atma-button',
-                `atma-button--${this.size}`,
-                `atma-button--${this.variant}`
+                'atma-button-icon',
+                `atma-button-icon--${this.size}`,
+                `atma-button-icon--${this.variant}`,
+                { 'atma-button-icon--round': this.round }
             ];
         },
 
         iconSize() {
             const sizes = {
                 xs: '12',
-                sm: '12',
-                md: '14',
-                lg: '16',
-                xl: '16'
+                sm: '16',
+                md: '20',
+                lg: '24',
+                xl: '28'
             };
 
             return sizes[this.size];
@@ -49,23 +53,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.atma-button {
+.atma-button-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
 
-    font-weight: 500;
-
+    padding: 9px;
     border-radius: 8px;
-    border: 0;
 
     cursor: pointer;
+
+    &--round {
+        border-radius: 50%;
+    }
 }
 
 // Variant
 @each $variant, $color in $button-variant {
-    .atma-button--#{$variant} {
+    .atma-button-icon--#{$variant} {
         background: map-get($color, 'default', 'background');
         border: 1px solid map-get($color, 'default', 'border');
         color: map-get($color, 'default', 'text');
@@ -81,15 +86,6 @@ export default {
             border-color: map-get($color, 'active', 'border');
             color: map-get($color, 'active', 'text');
         }
-    }
-}
-
-// Size
-@each $size, $font in $button-size {
-    .atma-button--#{$size} {
-        font-size: map-get($font, 'font-size');
-        line-height: map-get($font, 'line-height');
-        padding: map-get($font, 'padding');
     }
 }
 </style>

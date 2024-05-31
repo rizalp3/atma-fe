@@ -14,6 +14,71 @@ $line-height: (
     '128px': 1
 );
 
+$button-size: (
+    xs: (
+        padding: 7px 12px,
+        font-size: 12px,
+        line-height: 16px
+    ),
+    sm: (
+        padding: 7px 12px,
+        font-size: 14px,
+        line-height: 20px
+    ),
+    md: (
+        padding: 9px 20px,
+        font-size: 14px,
+        line-height: 20px
+    ),
+    lg: (
+        padding: 11px 20px,
+        font-size: 16px,
+        line-height: 24px
+    ),
+    xl: (
+        padding: 13px 24px,
+        font-size: 16px,
+        line-height: 24px
+    )
+);
+
+$button-variant: (
+    primary: (
+        default: (
+            background: #6350b2,
+            border: #6350b2,
+            text: #ffffff
+        ),
+        hover: (
+            background: #59499e,
+            border: #59499e,
+            text: #ffffff
+        ),
+        active: (
+            background: #453b74,
+            border: #453b74,
+            text: #ffffff
+        )
+    ),
+    secondary: (
+        default: (
+            background: #fff,
+            border: #6350b2,
+            text: #6350b2
+        ),
+        hover: (
+            background: #f9f9fc,
+            border: #6350b2,
+            text: #6350b2
+        ),
+        active: (
+            background: #f1f2fc,
+            border: #6350b2,
+            text: #6350b2
+        )
+    )
+);
+
 $typography: (
     12: (
         size: 12px,
