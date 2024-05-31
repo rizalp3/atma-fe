@@ -7,6 +7,8 @@ import HomePage from '@/pages/HomePage.vue';
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
 
+import ExplorePage from '@/pages/explore/ExplorePage.vue';
+
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
 import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
 import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
@@ -44,6 +46,12 @@ const routes = [
         path: '/article/:id',
         component: ArticleDetailPage,
         meta: { back: '/article' }
+    },
+
+    {
+        path: '/explore',
+        component: ExplorePage,
+        meta: { title: 'Explore' }
     },
 
     {
