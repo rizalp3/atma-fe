@@ -62,34 +62,4 @@ export default {
 
     cursor: pointer;
 }
-
-// Variant
-@each $variant, $color in $button-variant {
-    .atma-button--#{$variant} {
-        background: map-get($color, 'default', 'background');
-        border: 1px solid map-get($color, 'default', 'border');
-        color: map-get($color, 'default', 'text');
-
-        &:hover {
-            background: map-get($color, 'hover', 'background');
-            border-color: map-get($color, 'hover', 'border');
-            color: map-get($color, 'hover', 'text');
-        }
-
-        &:active {
-            background: map-get($color, 'active', 'background');
-            border-color: map-get($color, 'active', 'border');
-            color: map-get($color, 'active', 'text');
-        }
-    }
-}
-
-// Size
-@each $size, $font in $button-size {
-    .atma-button--#{$size} {
-        font-size: map-get($font, 'font-size');
-        line-height: map-get($font, 'line-height');
-        padding: map-get($font, 'padding');
-    }
-}
 </style>
