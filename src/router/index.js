@@ -6,6 +6,7 @@ import HomePage from '@/pages/HomePage.vue';
 
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
+import ArticleListSidebar from '@/components/article/ArticleListSidebar.vue';
 
 import ExplorePage from '@/pages/explore/ExplorePage.vue';
 
@@ -39,7 +40,10 @@ const routes = [
 
     {
         path: '/article',
-        component: ArticleListPage,
+        components: {
+            default: ArticleListPage,
+            utilityBar: ArticleListSidebar
+        },
         meta: { title: 'Articles', back: '/' }
     },
     {
