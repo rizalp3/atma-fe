@@ -35,11 +35,11 @@ export default {
 
         iconSize() {
             const sizes = {
-                xs: '12',
-                sm: '12',
-                md: '14',
-                lg: '16',
-                xl: '16'
+                xs: '16',
+                sm: '20',
+                md: '20',
+                lg: '24',
+                xl: '24'
             };
 
             return sizes[this.size];
