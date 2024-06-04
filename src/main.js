@@ -31,6 +31,7 @@ import AtmaButton from './components/atma/AtmaButton.vue';
 import AtmaButtonIcon from './components/atma/AtmaButtonIcon.vue';
 import AtmaLinkPreview from './components/atma/AtmaLinkPreview.vue';
 import AtmaModal from './components/atma/AtmaModal.vue';
+import AtmaText from './components/atma/AtmaText.vue';
 
 import MixinDevice from './mixins/device';
 
@@ -50,7 +51,8 @@ app.component(VueFeather.name, VueFeather);
 app.component('AtmaButton', AtmaButton)
     .component('AtmaButtonIcon', AtmaButtonIcon)
     .component('AtmaLinkPreview', AtmaLinkPreview)
-    .component('AtmaModal', AtmaModal);
+    .component('AtmaModal', AtmaModal)
+    .component('AtmaText', AtmaText);
 
 app.mixin(MixinDevice);
 

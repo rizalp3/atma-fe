@@ -6,6 +6,7 @@ import HomePage from '@/pages/HomePage.vue';
 
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
+import ArticleListSidebar from '@/components/article/ArticleListSidebar.vue';
 
 import ExplorePage from '@/pages/explore/ExplorePage.vue';
 
@@ -13,6 +14,9 @@ import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
 import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
 import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
 import SessionDetail from '@/components/community/SessionDetail.vue';
+
+import ReportPage from '@/pages/report/ReportPage.vue';
+import ReportSidebar from '@/components/report/ReportSidebar.vue';
 
 /**
  * List of Meta Attribute
@@ -39,7 +43,10 @@ const routes = [
 
     {
         path: '/article',
-        component: ArticleListPage,
+        components: {
+            default: ArticleListPage,
+            utilityBar: ArticleListSidebar
+        },
         meta: { title: 'Articles', back: '/' }
     },
     {
@@ -74,6 +81,15 @@ const routes = [
         path: '/community/:id',
         component: CommunityDetailPage,
         meta: { title: '', back: '/community' }
+    },
+
+    {
+        path: '/report',
+        components: {
+            default: ReportPage,
+            utilityBar: ReportSidebar
+        },
+        meta: { title: 'Report' }
     }
 ];
 
