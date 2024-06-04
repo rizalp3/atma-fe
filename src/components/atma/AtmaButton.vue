@@ -58,7 +58,6 @@ export default {
     font-weight: 500;
 
     border-radius: 8px;
-    border: 0;
 
     cursor: pointer;
 }
