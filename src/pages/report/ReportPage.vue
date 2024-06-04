@@ -1,5 +1,9 @@
 <template>
     <div class="report">
+        <div v-show="isMobile" class="mb-4">
+            <report-action />
+        </div>
+
         <moodboard />
 
         <atma-text class="mt-4 mb-3" size="18" weight="500">
@@ -38,17 +42,31 @@
                 </div>
             </div>
         </div>
+
+        <atma-modal
+            v-model="isShowModal"
+            title="SRQ-20 Test"
+            :primary-button="{ title: 'Self Test' }"
+            :secondary-button="{ title: 'Test Others' }"
+        >
+            <test-description />
+        </atma-modal>
     </div>
 </template>
 
 <script>
 import Moodboard from '@/components/Moodboard.vue';
 
+import ReportAction from '@/components/report/ReportAction.vue';
+import TestDescription from '@/components/report/TestDescription.vue';
+
 export default {
     name: 'ReportPage',
 
     components: {
-        Moodboard
+        Moodboard,
+        ReportAction,
+        TestDescription
     },
 
     data() {
@@ -72,7 +90,8 @@ export default {
                     date: '5 Dec 2023',
                     level: 4
                 }
-            ]
+            ],
+            isShowModal: false
         };
     }
 };
