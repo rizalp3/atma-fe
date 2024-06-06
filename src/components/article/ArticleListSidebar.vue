@@ -7,65 +7,42 @@
         <!-- Sorting Section -->
         <div class="article-list-sidebar__section-title">Sort By</div>
 
-        <div class="form-check">
+        <div v-for="data in sortingValues" :key="data.key" class="form-check">
             <input
+                v-model="store.sorting"
                 class="form-check-input"
                 type="radio"
                 name="sorting"
-                id="sorting1"
-                checked
+                :value="data.key"
+                :id="`sorting-${data.key}`"
+                @change="handleChangeSorting(data)"
             />
-            <label class="form-check-label" for="sorting1"> Trending </label>
-        </div>
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                name="sorting"
-                id="sorting2"
-            />
-            <label class="form-check-label" for="sorting2"> Recent </label>
+
+            <label class="form-check-label" :for="`sorting-${data.key}`">
+                {{ data.name }}
+            </label>
         </div>
 
         <!-- Time Section -->
         <div class="article-list-sidebar__section-title">Date Posted</div>
 
-        <div class="form-check">
+        <div
+            v-for="data in timeFilterValues"
+            :key="data.key"
+            class="form-check"
+        >
             <input
+                v-model="store.timeFilter"
                 class="form-check-input"
                 type="radio"
                 name="date"
-                id="date1"
-                checked
+                :value="data.key"
+                :id="`time-${data.key}`"
+                @change="handleChangeTimeFilter(data)"
             />
-            <label class="form-check-label" for="date1">Any Time</label>
-        </div>
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                name="date"
-                id="date2"
-            />
-            <label class="form-check-label" for="date2">Past Week</label>
-        </div>
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                name="date"
-                id="date3"
-            />
-            <label class="form-check-label" for="date3">Past Month</label>
-        </div>
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                name="date"
-                id="date4"
-            />
-            <label class="form-check-label" for="date4">Past Year</label>
+            <label class="form-check-label" :for="`time-${data.key}`">
+                {{ data.name }}
+            </label>
         </div>
     </div>
 </template>
@@ -73,11 +50,38 @@
 <script>
 import ArticleCategoryFilter from './ArticleCategoryFilter.vue';
 
+import { useArticleStore } from '@/stores/article';
+
 export default {
     name: 'ArticleListSidebar',
 
     components: {
         ArticleCategoryFilter
+    },
+
+    setup() {
+        const store = useArticleStore();
+        return { store };
+    },
+
+    computed: {
+        sortingValues() {
+            return this.store.baseFilter.sorting;
+        },
+
+        timeFilterValues() {
+            return this.store.baseFilter.time;
+        }
+    },
+
+    methods: {
+        handleChangeSorting(data) {
+            this.store.setSorting(data);
+        },
+
+        handleChangeTimeFilter(data) {
+            this.store.setTime(data);
+        }
     }
 };
 </script>
