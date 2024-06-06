@@ -1,29 +1,88 @@
 <template>
     <div class="article-list">
+        <!-- TODO: Make Proper Loading -->
+        <div v-if="isLoading">Loading...</div>
+
         <router-link
-            v-for="(item, i) in items"
+            v-for="({ id, attributes }, i) in articles"
             :key="`article-${i}`"
-            :to="`/article/${i}`"
+            :to="`/article/${id}`"
         >
             <article-card
-                :title="item.title"
-                :date="formatDate(item.date)"
-                :time="item.time"
-                :image="item.image"
+                :title="attributes.title"
+                :time="attributes.reading_time"
+                :date="formatDate(attributes.createdAt)"
+                :image="getImage(attributes.image)"
             />
         </router-link>
     </div>
 </template>
 
-<script setup>
+<script>
 import moment from 'moment';
-
-import items from './articles.json';
 
 import ArticleCard from '@/components/ArticleCard.vue';
 
-const formatDate = (date) => {
-    return moment(date).format('D MMM');
+import { useArticleStore } from '@/stores/article';
+import endpoint from '@/services/articles';
+
+export default {
+    name: 'ArticleListPage',
+
+    components: {
+        ArticleCard
+    },
+
+    setup() {
+        const store = useArticleStore();
+        return { store };
+    },
+
+    data() {
+        return {
+            isLoading: false,
+            articles: []
+        };
+    },
+
+    watch: {
+        'store.config': {
+            handler() {
+                this.getArticles();
+            },
+            deep: true
+        }
+    },
+
+    mounted() {
+        this.getArticles();
+    },
+
+    methods: {
+        async getArticles() {
+            this.isLoading = true;
+
+            const config = this.store.config;
+            const response = await endpoint.getArticles(config);
+
+            if (response.data) {
+                this.articles = response.data;
+            }
+
+            this.isLoading = false;
+        },
+
+        getImage(image) {
+            const baseUrl = import.meta.env.VITE_API_BASE_URL;
+            const url = image.data.attributes.url;
+
+            return baseUrl + url;
+        },
+
+        formatDate(date) {
+            return moment(date).format('D MMM');
+        }
+    }
 };
 </script>
 
