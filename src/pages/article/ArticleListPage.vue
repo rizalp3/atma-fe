@@ -1,20 +1,34 @@
 <template>
     <div class="article-list">
-        <!-- TODO: Make Proper Loading -->
-        <div v-if="isLoading">Loading...</div>
+        <template v-if="isLoading">
+            <div
+                v-for="i in 2"
+                :key="i"
+                class="d-flex gap-3 align-items-center atma-pulse"
+            >
+                <atma-skeleton width="120px" height="120px" radius="8px" />
+                <div class="d-flex flex-column gap-2 flex-fill">
+                    <atma-skeleton width="95%" height="20px" />
+                    <atma-skeleton width="65%" height="20px" />
+                    <atma-skeleton class="mt-2" width="40%" height="18px" />
+                </div>
+            </div>
+        </template>
 
-        <router-link
-            v-for="({ id, attributes }, i) in articles"
-            :key="`article-${i}`"
-            :to="`/article/${id}`"
-        >
-            <article-card
-                :title="attributes.title"
-                :time="attributes.reading_time"
-                :date="attributes.createdAt"
-                :image="getImage(attributes.image)"
-            />
-        </router-link>
+        <template v-else>
+            <router-link
+                v-for="({ id, attributes }, i) in articles"
+                :key="`article-${i}`"
+                :to="`/article/${id}`"
+            >
+                <article-card
+                    :title="attributes.title"
+                    :time="attributes.reading_time"
+                    :date="attributes.createdAt"
+                    :image="getImage(attributes.image)"
+                />
+            </router-link>
+        </template>
     </div>
 </template>
 
