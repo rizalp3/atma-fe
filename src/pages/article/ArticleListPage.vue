@@ -1,18 +1,7 @@
 <template>
     <div class="article-list">
         <template v-if="isLoading">
-            <div
-                v-for="i in 2"
-                :key="i"
-                class="d-flex gap-3 align-items-center atma-pulse"
-            >
-                <atma-skeleton width="120px" height="120px" radius="8px" />
-                <div class="d-flex flex-column gap-2 flex-fill">
-                    <atma-skeleton width="95%" height="20px" />
-                    <atma-skeleton width="65%" height="20px" />
-                    <atma-skeleton class="mt-2" width="40%" height="18px" />
-                </div>
-            </div>
+            <article-card-loader v-for="i in 2" :key="i" />
         </template>
 
         <template v-else>
@@ -34,6 +23,7 @@
 
 <script>
 import ArticleCard from '@/components/ArticleCard.vue';
+import ArticleCardLoader from '@/components/ArticleCardLoader.vue';
 
 import { useArticleStore } from '@/stores/article';
 import endpoint from '@/services/articles';
@@ -42,7 +32,8 @@ export default {
     name: 'ArticleListPage',
 
     components: {
-        ArticleCard
+        ArticleCard,
+        ArticleCardLoader
     },
 
     setup() {
