@@ -11,7 +11,7 @@
             <article-card
                 :title="attributes.title"
                 :time="attributes.reading_time"
-                :date="formatDate(attributes.createdAt)"
+                :date="attributes.createdAt"
                 :image="getImage(attributes.image)"
             />
         </router-link>
@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 import ArticleCard from '@/components/ArticleCard.vue';
 
 import { useArticleStore } from '@/stores/article';
@@ -77,10 +75,6 @@ export default {
             const url = image.data.attributes.url;
 
             return baseUrl + url;
-        },
-
-        formatDate(date) {
-            return moment(date).format('D MMM');
         }
     }
 };
