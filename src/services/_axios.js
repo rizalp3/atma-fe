@@ -13,9 +13,15 @@ const request = async (method, url, config) => {
         url += `?${strapiQuery}`;
     }
 
-    const response = await axios[method](url);
+    let response;
 
-    return response.data;
+    try {
+        response = await axios[method](url);
+    } catch (error) {
+        response = error.response;
+    }
+
+    return response?.data || {};
 };
 
 export default request;
