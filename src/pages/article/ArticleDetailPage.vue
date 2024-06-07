@@ -1,15 +1,25 @@
-import ArticleCardVue from '@/components/ArticleCard.vue';
 <template>
-    <div class="article-detail">
+    <article-detail-loader v-if="isLoading" />
+
+    <not-found
+        v-else-if="!article.title"
+        class="mt-5"
+        title="Article Not Found"
+        :action="{ text: 'View Other Articles', target: '/article' }"
+    />
+
+    <div v-else class="article-detail">
         <h1 class="article-detail__title">
             {{ article.title }}
         </h1>
 
         <div class="article-detail__info">
-            <div class="article-detail__author">{{ article.author }}</div>
-            <div class="article-detail__dot"></div>
+            <div class="article-detail__author">
+                {{ article.author }}
+            </div>
+            <div class="article-detail__dot" />
             <div class="article-detail__date">
-                {{ formatDate(article.date) }}
+                {{ formattedDate }}
             </div>
         </div>
 
@@ -19,15 +29,14 @@ import ArticleCardVue from '@/components/ArticleCard.vue';
             :src="article.image"
         />
 
-        <p class="article-detail__text">
-            {{ article.text }}
-        </p>
+        <atma-markdown class="article-detail__text" :content="article.text" />
 
-        <div class="article-detail__separator"></div>
+        <div class="article-detail__separator" />
 
+        <!-- TODO: Recommendation Implementation -->
         <div class="article-detail__recommendation-title">Rekomendasi</div>
 
-        <div class="article-detail__recommendation">
+        <div v-if="false" class="article-detail__recommendation">
             <router-link
                 v-for="(item, i) in recommendation"
                 :key="`recommendation-${i}`"
@@ -36,7 +45,7 @@ import ArticleCardVue from '@/components/ArticleCard.vue';
                 <article-card
                     type="recommendation"
                     :title="item.title"
-                    :date="formatRecommendationDate(item.date)"
+                    :date="item.date"
                     :time="item.time"
                     :image="item.image"
                 />
@@ -45,31 +54,82 @@ import ArticleCardVue from '@/components/ArticleCard.vue';
     </div>
 </template>
 
-<script setup>
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+<script>
 import moment from 'moment';
+import { useRoute } from 'vue-router';
 
+import endpoints from '@/services/articles';
+
+import ArticleDetailLoader from '@/components/article/ArticleDetailLoader.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
+import NotFound from '@/components/NotFound.vue';
 
-import item from './articles.json';
+export default {
+    name: 'ArticleDetailPage',
 
-const route = useRoute();
+    components: {
+        ArticleDetailLoader,
+        ArticleCard,
+        NotFound
+    },
 
-const article = item[route.params.id];
-const recommendation = item.slice(route.params.id);
+    beforeRouteEnter(to) {
+        const numberOnly = /^[0-9]*$/;
 
-const formatDate = (date) => {
-    return moment(date).format('D MMMM YYYY HH:mm');
+        if (!numberOnly.test(to.params.id)) {
+            return { name: 'NotFound' };
+        }
+    },
+
+    setup() {
+        const route = useRoute();
+        return { route };
+    },
+
+    data() {
+        return {
+            isLoading: false,
+            article: {}
+        };
+    },
+
+    async mounted() {
+        await this.getArticle();
+
+        const { title } = this.article;
+
+        document.title = title ? `${title} | Atma` : 'Atma';
+    },
+
+    computed: {
+        formattedDate() {
+            return moment(this.article.createdAt).format('D MMMM YYYY HH:mm');
+        }
+    },
+
+    methods: {
+        async getArticle() {
+            this.isLoading = true;
+
+            const response = await endpoints.getArticle(this.route.params.id);
+
+            if (response?.data?.attributes) {
+                const { id, attributes } = response.data;
+
+                const imageUrl = attributes.image.data.attributes.url;
+                const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+                this.article = {
+                    ...attributes,
+                    image: `${baseUrl}${imageUrl}`,
+                    id
+                };
+            }
+
+            this.isLoading = false;
+        }
+    }
 };
-const formatRecommendationDate = (date) => {
-    return moment(date).format('D MMM');
-};
-
-onMounted(() => {
-    window.scrollTo(0, 0);
-    document.title = `${article.title} | Atma`;
-});
 </script>
 
 <style lang="scss" scoped>
@@ -111,7 +171,9 @@ onMounted(() => {
     }
 
     &__text {
-        white-space: pre-line;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         margin: 24px 0 0;
     }
 
@@ -159,6 +221,7 @@ onMounted(() => {
 
         &__text {
             @include text(14px, 400);
+            gap: 8px;
         }
 
         &__separator,
