@@ -6,7 +6,7 @@ const baseFilter = {
         {
             key: 'trending',
             name: 'Trending',
-            formula: 'title:asc' // Change to view:asc
+            formula: 'view:desc'
         },
         {
             key: 'recent',
