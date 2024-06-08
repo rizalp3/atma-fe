@@ -30,6 +30,7 @@ import ReportSidebar from '@/components/report/ReportSidebar.vue';
 // Routes
 const routes = [
     {
+        name: 'NotFound',
         path: '/:pathMatch(.*)*',
         component: NotFoundPage,
         meta: { title: 'Page Not Found', blank: true }

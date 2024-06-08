@@ -6,7 +6,7 @@
             </h3>
 
             <div class="article-card__detail">
-                <div class="article-card__date">{{ date }}</div>
+                <div class="article-card__date">{{ formattedDate }}</div>
                 <div class="article-card__separator"></div>
                 <div class="article-card__time">{{ time }} min read</div>
             </div>
@@ -20,31 +20,44 @@
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    type: {
-        type: String,
-        default: 'main'
-    },
-    title: {
-        type: String,
-        default: ''
-    },
-    date: {
-        type: String,
-        default: ''
-    },
-    time: {
-        type: Number,
-        default: 1
-    },
-    image: {
-        type: String,
-        default: ''
-    }
-});
+<script>
+import moment from 'moment';
 
-const cardType = `article-card--${props.type}`;
+export default {
+    name: 'ArticleCard',
+
+    props: {
+        type: {
+            type: String,
+            default: 'main'
+        },
+        title: {
+            type: String,
+            default: ''
+        },
+        date: {
+            type: String,
+            default: ''
+        },
+        time: {
+            type: Number,
+            default: 1
+        },
+        image: {
+            type: String,
+            default: ''
+        }
+    },
+
+    computed: {
+        formattedDate() {
+            return moment(this.date).fromNow() || '-';
+        },
+        cardType() {
+            return `article-card--${this.type}`;
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -91,6 +104,10 @@ const cardType = `article-card--${props.type}`;
             @include text(16px, 400);
             color: #929292;
         }
+    }
+
+    &__date:first-letter {
+        text-transform: uppercase;
     }
 
     &__separator {
