@@ -57,7 +57,7 @@ export const useArticleStore = defineStore('article', {
     state: () => {
         return {
             config: {
-                sort: ['title:asc'],
+                sort: ['view:desc'],
                 filters: {
                     createdAt: {},
                     category: {
