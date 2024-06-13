@@ -62,21 +62,19 @@
             <!-- Header -->
             <div class="header">
                 <div class="header-wrapper">
-                    <div class="user-detail">
+                    <button class="theme-toggle" @click="toggleTheme">
+                        <vue-feather :type="themeIcon" size="20" />
+                    </button>
+
+                    <button class="user-detail">
+                        <div class="user-detail__name">Rizal Purnomo</div>
+
                         <img
                             class="user-detail__avatar"
                             src="https://i.pravatar.cc/200?img=13"
                             alt="User Avatar"
                         />
-
-                        <div class="user-detail__name">Rizal Purnomo</div>
-
-                        <vue-feather
-                            class="user-detail__icon"
-                            type="chevron-down"
-                            size="24"
-                        />
-                    </div>
+                    </button>
                 </div>
             </div>
 
@@ -126,12 +124,19 @@ export default {
 
     data() {
         return {
-            Logo
+            Logo,
+            theme: 'light'
         };
     },
 
     created() {
-        // document.documentElement.classList.add('dark-theme');
+        const theme = this.getTheme();
+
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+        }
+
+        this.theme = theme;
     },
 
     computed: {
@@ -158,6 +163,29 @@ export default {
                     title: 'Report'
                 }
             ];
+        },
+
+        themeIcon() {
+            return this.theme === 'light' ? 'moon' : 'sun';
+        }
+    },
+
+    methods: {
+        getTheme() {
+            return localStorage.getItem('color-theme') || 'light';
+        },
+
+        toggleTheme() {
+            const target = this.theme === 'light' ? 'dark' : 'light';
+
+            if (target === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+            }
+
+            localStorage.setItem('color-theme', target);
+            this.theme = target;
         }
     }
 };
