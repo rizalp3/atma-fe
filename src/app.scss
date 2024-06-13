@@ -77,31 +77,6 @@
     }
 }
 
-.shortcut-button {
-    margin-bottom: 32px;
-    padding: 16px;
-    gap: 12px;
-
-    display: flex;
-    align-items: center;
-
-    border: 1px solid #e3e3e3;
-    border-radius: 12px;
-
-    text-decoration: none;
-    @include text(16px, 600);
-
-    color: #252525;
-
-    &:hover {
-        background: #f6f6f6;
-    }
-
-    @media (max-height: 500px) {
-        display: none;
-    }
-}
-
 .content {
     width: 600px;
     min-height: 100vh;
@@ -296,10 +271,6 @@
             padding: 12px 0;
             justify-content: center;
         }
-    }
-
-    .shortcut-button {
-        display: none;
     }
 }
 

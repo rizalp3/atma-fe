@@ -26,26 +26,6 @@
                         <div class="nav-title">{{ item.title }}</div>
                     </router-link>
                 </nav>
-
-                <!-- Shortcut Button (Test) -->
-                <router-link class="shortcut-button" to="/test">
-                    <img
-                        class="shortcut-button__icon"
-                        alt="Report Icon"
-                        :src="ReportIcon"
-                    />
-                    <div class="shortcut-button__text">Take a Test</div>
-                </router-link>
-
-                <!-- Shortcut Button (Mood) -->
-                <router-link class="shortcut-button" to="/mood">
-                    <img
-                        class="shortcut-button__icon"
-                        alt="Mood Icon"
-                        :src="MoodIcon"
-                    />
-                    <div class="shortcut-button__text">Add a Mood</div>
-                </router-link>
             </div>
         </div>
 
@@ -136,8 +116,6 @@
 
 <script>
 import Logo from './assets/image/logo.svg';
-import MoodIcon from './assets/image/mood-colored.svg';
-import ReportIcon from './assets/image/report-colored.svg';
 
 import Moodboard from './components/Moodboard.vue';
 
@@ -148,9 +126,7 @@ export default {
 
     data() {
         return {
-            Logo,
-            MoodIcon,
-            ReportIcon
+            Logo
         };
     },
 
