@@ -121,7 +121,9 @@
                         exact-active-class="bottom-navbar__item--active"
                         :to="item.path"
                     >
-                        <vue-feather :type="item.icon" size="24" />
+                        <div class="bottom-navbar__item-icon">
+                            <vue-feather :type="item.icon" size="24" />
+                        </div>
                         <div class="bottom-navbar__item-title">
                             {{ item.title }}
                         </div>
@@ -132,35 +134,57 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import Logo from './assets/image/logo.svg';
 import MoodIcon from './assets/image/mood-colored.svg';
 import ReportIcon from './assets/image/report-colored.svg';
 
 import Moodboard from './components/Moodboard.vue';
 
-const items = [
-    {
-        path: '/',
-        icon: 'home',
-        title: 'Home'
+export default {
+    name: 'App',
+
+    components: { Moodboard },
+
+    data() {
+        return {
+            Logo,
+            MoodIcon,
+            ReportIcon
+        };
     },
-    {
-        path: '/explore',
-        icon: 'compass',
-        title: 'Explore'
+
+    created() {
+        // document.documentElement.classList.add('dark-theme');
     },
-    {
-        path: '/community',
-        icon: 'users',
-        title: 'Community'
-    },
-    {
-        path: '/report',
-        icon: 'file-text',
-        title: 'Report'
+
+    computed: {
+        items() {
+            return [
+                {
+                    path: '/',
+                    icon: 'home',
+                    title: 'Home'
+                },
+                {
+                    path: '/explore',
+                    icon: 'compass',
+                    title: 'Explore'
+                },
+                {
+                    path: '/community',
+                    icon: 'users',
+                    title: 'Community'
+                },
+                {
+                    path: '/report',
+                    icon: 'file-text',
+                    title: 'Report'
+                }
+            ];
+        }
     }
-];
+};
 </script>
 
 <style lang="scss" scoped src="./app.scss"></style>
