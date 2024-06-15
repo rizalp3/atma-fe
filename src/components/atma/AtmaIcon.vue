@@ -17,9 +17,9 @@ export default {
             type: String,
             default: ''
         },
-        type: {
-            type: String,
-            default: 'outlined'
+        fill: {
+            type: Boolean,
+            default: false
         },
         size: {
             type: String,
@@ -38,29 +38,28 @@ export default {
             return '';
         },
         composeClass() {
-            const classes = ['atma-icon'];
-
-            if (this.type === 'fill') {
-                classes.push('material-icons');
-            } else {
-                classes.push('material-icons-outlined');
-            }
-
-            return classes;
+            return ['atma-icon', 'material-symbols-rounded'];
         },
         composeStyle() {
             return {
                 fontSize: this.size ? `${this.size}px` : ''
             };
+        },
+        fillValue() {
+            return this.fill ? 1 : 0;
         }
     }
 };
 </script>
+
 <style lang="scss" scoped>
 .atma-icon {
-    /* Prevent Text Selection */
+    // Prevent Text Selection
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    // Material Symbols Modifier
+    font-variation-settings: 'FILL' v-bind(fillValue);
 }
 </style>

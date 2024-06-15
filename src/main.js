@@ -22,9 +22,8 @@ import router from './router';
 // Vue Final Modal
 import 'vue-final-modal/style.css';
 
-// Material Icons
-import 'material-icons/iconfont/filled.css';
-import 'material-icons/iconfont/outlined.css';
+// Material Symbols
+import 'material-symbols/rounded.css';
 
 // Base Style
 import './assets/main.css';
