@@ -1,10 +1,6 @@
 <template>
     <div class="home-section-header mt-0">
-        <vue-feather
-            class="home-section-header__icon"
-            type="trending-up"
-            size="20"
-        />
+        <atma-icon class="home-section-header__icon" name="article" />
 
         <div class="home-section-header__title">Trending Articles</div>
 
@@ -16,7 +12,7 @@
     <home-article-section />
 
     <div class="home-section-header">
-        <vue-feather class="home-section-header__icon" type="star" size="20" />
+        <atma-icon class="home-section-header__icon" name="pages" />
 
         <div class="home-section-header__title">Top Feeds</div>
 
@@ -67,13 +63,13 @@ export default {
     }
 
     &__icon {
-        color: var(--system-color-on-surface);
+        color: var(--system-color-on-surface-variant);
     }
 
     &__title {
         @include text(20px, 500);
 
-        margin: 0 auto 0 10px;
+        margin: 0 auto 0 8px;
         color: var(--system-color-on-surface);
     }
 
