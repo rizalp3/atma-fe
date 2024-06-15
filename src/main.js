@@ -22,6 +22,10 @@ import router from './router';
 // Vue Final Modal
 import 'vue-final-modal/style.css';
 
+// Material Icons
+import 'material-icons/iconfont/filled.css';
+import 'material-icons/iconfont/outlined.css';
+
 // Base Style
 import './assets/main.css';
 
@@ -29,6 +33,7 @@ import App from './App.vue';
 
 import AtmaButton from './components/atma/AtmaButton.vue';
 import AtmaButtonIcon from './components/atma/AtmaButtonIcon.vue';
+import AtmaIcon from './components/atma/AtmaIcon.vue';
 import AtmaLinkPreview from './components/atma/AtmaLinkPreview.vue';
 import AtmaMarkdown from './components/atma/AtmaMarkdown.vue';
 import AtmaModal from './components/atma/AtmaModal.vue';
@@ -53,6 +58,7 @@ app.component(VueFeather.name, VueFeather);
 // Atma Component
 app.component('AtmaButton', AtmaButton)
     .component('AtmaButtonIcon', AtmaButtonIcon)
+    .component('AtmaIcon', AtmaIcon)
     .component('AtmaLinkPreview', AtmaLinkPreview)
     .component('AtmaMarkdown', AtmaMarkdown)
     .component('AtmaModal', AtmaModal)
