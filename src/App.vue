@@ -17,12 +17,13 @@
                 <nav role="navigation">
                     <router-link
                         v-for="(item, i) in items"
+                        v-slot="{ isActive }"
                         class="nav-item"
                         exact-active-class="nav-item--active"
                         :to="item.path"
                         :key="i"
                     >
-                        <vue-feather :type="item.icon" size="24" />
+                        <atma-icon :name="item.icon" :fill="isActive" />
                         <div class="nav-title">{{ item.title }}</div>
                     </router-link>
                 </nav>
@@ -39,7 +40,7 @@
                         class="title-bar__icon"
                         :to="$route.meta.back"
                     >
-                        <vue-feather type="arrow-left" size="24" />
+                        <atma-icon name="arrow-back" />
                     </router-link>
 
                     <h1 v-if="$route.meta.title" class="title-bar__text">
@@ -63,7 +64,7 @@
             <div class="header">
                 <div class="header-wrapper">
                     <button class="theme-toggle" @click="toggleTheme">
-                        <vue-feather :type="themeIcon" size="20" />
+                        <atma-icon :name="themeIcon" />
                     </button>
 
                     <button class="user-detail">
@@ -95,12 +96,13 @@
             <nav class="bottom-navbar__wrapper" role="navigation">
                 <div v-for="(item, i) in items" :key="`bottom-navbar-${i}`">
                     <router-link
+                        v-slot="{ isActive }"
                         class="bottom-navbar__item"
                         exact-active-class="bottom-navbar__item--active"
                         :to="item.path"
                     >
                         <div class="bottom-navbar__item-icon">
-                            <vue-feather :type="item.icon" size="24" />
+                            <atma-icon :name="item.icon" :fill="isActive" />
                         </div>
                         <div class="bottom-navbar__item-title">
                             {{ item.title }}
@@ -144,29 +146,29 @@ export default {
             return [
                 {
                     path: '/',
-                    icon: 'home',
+                    icon: 'space-dashboard',
                     title: 'Home'
                 },
                 {
                     path: '/explore',
-                    icon: 'compass',
+                    icon: 'explore',
                     title: 'Explore'
                 },
                 {
                     path: '/community',
-                    icon: 'users',
+                    icon: 'group',
                     title: 'Community'
                 },
                 {
                     path: '/report',
-                    icon: 'file-text',
+                    icon: 'assignment',
                     title: 'Report'
                 }
             ];
         },
 
         themeIcon() {
-            return this.theme === 'light' ? 'moon' : 'sun';
+            return this.theme === 'light' ? 'light-mode' : 'dark-mode';
         }
     },
 
