@@ -36,6 +36,7 @@ import AtmaSkeleton from './components/atma/AtmaSkeleton.vue';
 import AtmaText from './components/atma/AtmaText.vue';
 
 import MixinDevice from './mixins/device';
+import MixinUtilities from './mixins/utilities';
 
 const pinia = createPinia();
 const vfm = createVfm();
@@ -59,5 +60,6 @@ app.component('AtmaButton', AtmaButton)
     .component('AtmaText', AtmaText);
 
 app.mixin(MixinDevice);
+app.mixin(MixinUtilities);
 
 app.mount('#app');
