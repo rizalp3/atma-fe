@@ -11,12 +11,12 @@
             <div class="d-flex align-items-center">
                 <div class="home-feed__detail">2 hours ago</div>
 
-                <div class="home-feed__action">
-                    <vue-feather type="heart" size="18" />
+                <div class="home-feed__action home-feed__action--like">
+                    <atma-icon name="favorite" size="20" />
                 </div>
 
                 <div class="home-feed__action">
-                    <vue-feather type="more-vertical" size="18" />
+                    <atma-icon name="more-vert" size="20" />
                 </div>
             </div>
         </div>
@@ -29,12 +29,12 @@
             <div class="d-flex align-items-center">
                 <div class="home-feed__detail">2 hours ago</div>
 
-                <div class="home-feed__action">
-                    <vue-feather type="heart" size="18" />
+                <div class="home-feed__action home-feed__action--like">
+                    <atma-icon name="favorite" size="20" />
                 </div>
 
                 <div class="home-feed__action">
-                    <vue-feather type="more-vertical" size="18" />
+                    <atma-icon name="more-vert" size="20" />
                 </div>
             </div>
         </div>
@@ -46,12 +46,12 @@
                 <div class="d-flex align-items-center">
                     <div class="home-feed__detail">2 hours ago</div>
 
-                    <div class="home-feed__action">
-                        <vue-feather type="heart" size="18" />
+                    <div class="home-feed__action home-feed__action--like">
+                        <atma-icon name="favorite" size="20" />
                     </div>
 
                     <div class="home-feed__action">
-                        <vue-feather type="more-vertical" size="18" />
+                        <atma-icon name="more-vert" size="20" />
                     </div>
                 </div>
             </div>
@@ -67,12 +67,14 @@
                 <div class="d-flex align-items-center">
                     <div class="home-feed__detail">2 hours ago</div>
 
-                    <div class="home-feed__action">
-                        <vue-feather type="heart" size="18" />
+                    <div
+                        class="home-feed__action home-feed__action--like home-feed__action--liked"
+                    >
+                        <atma-icon name="favorite" size="20" fill />
                     </div>
 
                     <div class="home-feed__action">
-                        <vue-feather type="more-vertical" size="18" />
+                        <atma-icon name="more-vert" size="20" />
                     </div>
                 </div>
             </div>
@@ -132,6 +134,8 @@ export default {
         justify-content: center;
 
         border-radius: 50%;
+        cursor: pointer;
+
         color: var(--system-color-outline);
 
         &:hover {
@@ -140,6 +144,20 @@ export default {
 
         &:last-of-type {
             margin-right: -8px;
+        }
+
+        &--like {
+            > * {
+                margin-bottom: -1px;
+            }
+
+            &:hover {
+                color: #e30072;
+            }
+        }
+
+        &--liked {
+            color: #e30072;
         }
     }
 }
