@@ -1,5 +1,6 @@
 :root.dark-theme {
     --system-color-primary: #cabeff;
+    --system-color-primary-variant: #c2b6f6;
     --system-color-surface-tint: #cabeff;
     --system-color-on-primary: #322075;
     --system-color-primary-container: #4f3f93;
@@ -7,6 +8,7 @@
     --system-color-secondary: #cac1ea;
     --system-color-on-secondary: #322c4c;
     --system-color-secondary-container: #3e3859;
+    --system-color-secondary-container-variant: #373051;
     --system-color-on-secondary-container: #d4cbf4;
     --system-color-tertiary: #ffade1;
     --system-color-on-tertiary: #591148;

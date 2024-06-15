@@ -1,5 +1,6 @@
 :root {
     --system-color-primary: #443488;
+    --system-color-primary-variant: #4d3e92;
     --system-color-surface-tint: #6151a7;
     --system-color-on-primary: #ffffff;
     --system-color-primary-container: #6959af;
@@ -7,6 +8,7 @@
     --system-color-secondary: #605a7d;
     --system-color-on-secondary: #ffffff;
     --system-color-secondary-container: #e3daff;
+    --system-color-secondary-container-variant: #dad2f7;
     --system-color-on-secondary-container: #484163;
     --system-color-tertiary: #6f255b;
     --system-color-on-tertiary: #ffffff;

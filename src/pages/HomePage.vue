@@ -84,6 +84,10 @@ export default {
 
         background: var(--system-color-secondary-container);
         color: var(--system-color-primary);
+
+        &:hover {
+            background: var(--system-color-secondary-container-variant);
+        }
     }
 }
 

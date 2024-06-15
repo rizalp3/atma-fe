@@ -164,6 +164,10 @@
 
         background: var(--system-color-secondary-container);
         color: var(--system-color-on-secondary-container);
+
+        &:hover {
+            background: var(--system-color-secondary-container-variant);
+        }
     }
 
     .user-detail {
@@ -188,6 +192,10 @@
         &__name {
             @include text(14px, 500);
             margin-right: auto;
+        }
+
+        &:hover {
+            background: var(--system-color-secondary-container-variant);
         }
     }
 }
