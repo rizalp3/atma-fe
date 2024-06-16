@@ -1,0 +1,11 @@
+.v-popper--theme-tooltip {
+    .v-popper__inner {
+        @include text(12px, 400);
+        background: var(--system-color-inverse-surface);
+        color: var(--system-color-inverse-on-surface);
+    }
+
+    .v-popper__arrow-outer {
+        border-color: var(--system-color-inverse-surface);
+    }
+}

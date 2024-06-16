@@ -13,6 +13,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VCalendar from 'v-calendar';
 import 'v-calendar/style.css';
 
+// VTooltip
+import FloatingVue from 'floating-vue';
+import 'floating-vue/dist/style.css';
+
 // Swiper
 import 'swiper/css/bundle';
 
@@ -51,6 +55,10 @@ app.use(pinia);
 app.use(vfm);
 app.use(router);
 app.use(VCalendar, {});
+app.use(FloatingVue, {
+    distance: 8,
+    themes: { tooltip: { delay: { show: 0 } } }
+});
 
 app.component(VueFeather.name, VueFeather);
 
