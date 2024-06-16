@@ -135,7 +135,7 @@
 
     .header {
         height: 64px;
-        margin: 0 -32px 16px;
+        margin-bottom: 16px;
     }
 
     .header-wrapper {
@@ -143,63 +143,14 @@
         top: 0;
         z-index: 100;
 
-        width: 340px;
+        width: 300px;
         height: 64px;
-        padding: 0 32px;
 
         display: flex;
         align-items: center;
         justify-content: flex-end;
 
         background: var(--system-color-surface-container);
-    }
-
-    .theme-toggle {
-        width: 40px;
-        height: 40px;
-
-        margin-right: 12px;
-        border-radius: 50%;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: var(--system-color-secondary-container);
-        color: var(--system-color-on-secondary-container);
-
-        &:hover {
-            background: var(--system-color-secondary-container-variant);
-        }
-    }
-
-    .user-detail {
-        padding: 4px 4px 4px 18px;
-
-        display: flex;
-        align-items: center;
-
-        border-radius: 20px;
-
-        background: var(--system-color-secondary-container);
-        color: var(--system-color-on-secondary-container);
-
-        &__avatar {
-            width: 32px;
-            height: 32px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-left: 12px;
-        }
-
-        &__name {
-            @include text(14px, 500);
-            margin-right: auto;
-        }
-
-        &:hover {
-            background: var(--system-color-secondary-container-variant);
-        }
     }
 }
 

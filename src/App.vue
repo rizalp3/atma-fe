@@ -46,6 +46,13 @@
                     <h1 v-if="$route.meta.title" class="title-bar__text">
                         {{ $route.meta.title }}
                     </h1>
+
+                    <menu-dropdown
+                        v-if="isTablet"
+                        :theme="theme"
+                        :variant="isMobile ? 'mini' : 'compact'"
+                        @toggle-theme="toggleTheme"
+                    />
                 </div>
             </div>
 
@@ -63,19 +70,11 @@
             <!-- Header -->
             <div class="header">
                 <div class="header-wrapper">
-                    <button class="theme-toggle" @click="toggleTheme">
-                        <atma-icon :name="themeIcon" />
-                    </button>
-
-                    <button class="user-detail">
-                        <div class="user-detail__name">Rizal Purnomo</div>
-
-                        <img
-                            class="user-detail__avatar"
-                            src="https://i.pravatar.cc/200?img=13"
-                            alt="User Avatar"
-                        />
-                    </button>
+                    <menu-dropdown
+                        :theme="theme"
+                        variant="full"
+                        @toggle-theme="toggleTheme"
+                    />
                 </div>
             </div>
 
@@ -118,11 +117,12 @@
 import Logo from './assets/image/logo.svg';
 
 import Moodboard from './components/Moodboard.vue';
+import MenuDropdown from './components/MenuDropdown.vue';
 
 export default {
     name: 'App',
 
-    components: { Moodboard },
+    components: { Moodboard, MenuDropdown },
 
     data() {
         return {
