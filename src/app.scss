@@ -50,11 +50,11 @@
 
     .nav-item {
         margin: 0 -16px 0 -32px;
-        padding: 12px 32px;
+        padding: 10px 32px;
 
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 16px;
 
         border-radius: 24px;
 
@@ -63,7 +63,7 @@
         color: var(--system-color-outline);
 
         .nav-title {
-            @include text(16px, 500);
+            @include text(18px, 500);
         }
 
         &:hover:not(.nav-item--active) {
@@ -71,9 +71,12 @@
         }
 
         &--active {
-            font-weight: 600;
             background: var(--system-color-secondary-container);
             color: var(--system-color-primary);
+
+            .nav-title {
+                font-weight: 600;
+            }
         }
     }
 }
@@ -259,6 +262,10 @@
 
             .bottom-navbar__item-icon {
                 background: var(--system-color-secondary-container);
+            }
+
+            .bottom-navbar__item-title {
+                font-weight: 600;
             }
         }
     }
