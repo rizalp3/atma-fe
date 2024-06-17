@@ -15,8 +15,8 @@
                 <input
                     v-model="email"
                     :class="['form-control', { 'is-invalid': errors.email }]"
-                    placeholder="example@mail.com"
                     type="email"
+                    placeholder="example@mail.com"
                     id="login-email"
                     @blur="validateEmail"
                 />
@@ -28,14 +28,24 @@
                 <label class="form-label" for="login-password">
                     Password
                 </label>
+
                 <input
                     v-model="password"
                     :class="['form-control', { 'is-invalid': errors.password }]"
+                    :type="toggleType"
                     placeholder="Password"
-                    type="password"
                     id="login-password"
                     @blur="validatePassword"
                 />
+                <button
+                    class="login-section__password-toggle"
+                    type="button"
+                    tabindex="-1"
+                    @click="handlePasswordVisibility"
+                >
+                    <atma-icon :name="toggleIcon" size="20" />
+                </button>
+
                 <div class="invalid-feedback">{{ errors.password }}</div>
             </div>
 
@@ -58,8 +68,11 @@ export default {
 
     data() {
         return {
+            isPasswordShown: false,
+
             email: '',
             password: '',
+
             errors: {}
         };
     },
@@ -70,6 +83,15 @@ export default {
         },
         password() {
             delete this.errors.password;
+        }
+    },
+
+    computed: {
+        toggleIcon() {
+            return this.isPasswordShown ? 'visibility-off' : 'visibility';
+        },
+        toggleType() {
+            return this.isPasswordShown ? 'text' : 'password';
         }
     },
 
@@ -90,8 +112,8 @@ export default {
             }
         },
 
-        closeModal() {
-            this.$emit('update:modelValue', false);
+        handlePasswordVisibility() {
+            this.isPasswordShown = !this.isPasswordShown;
         },
 
         handleSubmit() {
@@ -122,6 +144,7 @@ export default {
     }
 
     &__input {
+        position: relative;
         margin-bottom: 16px;
 
         .form-label {
@@ -158,6 +181,27 @@ export default {
 
         .invalid-feedback {
             --bs-form-invalid-color: var(--system-color-error);
+        }
+    }
+
+    &__password-toggle {
+        width: 38px;
+        height: 38px;
+
+        position: absolute;
+        top: 29px;
+        right: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 6px;
+
+        color: var(--system-color-outline);
+
+        &:hover {
+            color: var(--system-color-on-surface);
         }
     }
 
