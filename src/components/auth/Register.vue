@@ -94,15 +94,24 @@
             <div class="register-section__login">
                 <div>Already have an account?</div>
 
-                <button type="button">Login</button>
+                <button type="button" @click="handleRedirectToLogin">
+                    Login
+                </button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth';
+
 export default {
     name: 'RegisterSection',
+
+    setup() {
+        const store = useAuthStore();
+        return { store };
+    },
 
     data() {
         return {
@@ -205,6 +214,10 @@ export default {
                     password: this.password
                 });
             }
+        },
+
+        handleRedirectToLogin() {
+            this.store.showAuthModal('login');
         }
     }
 };

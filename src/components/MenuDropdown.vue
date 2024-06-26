@@ -93,11 +93,19 @@
         </div>
 
         <!-- Login Button -->
-        <button v-else class="menu-dropdown__login">Login</button>
+        <button
+            v-else
+            class="menu-dropdown__login"
+            @click="handleShowLoginModal"
+        >
+            Login
+        </button>
     </div>
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth';
+
 export default {
     name: 'MenuDropdown',
 
@@ -112,9 +120,14 @@ export default {
         }
     },
 
+    setup() {
+        const store = useAuthStore();
+        return { store };
+    },
+
     data() {
         return {
-            isAuthenticated: true
+            isAuthenticated: false
         };
     },
 
@@ -133,6 +146,10 @@ export default {
     methods: {
         showOnVariant(keys = []) {
             return keys.includes(this.variant);
+        },
+
+        handleShowLoginModal() {
+            this.store.showAuthModal('login');
         },
 
         handleToggleTheme() {

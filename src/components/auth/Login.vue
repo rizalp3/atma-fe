@@ -56,15 +56,24 @@
             <div class="login-section__register">
                 <div>Don't have an account yet?</div>
 
-                <button type="button">Sign Up</button>
+                <button type="button" @click="handleRedirectToRegister">
+                    Sign Up
+                </button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth';
+
 export default {
     name: 'LoginSection',
+
+    setup() {
+        const store = useAuthStore();
+        return { store };
+    },
 
     data() {
         return {
@@ -123,6 +132,10 @@ export default {
             if (Object.keys(this.errors).length <= 0) {
                 console.log({ email: this.email, password: this.password });
             }
+        },
+
+        handleRedirectToRegister() {
+            this.store.showAuthModal('register');
         }
     }
 };

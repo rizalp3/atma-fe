@@ -12,7 +12,9 @@
                 for you.
             </div>
 
-            <button class="brand-banner__action">Login to Your Account</button>
+            <button class="brand-banner__action" @click="handleShowLoginModal">
+                Login to Your Account
+            </button>
         </div>
     </div>
 </template>
@@ -20,13 +22,26 @@
 <script>
 import banner from '@/assets/image/brand.jpg';
 
+import { useAuthStore } from '@/stores/auth';
+
 export default {
     name: 'BrandBanner',
+
+    setup() {
+        const store = useAuthStore();
+        return { store };
+    },
 
     data() {
         return {
             banner
         };
+    },
+
+    methods: {
+        handleShowLoginModal() {
+            this.store.showAuthModal('login');
+        }
     }
 };
 </script>
