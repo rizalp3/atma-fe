@@ -110,6 +110,8 @@
                 </div>
             </nav>
         </div>
+
+        <auth-modal />
     </div>
 </template>
 
@@ -119,10 +121,12 @@ import Logo from './assets/image/logo.svg';
 import Moodboard from './components/Moodboard.vue';
 import MenuDropdown from './components/MenuDropdown.vue';
 
+import AuthModal from './components/auth/AuthModal.vue';
+
 export default {
     name: 'App',
 
-    components: { Moodboard, MenuDropdown },
+    components: { Moodboard, MenuDropdown, AuthModal },
 
     data() {
         return {
