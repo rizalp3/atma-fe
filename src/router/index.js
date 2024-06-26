@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
+import HomeSidebar from '@/components/home/HomeSidebar.vue';
 
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
@@ -38,7 +39,10 @@ const routes = [
 
     {
         path: '/',
-        component: HomePage,
+        components: {
+            default: HomePage,
+            utilityBar: HomeSidebar
+        },
         meta: { title: 'Home' }
     },
 

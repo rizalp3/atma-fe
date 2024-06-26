@@ -2,7 +2,7 @@
     <component
         :is="tag"
         :class="['atma-text', `atma-text--${size}`, `atma-text--${weight}`]"
-        :style="{ color }"
+        :style="{ color: colorStyle }"
     >
         <slot></slot>
     </component>
@@ -28,6 +28,24 @@ export default {
         color: {
             type: String,
             default: ''
+        },
+        colorScheme: {
+            type: String,
+            default: ''
+        }
+    },
+
+    computed: {
+        colorStyle() {
+            if (!!this.colorScheme) {
+                return `var(--system-color-${this.colorScheme})`;
+            }
+
+            if (!!this.color) {
+                return this.color;
+            }
+
+            return '';
         }
     }
 };

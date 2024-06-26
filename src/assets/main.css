@@ -1,2 +1,4 @@
 @import './base.css';
 @import './css/variable.css';
+@import './css/colors/light.css';
+@import './css/colors/dark.css';

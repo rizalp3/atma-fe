@@ -102,7 +102,9 @@ export default {
                 []
             );
 
-            this.store.setCategory(isAllFilter ? [] : activeCategories);
+            this.store.setCategory(
+                isAllFilter || isNoFilterActive ? [] : activeCategories
+            );
         }
     }
 };

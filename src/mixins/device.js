@@ -17,6 +17,9 @@ export default {
         isMobile() {
             return this.windowWidth <= 600;
         },
+        isTablet() {
+            return this.windowWidth <= 1035;
+        },
         isDesktop() {
             return !this.isMobile;
         }

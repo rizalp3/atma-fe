@@ -6,7 +6,7 @@ const baseFilter = {
         {
             key: 'trending',
             name: 'Trending',
-            formula: 'title:asc' // Change to view:asc
+            formula: 'view:desc'
         },
         {
             key: 'recent',
@@ -57,7 +57,7 @@ export const useArticleStore = defineStore('article', {
     state: () => {
         return {
             config: {
-                sort: ['title:asc'],
+                sort: ['view:desc'],
                 filters: {
                     createdAt: {},
                     category: {

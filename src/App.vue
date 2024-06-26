@@ -17,35 +17,16 @@
                 <nav role="navigation">
                     <router-link
                         v-for="(item, i) in items"
+                        v-slot="{ isActive }"
                         class="nav-item"
                         exact-active-class="nav-item--active"
                         :to="item.path"
                         :key="i"
                     >
-                        <vue-feather :type="item.icon" size="24" />
+                        <atma-icon :name="item.icon" :fill="isActive" />
                         <div class="nav-title">{{ item.title }}</div>
                     </router-link>
                 </nav>
-
-                <!-- Shortcut Button (Test) -->
-                <router-link class="shortcut-button" to="/test">
-                    <img
-                        class="shortcut-button__icon"
-                        alt="Report Icon"
-                        :src="ReportIcon"
-                    />
-                    <div class="shortcut-button__text">Take a Test</div>
-                </router-link>
-
-                <!-- Shortcut Button (Mood) -->
-                <router-link class="shortcut-button" to="/mood">
-                    <img
-                        class="shortcut-button__icon"
-                        alt="Mood Icon"
-                        :src="MoodIcon"
-                    />
-                    <div class="shortcut-button__text">Add a Mood</div>
-                </router-link>
             </div>
         </div>
 
@@ -59,12 +40,19 @@
                         class="title-bar__icon"
                         :to="$route.meta.back"
                     >
-                        <vue-feather type="arrow-left" size="24" />
+                        <atma-icon name="arrow-back" />
                     </router-link>
 
                     <h1 v-if="$route.meta.title" class="title-bar__text">
                         {{ $route.meta.title }}
                     </h1>
+
+                    <menu-dropdown
+                        v-if="isTablet"
+                        :theme="theme"
+                        :variant="isMobile ? 'mini' : 'compact'"
+                        @toggle-theme="toggleTheme"
+                    />
                 </div>
             </div>
 
@@ -82,21 +70,11 @@
             <!-- Header -->
             <div class="header">
                 <div class="header-wrapper">
-                    <div class="user-detail">
-                        <img
-                            class="user-detail__avatar"
-                            src="https://i.pravatar.cc/200?img=13"
-                            alt="User Avatar"
-                        />
-
-                        <div class="user-detail__name">Rizal Purnomo</div>
-
-                        <vue-feather
-                            class="user-detail__icon"
-                            type="chevron-down"
-                            size="24"
-                        />
-                    </div>
+                    <menu-dropdown
+                        :theme="theme"
+                        variant="full"
+                        @toggle-theme="toggleTheme"
+                    />
                 </div>
             </div>
 
@@ -117,11 +95,14 @@
             <nav class="bottom-navbar__wrapper" role="navigation">
                 <div v-for="(item, i) in items" :key="`bottom-navbar-${i}`">
                     <router-link
+                        v-slot="{ isActive }"
                         class="bottom-navbar__item"
                         exact-active-class="bottom-navbar__item--active"
                         :to="item.path"
                     >
-                        <vue-feather :type="item.icon" size="24" />
+                        <div class="bottom-navbar__item-icon">
+                            <atma-icon :name="item.icon" :fill="isActive" />
+                        </div>
                         <div class="bottom-navbar__item-title">
                             {{ item.title }}
                         </div>
@@ -129,38 +110,91 @@
                 </div>
             </nav>
         </div>
+
+        <auth-modal />
     </div>
 </template>
 
-<script setup>
+<script>
 import Logo from './assets/image/logo.svg';
-import MoodIcon from './assets/image/mood-colored.svg';
-import ReportIcon from './assets/image/report-colored.svg';
 
 import Moodboard from './components/Moodboard.vue';
+import MenuDropdown from './components/MenuDropdown.vue';
 
-const items = [
-    {
-        path: '/',
-        icon: 'home',
-        title: 'Home'
+import AuthModal from './components/auth/AuthModal.vue';
+
+export default {
+    name: 'App',
+
+    components: { Moodboard, MenuDropdown, AuthModal },
+
+    data() {
+        return {
+            Logo,
+            theme: 'light'
+        };
     },
-    {
-        path: '/explore',
-        icon: 'compass',
-        title: 'Explore'
+
+    created() {
+        const theme = this.getTheme();
+
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+        }
+
+        this.theme = theme;
     },
-    {
-        path: '/community',
-        icon: 'users',
-        title: 'Community'
+
+    computed: {
+        items() {
+            return [
+                {
+                    path: '/',
+                    icon: 'space-dashboard',
+                    title: 'Home'
+                },
+                {
+                    path: '/explore',
+                    icon: 'explore',
+                    title: 'Explore'
+                },
+                {
+                    path: '/community',
+                    icon: 'group',
+                    title: 'Community'
+                },
+                {
+                    path: '/report',
+                    icon: 'assignment',
+                    title: 'Report'
+                }
+            ];
+        },
+
+        themeIcon() {
+            return this.theme === 'light' ? 'light-mode' : 'dark-mode';
+        }
     },
-    {
-        path: '/report',
-        icon: 'file-text',
-        title: 'Report'
+
+    methods: {
+        getTheme() {
+            return localStorage.getItem('color-theme') || 'light';
+        },
+
+        toggleTheme() {
+            const target = this.theme === 'light' ? 'dark' : 'light';
+
+            if (target === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+            }
+
+            localStorage.setItem('color-theme', target);
+            this.theme = target;
+        }
     }
-];
+};
 </script>
 
 <style lang="scss" scoped src="./app.scss"></style>
