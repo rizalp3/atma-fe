@@ -131,12 +131,6 @@ export default {
         return { store };
     },
 
-    data() {
-        return {
-            isAuthenticated: true
-        };
-    },
-
     computed: {
         themeIcon() {
             const target = this.theme === 'light' ? 'dark' : 'light';
