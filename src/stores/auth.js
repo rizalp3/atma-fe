@@ -35,18 +35,20 @@ export const useAuthStore = defineStore('auth', {
             this.user = data ? JSON.parse(data) : {};
         },
 
-        /**
-         * @description Set User and Auth Token
-         *
-         * @param {string} token - Token
-         * @param {object} user - User Data
-         */
         setAuthData(token, user) {
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
 
             this.token = token;
             this.user = user;
+        },
+
+        resetAuthData() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            this.token = '';
+            this.user = {};
         }
     }
 });

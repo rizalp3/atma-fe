@@ -84,13 +84,13 @@
                 <li><hr class="dropdown-divider" /></li>
 
                 <li v-if="isAuthenticated">
-                    <div class="dropdown-item">
+                    <div class="dropdown-item" @click="handleLogout">
                         <atma-icon name="logout" size="22" />
                         <atma-text size="14" weight="500">Logout</atma-text>
                     </div>
                 </li>
                 <li v-else>
-                    <div class="dropdown-item">
+                    <div class="dropdown-item" @click="handleShowLoginModal">
                         <atma-icon name="login" size="22" />
                         <atma-text size="14" weight="500">Login</atma-text>
                     </div>
@@ -184,6 +184,10 @@ export default {
 
         handleToggleTheme() {
             this.$emit('toggleTheme');
+        },
+
+        handleLogout() {
+            this.store.resetAuthData();
         }
     }
 };
