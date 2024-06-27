@@ -43,7 +43,7 @@
                         <atma-icon name="arrow-back" />
                     </router-link>
 
-                    <h1 v-if="$route.meta.title" class="title-bar__text">
+                    <h1 :class="titleBarClasses">
                         {{ $route.meta.title }}
                     </h1>
 
@@ -173,6 +173,26 @@ export default {
 
         themeIcon() {
             return this.theme === 'light' ? 'light-mode' : 'dark-mode';
+        },
+
+        titleBarClasses() {
+            const classes = ['title-bar__text'];
+
+            if (this.$route.meta.back) {
+                classes.push('title-bar__text--back');
+            }
+
+            if (this.isMobile) {
+                classes.push('title-bar__text--mini');
+            } else if (this.isTablet) {
+                classes.push(
+                    this.isAuthenticated
+                        ? 'title-bar__text--compact'
+                        : 'title-bar__text--extended'
+                );
+            }
+
+            return classes;
         }
     },
 

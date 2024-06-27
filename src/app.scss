@@ -117,14 +117,31 @@
     }
 
     &__text {
+        --title-bar-margin-right: 0;
+        --title-bar-margin-left: 0;
+
+        margin-right: var(--title-bar-margin-right);
+        margin-left: var(--title-bar-margin-left);
+
         flex: 1;
-        padding-right: 24px;
         text-align: center;
 
         @include text(20px, 600);
 
-        &:only-child {
-            padding-right: 0;
+        &--back {
+            --title-bar-margin-left: -24px;
+        }
+
+        &--mini {
+            --title-bar-margin-right: -40px;
+        }
+
+        &--compact {
+            --title-bar-margin-right: -88px;
+        }
+
+        &--extended {
+            --title-bar-margin-right: -132px;
         }
     }
 }
