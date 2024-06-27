@@ -116,6 +116,9 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
 import Logo from './assets/image/logo.svg';
 
 import Moodboard from './components/Moodboard.vue';
@@ -128,6 +131,11 @@ export default {
 
     components: { Moodboard, MenuDropdown, AuthModal },
 
+    setup() {
+        const authStore = useAuthStore();
+        return { authStore };
+    },
+
     data() {
         return {
             Logo,
@@ -136,6 +144,7 @@ export default {
     },
 
     created() {
+        // -- Theme --
         const theme = this.getTheme();
 
         if (theme === 'dark') {
@@ -143,6 +152,10 @@ export default {
         }
 
         this.theme = theme;
+
+        // -- Authentication --
+        this.authStore.getAuthToken();
+        this.authStore.getAuthData();
     },
 
     computed: {
@@ -213,6 +226,14 @@ export default {
             localStorage.setItem('color-theme', target);
             this.theme = target;
         }
+    },
+
+    provide() {
+        return {
+            token: computed(() => this.authStore.token),
+            user: computed(() => this.authStore.user),
+            isAuthenticated: computed(() => this.authStore.isAuthenticated)
+        };
     }
 };
 </script>
