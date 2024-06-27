@@ -27,7 +27,7 @@
                 class="menu-dropdown__user"
                 data-bs-toggle="dropdown"
             >
-                <div class="menu-dropdown__user-name">Rizal Purnomo</div>
+                <div class="menu-dropdown__user-name">{{ userName }}</div>
 
                 <img
                     class="menu-dropdown__user-avatar"
@@ -47,9 +47,9 @@
                     />
 
                     <div>
-                        <div class="dropdown-profile__name">Rizal Purnomo</div>
+                        <div class="dropdown-profile__name">{{ userName }}</div>
                         <div class="dropdown-profile__email">
-                            rizalp3@gmail.com
+                            {{ userEmail }}
                         </div>
                     </div>
                 </div>
@@ -126,6 +126,8 @@ export default {
         }
     },
 
+    inject: ['isAuthenticated', 'user'],
+
     setup() {
         const store = useAuthStore();
         return { store };
@@ -140,6 +142,14 @@ export default {
         themeText() {
             const target = this.theme === 'light' ? 'Dark' : 'Light';
             return `Switch to ${target} Mode`;
+        },
+
+        userName() {
+            return this.user.username || 'User';
+        },
+
+        userEmail() {
+            return this.user.email || '-';
         },
 
         isMenuButtonShown() {
