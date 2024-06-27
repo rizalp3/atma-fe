@@ -11,10 +11,10 @@
         </button>
 
         <!-- Menu -->
-        <div v-if="isAuthenticated" class="dropdown">
+        <div v-if="isMenuShown" class="dropdown">
             <!-- Menu Button -->
             <button
-                v-if="showOnVariant(['compact', 'mini'])"
+                v-if="isMenuButtonShown"
                 class="menu-dropdown__action"
                 data-bs-toggle="dropdown"
             >
@@ -23,7 +23,7 @@
 
             <!-- User Button -->
             <button
-                v-else
+                v-else-if="isProfileButtonShown"
                 class="menu-dropdown__user"
                 data-bs-toggle="dropdown"
             >
@@ -39,7 +39,7 @@
             <!-- Dropdown Menu -->
             <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2">
                 <!-- Profile Section -->
-                <div class="dropdown-profile">
+                <div v-if="isAuthenticated" class="dropdown-profile">
                     <img
                         class="dropdown-profile__avatar"
                         src="https://i.pravatar.cc/200?img=13"
@@ -55,9 +55,9 @@
                 </div>
 
                 <!-- Action Section -->
-                <li><hr class="dropdown-divider" /></li>
+                <li v-if="isAuthenticated"><hr class="dropdown-divider" /></li>
 
-                <li>
+                <li v-if="isAuthenticated">
                     <div class="dropdown-item">
                         <atma-icon name="person" size="22" />
                         <atma-text size="14" weight="500">Profile</atma-text>
@@ -83,10 +83,16 @@
                 <!-- Logout Section -->
                 <li><hr class="dropdown-divider" /></li>
 
-                <li>
+                <li v-if="isAuthenticated">
                     <div class="dropdown-item">
                         <atma-icon name="logout" size="22" />
                         <atma-text size="14" weight="500">Logout</atma-text>
+                    </div>
+                </li>
+                <li v-else>
+                    <div class="dropdown-item">
+                        <atma-icon name="login" size="22" />
+                        <atma-text size="14" weight="500">Login</atma-text>
                     </div>
                 </li>
             </ul>
@@ -94,7 +100,7 @@
 
         <!-- Login Button -->
         <button
-            v-else
+            v-if="isLoginButtonShown"
             class="menu-dropdown__login"
             @click="handleShowLoginModal"
         >
@@ -127,7 +133,7 @@ export default {
 
     data() {
         return {
-            isAuthenticated: false
+            isAuthenticated: true
         };
     },
 
@@ -140,6 +146,26 @@ export default {
         themeText() {
             const target = this.theme === 'light' ? 'Dark' : 'Light';
             return `Switch to ${target} Mode`;
+        },
+
+        isMenuButtonShown() {
+            return this.isAuthenticated
+                ? this.showOnVariant(['compact', 'mini'])
+                : this.showOnVariant(['mini']);
+        },
+
+        isProfileButtonShown() {
+            return this.isAuthenticated && this.showOnVariant(['full']);
+        },
+
+        isMenuShown() {
+            return this.isMenuButtonShown || this.isProfileButtonShown;
+        },
+
+        isLoginButtonShown() {
+            return (
+                !this.isAuthenticated && this.showOnVariant(['full', 'compact'])
+            );
         }
     },
 
