@@ -8,6 +8,7 @@ axios.defaults.headers = {
 
 const request = async (method, url, config) => {
     const strapiQuery = qs.stringify(config.strapi);
+    const data = config.data;
 
     if (strapiQuery) {
         url += `?${strapiQuery}`;
@@ -16,7 +17,7 @@ const request = async (method, url, config) => {
     let response;
 
     try {
-        response = await axios[method](url);
+        response = await axios[method](url, data);
     } catch (error) {
         response = error.response;
     }
