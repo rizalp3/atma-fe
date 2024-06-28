@@ -88,22 +88,45 @@ export default {
 
 <style lang="scss" scoped>
 .article-list-sidebar {
+    padding: 24px;
+    border-radius: 16px;
+
+    background: var(--system-color-surface);
+
     &__section-title {
-        @include text(18px, 500);
+        @include text(16px, 600);
+
         margin-bottom: 12px;
 
+        color: var(--system-color-on-surface);
+
         &:not(:first-of-type) {
-            margin-top: 32px;
+            margin-top: 24px;
         }
     }
 
     .form-check {
-        color: #5c5c5c;
+        color: var(--system-color-on-surface-variant);
 
         &-input {
+            --bs-border-color: var(--system-color-outline-variant);
+            --bs-form-check-bg: var(--system-color-surface);
+            --bs-form-check-bg-image: none;
+
             &:checked {
-                background-color: #6350b2;
-                border-color: #6350b2;
+                --bs-border-width: 3px;
+
+                width: 15px;
+                height: 15px;
+
+                background-color: var(--system-color-primary);
+                border-color: var(--system-color-surface);
+
+                outline: var(--system-color-primary) solid 1px;
+            }
+
+            &:hover:not(:checked) {
+                background-color: var(--system-color-surface-container-high);
             }
 
             &:focus {
@@ -112,7 +135,7 @@ export default {
         }
 
         &:not(:first-child) {
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         > * {
