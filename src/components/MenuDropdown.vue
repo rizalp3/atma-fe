@@ -188,6 +188,7 @@ export default {
 
         handleLogout() {
             this.store.resetAuthData();
+            location.reload();
         }
     }
 };

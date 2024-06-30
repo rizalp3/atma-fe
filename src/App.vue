@@ -82,11 +82,6 @@
             <router-view v-slot="{ Component: UtilityBar }" name="utilityBar">
                 <!-- Rendered View -->
                 <component v-if="UtilityBar" :is="UtilityBar" />
-
-                <!-- Default Fallback -->
-                <template v-else>
-                    <moodboard />
-                </template>
             </router-view>
         </div>
 
