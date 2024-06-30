@@ -91,7 +91,7 @@ export default {
     padding: 24px;
     border-radius: 16px;
 
-    background: var(--system-color-surface);
+    background: var(--system-color-surface-container-low);
 
     &__section-title {
         @include text(16px, 600);
