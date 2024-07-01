@@ -1,20 +1,16 @@
 <template>
     <div class="explore">
-        <explore-header v-model="activeTab" style="margin-bottom: 24px" />
-
         <feed-card v-bind="feed" />
     </div>
 </template>
 
 <script>
-import ExploreHeader from '@/components/explore/ExploreHeader.vue';
 import FeedCard from '@/components/explore/FeedCard.vue';
 
 export default {
     name: 'ExplorePage',
 
     components: {
-        ExploreHeader,
         FeedCard
     },
 
