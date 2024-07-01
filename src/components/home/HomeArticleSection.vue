@@ -1,121 +1,159 @@
 <template>
-    <!-- MOBILE -->
-    <div v-if="isMobile" class="home-article">
-        <div class="home-article__list">
-            <div class="home-article__item">
-                <div class="home-article__item-detail">
-                    <atma-text size="12" weight="600" color-scheme="primary">
-                        Yoga
-                    </atma-text>
+    <home-article-loader v-if="loading" />
 
-                    <div class="home-article__item-title">
-                        The Ultimate Guide to Getting Help for Mental Health
-                        Problems
-                    </div>
-
-                    <div class="home-article__item-subtitle">
-                        <div>2 hours ago</div>
-                        <div></div>
-                        <div>2 min read</div>
-                    </div>
-                </div>
-
-                <img src="https://picsum.photos/id/89/100/100" alt="img" />
-            </div>
-
-            <div class="home-article__item">
-                <div class="home-article__item-detail">
-                    <atma-text size="12" weight="600" color-scheme="primary">
-                        Living Hacks
-                    </atma-text>
-
-                    <div class="home-article__item-title">
-                        Tips for Improving Your Mental Health
-                    </div>
-
-                    <div class="home-article__item-subtitle">
-                        <div>A day ago</div>
-                        <div></div>
-                        <div>2 min read</div>
-                    </div>
-                </div>
-
-                <img src="https://picsum.photos/id/70/100/100" alt="img" />
-            </div>
-        </div>
-    </div>
-
-    <!-- DESKTOP -->
-    <div v-else class="home-article">
-        <div class="home-article__content">
-            <div class="home-article__highlight">
-                <img src="https://picsum.photos/id/89/300/200" alt="img" />
-
-                <div class="home-article__highlight-detail">
-                    <atma-text size="12" weight="600" color-scheme="primary">
-                        Trending
-                    </atma-text>
-
-                    <div class="home-article__highlight-title">
-                        The Ultimate Guide to Getting Help for Mental Health
-                        Problems
-                    </div>
-
-                    <div class="home-article__highlight-subdetail">
-                        <div>2 hours ago</div>
-                        <div></div>
-                        <div>2 min read</div>
-                    </div>
-                </div>
-            </div>
-
+    <template v-else>
+        <!-- MOBILE -->
+        <div v-if="isMobile" class="home-article">
             <div class="home-article__list">
                 <div class="home-article__item">
                     <div class="home-article__item-detail">
+                        <atma-text
+                            size="12"
+                            weight="600"
+                            color-scheme="primary"
+                        >
+                            Yoga
+                        </atma-text>
+
+                        <div class="home-article__item-title">
+                            The Ultimate Guide to Getting Help for Mental Health
+                            Problems
+                        </div>
+
+                        <div class="home-article__item-subtitle">
+                            <div>2 hours ago</div>
+                            <div></div>
+                            <div>2 min read</div>
+                        </div>
+                    </div>
+
+                    <img src="https://picsum.photos/id/89/100/100" alt="img" />
+                </div>
+
+                <div class="home-article__item">
+                    <div class="home-article__item-detail">
+                        <atma-text
+                            size="12"
+                            weight="600"
+                            color-scheme="primary"
+                        >
+                            Living Hacks
+                        </atma-text>
+
                         <div class="home-article__item-title">
                             Tips for Improving Your Mental Health
                         </div>
+
                         <div class="home-article__item-subtitle">
-                            1 min read
+                            <div>A day ago</div>
+                            <div></div>
+                            <div>2 min read</div>
                         </div>
                     </div>
 
                     <img src="https://picsum.photos/id/70/100/100" alt="img" />
                 </div>
+            </div>
+        </div>
 
-                <div class="home-article__item">
-                    <div class="home-article__item-detail">
-                        <div class="home-article__item-title">
-                            The Importance of Sleep for Mental Health
+        <!-- DESKTOP -->
+        <div v-else class="home-article">
+            <div class="home-article__content">
+                <div class="home-article__highlight">
+                    <img src="https://picsum.photos/id/89/300/200" alt="img" />
+
+                    <div class="home-article__highlight-detail">
+                        <atma-text
+                            size="12"
+                            weight="600"
+                            color-scheme="primary"
+                        >
+                            Trending
+                        </atma-text>
+
+                        <div class="home-article__highlight-title">
+                            The Ultimate Guide to Getting Help for Mental Health
+                            Problems
                         </div>
-                        <div class="home-article__item-subtitle">
-                            2 mins read
+
+                        <div class="home-article__highlight-subdetail">
+                            <div>2 hours ago</div>
+                            <div></div>
+                            <div>2 min read</div>
                         </div>
                     </div>
-
-                    <img src="https://picsum.photos/id/120/100/100" alt="img" />
                 </div>
 
-                <div class="home-article__item">
-                    <div class="home-article__item-detail">
-                        <div class="home-article__item-title">
-                            Doctor Visit? Don't Forget Your Mental Health!
+                <div class="home-article__list">
+                    <div class="home-article__item">
+                        <div class="home-article__item-detail">
+                            <div class="home-article__item-title">
+                                Tips for Improving Your Mental Health
+                            </div>
+                            <div class="home-article__item-subtitle">
+                                1 min read
+                            </div>
                         </div>
-                        <div class="home-article__item-subtitle">
-                            1 min read
-                        </div>
+
+                        <img
+                            src="https://picsum.photos/id/70/100/100"
+                            alt="img"
+                        />
                     </div>
 
-                    <img src="https://picsum.photos/id/90/100/100" alt="img" />
+                    <div class="home-article__item">
+                        <div class="home-article__item-detail">
+                            <div class="home-article__item-title">
+                                The Importance of Sleep for Mental Health
+                            </div>
+                            <div class="home-article__item-subtitle">
+                                2 mins read
+                            </div>
+                        </div>
+
+                        <img
+                            src="https://picsum.photos/id/120/100/100"
+                            alt="img"
+                        />
+                    </div>
+
+                    <div class="home-article__item">
+                        <div class="home-article__item-detail">
+                            <div class="home-article__item-title">
+                                Doctor Visit? Don't Forget Your Mental Health!
+                            </div>
+                            <div class="home-article__item-subtitle">
+                                1 min read
+                            </div>
+                        </div>
+
+                        <img
+                            src="https://picsum.photos/id/90/100/100"
+                            alt="img"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </template>
 </template>
 
 <script>
+import HomeArticleLoader from './HomeArticleLoader.vue';
+
 export default {
-    name: 'HomeArticleSection'
+    name: 'HomeArticleSection',
+
+    components: {
+        HomeArticleLoader
+    },
+
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        }
+    }
 };
 </script>
 
