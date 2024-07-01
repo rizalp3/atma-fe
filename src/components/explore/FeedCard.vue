@@ -5,36 +5,29 @@
         </div>
 
         <div class="feed-card__detail">
-            <div class="feed-card__author">
-                {{ author }}
-            </div>
-            <div class="feed-card__dot" />
             <div class="feed-card__time">
                 {{ time }}
             </div>
 
-            <div class="feed-card__action feed-card__like">
-                <vue-feather v-bind="likeColor" type="heart" :size="iconSize" />
+            <div :class="composeLikeClass">
+                <atma-icon name="favorite" size="20" :fill="isLiked" />
             </div>
 
-            <div class="dropup">
-                <div
-                    class="feed-card__action feed-card__more"
-                    data-bs-toggle="dropdown"
-                >
-                    <vue-feather type="more-vertical" :size="iconSize" />
+            <div class="dropdown">
+                <div class="feed-card__action" data-bs-toggle="dropdown">
+                    <atma-icon name="more-vert" size="20" />
                 </div>
 
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <a class="dropdown-item" href="#">
-                            <vue-feather type="share-2" size="14" />
+                            <atma-icon name="share" size="20" />
                             Share
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="#">
-                            <vue-feather type="flag" size="14" />
+                            <atma-icon name="flag" size="20" />
                             Report
                         </a>
                     </li>
@@ -53,10 +46,6 @@ export default {
             type: String,
             default: ''
         },
-        author: {
-            type: String,
-            default: ''
-        },
         time: {
             type: String,
             default: ''
@@ -68,14 +57,12 @@ export default {
     },
 
     computed: {
-        likeColor() {
+        composeLikeClass() {
             return {
-                stroke: this.isLiked ? '#f91880' : '#929292',
-                fill: this.isLiked ? '#f91880' : 'none'
+                'feed-card__action': true,
+                'feed-card__action-like': true,
+                'feed-card__action-like--liked': this.isLiked
             };
-        },
-        iconSize() {
-            return this.isMobile ? '16' : '20';
         }
     }
 };
@@ -86,35 +73,28 @@ export default {
     display: flex;
     flex-direction: column;
 
-    padding: 16px;
-
-    background: #ffffff;
-    border: 1px solid #e3e3e3;
+    padding: 20px 24px;
     border-radius: 12px;
 
+    background: var(--system-color-surface);
+
     &__content {
-        @include text(14px);
-        color: #252525;
+        @include text(16px);
+        color: var(--system-color-on-surface);
     }
 
     &__detail {
         @include text(14px);
-        margin: 2px 0 -4px;
+
+        margin: 4px 0 -4px;
+
         display: flex;
         align-items: center;
     }
 
-    &__dot {
-        height: 2px;
-        width: 2px;
-        margin: 0 8px;
-        border-radius: 50%;
-        background: #929292;
-    }
-
-    &__author,
     &__time {
-        color: #929292;
+        margin-right: auto;
+        color: var(--system-color-outline);
     }
 
     &__action {
@@ -128,50 +108,63 @@ export default {
         border-radius: 8px;
         cursor: pointer;
 
+        color: var(--system-color-outline);
+
         &:hover {
-            background: #f8f8f8;
+            background: var(--system-color-surface-container);
+        }
+
+        &:last-of-type {
+            margin-right: -8px;
         }
     }
 
-    &__like {
-        margin: 0 4px 0 auto;
-        color: #929292;
+    &__action-like {
+        > * {
+            margin-bottom: -1px;
+        }
+
+        &:hover,
+        &--liked {
+            color: #e30072;
+        }
     }
 
-    &__more {
-        color: #929292;
+    @media (max-width: 600px) {
+        padding: 20px;
+
+        &__content {
+            @include text(14px);
+        }
+    }
+}
+
+.dropdown {
+    &-menu {
+        --bs-dropdown-border-width: 1px;
+        --bs-dropdown-border-color: var(--system-color-surface-container);
+        --bs-dropdown-bg: var(--system-color-surface);
     }
 
-    .dropdown-item {
-        @include text(14px);
-        color: #929292;
+    &-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
+        gap: 16px;
 
-        &:active {
-            background: #f0f1f1;
-        }
-    }
+        cursor: pointer;
 
-    @media (min-width: 601px) {
-        &__content,
-        &__author,
-        &__time {
-            @include text(16px);
-        }
+        @include text(14px, 500);
 
-        &__dot {
-            height: 3px;
-            width: 3px;
-            margin: 12px;
-        }
+        --bs-dropdown-item-padding-y: 8px;
+        --bs-dropdown-item-padding-x: 18px;
 
-        &__action {
-            width: 40px;
-            height: 40px;
-        }
+        --bs-dropdown-link-color: var(--system-color-outline);
+
+        --bs-dropdown-link-hover-bg: var(--system-color-surface-container-low);
+        --bs-dropdown-link-hover-color: var(--system-color-on-surface);
+
+        --bs-dropdown-link-active-bg: var(--system-color-surface-container);
+        --bs-dropdown-link-active-color: var(--system-color-on-surface);
     }
 }
 </style>
