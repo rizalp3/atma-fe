@@ -11,6 +11,7 @@
                 :time="feed.createdAt"
                 :content="feed.content"
                 :is-liked="feed.liked"
+                @like-button-clicked="handleLikeButtonClicked(i)"
             />
         </template>
     </div>
@@ -68,6 +69,26 @@ export default {
             }
 
             this.isLoading = false;
+        },
+
+        async handleLikeButtonClicked(index) {
+            const feed = this.feeds[index];
+            const target = !feed.liked;
+
+            this.feeds[index].liked = target;
+
+            let response;
+
+            if (target) {
+                response = await endpoint.likeFeed(feed.id);
+            } else {
+                response = await endpoint.dislikeFeed(feed.id);
+            }
+
+            // When Failed, Revert Status
+            if (!response.id) {
+                this.feeds[index].liked = !target;
+            }
         }
     }
 };

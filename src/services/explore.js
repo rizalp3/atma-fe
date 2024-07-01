@@ -5,5 +5,13 @@ export default {
         return request('get', '/explore', {
             strapi: config
         });
+    },
+
+    likeFeed(id) {
+        return request('put', `/explore/like/${id}`);
+    },
+
+    dislikeFeed(id) {
+        return request('put', `/explore/dislike/${id}`);
     }
 };

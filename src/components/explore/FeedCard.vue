@@ -9,7 +9,7 @@
                 {{ formattedTime }}
             </div>
 
-            <div :class="composeLikeClass">
+            <div :class="composeLikeClass" @click="$emit('likeButtonClicked')">
                 <atma-icon name="favorite" size="20" :fill="isLiked" />
             </div>
 
