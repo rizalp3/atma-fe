@@ -1,47 +1,15 @@
 <template>
-    <div class="home-feed">
-        <div class="home-feed__item">
-            <div class="home-feed__text">
-                It's important to recognize and take steps to manage stress,
-                such as practicing relaxation techniques, exercising regularly,
-                getting enough sleep, and talking to a trusted friend or mental
-                health professional.
-            </div>
+    <home-feed-loader v-if="loading" />
 
-            <div class="d-flex align-items-center">
-                <div class="home-feed__detail">2 hours ago</div>
-
-                <div class="home-feed__action home-feed__action--like">
-                    <atma-icon name="favorite" size="20" />
-                </div>
-
-                <div class="home-feed__action">
-                    <atma-icon name="more-vert" size="20" />
-                </div>
-            </div>
-        </div>
-
-        <div class="home-feed__item">
-            <div class="home-feed__text">
-                Feeling really stressed about social media lately
-            </div>
-
-            <div class="d-flex align-items-center">
-                <div class="home-feed__detail">2 hours ago</div>
-
-                <div class="home-feed__action home-feed__action--like">
-                    <atma-icon name="favorite" size="20" />
-                </div>
-
-                <div class="home-feed__action">
-                    <atma-icon name="more-vert" size="20" />
-                </div>
-            </div>
-        </div>
-
-        <template v-if="!isMobile">
+    <template v-else>
+        <div class="home-feed">
             <div class="home-feed__item">
-                <div class="home-feed__text">Yes I tried lol</div>
+                <div class="home-feed__text">
+                    It's important to recognize and take steps to manage stress,
+                    such as practicing relaxation techniques, exercising
+                    regularly, getting enough sleep, and talking to a trusted
+                    friend or mental health professional.
+                </div>
 
                 <div class="d-flex align-items-center">
                     <div class="home-feed__detail">2 hours ago</div>
@@ -58,19 +26,14 @@
 
             <div class="home-feed__item">
                 <div class="home-feed__text">
-                    Just tried the new vegan burger at my favorite restaurant
-                    and it was amazing! So good to see more plant-based options
-                    becoming available. Can't wait to go back and try more of
-                    the menu
+                    Feeling really stressed about social media lately
                 </div>
 
                 <div class="d-flex align-items-center">
                     <div class="home-feed__detail">2 hours ago</div>
 
-                    <div
-                        class="home-feed__action home-feed__action--like home-feed__action--liked"
-                    >
-                        <atma-icon name="favorite" size="20" fill />
+                    <div class="home-feed__action home-feed__action--like">
+                        <atma-icon name="favorite" size="20" />
                     </div>
 
                     <div class="home-feed__action">
@@ -78,13 +41,67 @@
                     </div>
                 </div>
             </div>
-        </template>
-    </div>
+
+            <template v-if="!isMobile">
+                <div class="home-feed__item">
+                    <div class="home-feed__text">Yes I tried lol</div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="home-feed__detail">2 hours ago</div>
+
+                        <div class="home-feed__action home-feed__action--like">
+                            <atma-icon name="favorite" size="20" />
+                        </div>
+
+                        <div class="home-feed__action">
+                            <atma-icon name="more-vert" size="20" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-feed__item">
+                    <div class="home-feed__text">
+                        Just tried the new vegan burger at my favorite
+                        restaurant and it was amazing! So good to see more
+                        plant-based options becoming available. Can't wait to go
+                        back and try more of the menu
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="home-feed__detail">2 hours ago</div>
+
+                        <div
+                            class="home-feed__action home-feed__action--like home-feed__action--liked"
+                        >
+                            <atma-icon name="favorite" size="20" fill />
+                        </div>
+
+                        <div class="home-feed__action">
+                            <atma-icon name="more-vert" size="20" />
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
 </template>
 
 <script>
+import HomeFeedLoader from './HomeFeedLoader.vue';
+
 export default {
-    name: 'HomeFeedSection'
+    name: 'HomeFeedSection',
+
+    components: {
+        HomeFeedLoader
+    },
+
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        }
+    }
 };
 </script>
 
