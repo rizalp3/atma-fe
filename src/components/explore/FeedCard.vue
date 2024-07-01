@@ -6,7 +6,7 @@
 
         <div class="feed-card__detail">
             <div class="feed-card__time">
-                {{ time }}
+                {{ formattedTime }}
             </div>
 
             <div :class="composeLikeClass">
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
     name: 'FeedCard',
 
@@ -63,6 +65,9 @@ export default {
                 'feed-card__action-like': true,
                 'feed-card__action-like--liked': this.isLiked
             };
+        },
+        formattedTime() {
+            return moment(this.time).fromNow() || '-';
         }
     }
 };
@@ -95,6 +100,10 @@ export default {
     &__time {
         margin-right: auto;
         color: var(--system-color-outline);
+
+        &:first-letter {
+            text-transform: uppercase;
+        }
     }
 
     &__action {
