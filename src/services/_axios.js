@@ -3,14 +3,17 @@ import qs from 'qs';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
-const request = async (method, url, data) => {
+const request = async (method, url, options) => {
     // -- Initialization --
     const config = {};
 
-    // -- Strapi Query --
-    const strapiQuery = qs.stringify(data.strapi);
+    const data = options?.data || null;
+    const strapi = options?.strapi;
 
-    if (strapiQuery) {
+    // -- Strapi Query --
+    if (strapi) {
+        const strapiQuery = qs.stringify(strapi);
+
         url += `?${strapiQuery}`;
     }
 
@@ -25,18 +28,18 @@ const request = async (method, url, data) => {
         };
     }
 
-    // -- Post / Get Method --
+    // -- Fetch Process --
     let response;
 
-    if (data.data) {
+    if (['get', 'delete'].includes(method)) {
         try {
-            response = await axios[method](url, data.data, config);
+            response = await axios[method](url, config);
         } catch (error) {
             response = error.response;
         }
     } else {
         try {
-            response = await axios[method](url, config);
+            response = await axios[method](url, data, config);
         } catch (error) {
             response = error.response;
         }
