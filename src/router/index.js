@@ -10,6 +10,7 @@ import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
 import ArticleListSidebar from '@/components/article/ArticleListSidebar.vue';
 
 import ExplorePage from '@/pages/explore/ExplorePage.vue';
+import ExploreSidebar from '@/components/explore/ExploreSidebar.vue';
 
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
 import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
@@ -62,7 +63,10 @@ const routes = [
 
     {
         path: '/explore',
-        component: ExplorePage,
+        components: {
+            default: ExplorePage,
+            utilityBar: ExploreSidebar
+        },
         meta: { title: 'Explore' }
     },
 
