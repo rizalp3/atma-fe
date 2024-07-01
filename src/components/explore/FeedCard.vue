@@ -9,30 +9,51 @@
                 {{ formattedTime }}
             </div>
 
-            <div :class="composeLikeClass" @click="$emit('likeButtonClicked')">
-                <atma-icon name="favorite" size="20" :fill="isLiked" />
-            </div>
-
-            <div class="dropdown">
-                <div class="feed-card__action" data-bs-toggle="dropdown">
-                    <atma-icon name="more-vert" size="20" />
+            <template v-if="isAuthenticated">
+                <div
+                    :class="composeLikeClass"
+                    @click="$emit('likeButtonClicked')"
+                >
+                    <atma-icon name="favorite" size="20" :fill="isLiked" />
                 </div>
 
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <atma-icon name="share" size="20" />
-                            Share
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <atma-icon name="flag" size="20" />
-                            Report
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <div class="dropdown">
+                    <div class="feed-card__action" data-bs-toggle="dropdown">
+                        <atma-icon name="more-vert" size="20" />
+                    </div>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <atma-icon name="share" size="20" />
+                                Share
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <atma-icon name="flag" size="20" />
+                                Report
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+
+            <template v-else>
+                <div
+                    v-tooltip="'Login to Your Account First'"
+                    class="feed-card__action feed-card__action-like"
+                >
+                    <atma-icon name="favorite" size="20" />
+                </div>
+
+                <div
+                    v-tooltip="'Login to Your Account First'"
+                    class="feed-card__action"
+                >
+                    <atma-icon name="more-vert" size="20" />
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -57,6 +78,8 @@ export default {
             default: false
         }
     },
+
+    inject: ['isAuthenticated'],
 
     computed: {
         composeLikeClass() {
