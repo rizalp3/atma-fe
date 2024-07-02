@@ -38,3 +38,7 @@ button {
     color: inherit;
     font: inherit;
 }
+
+a {
+    text-decoration: none;
+}

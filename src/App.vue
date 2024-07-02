@@ -194,7 +194,7 @@ export default {
                 classes.push('title-bar__text--mini');
             } else if (this.isTablet) {
                 classes.push(
-                    this.isAuthenticated
+                    this.authStore.isAuthenticated
                         ? 'title-bar__text--compact'
                         : 'title-bar__text--extended'
                 );
