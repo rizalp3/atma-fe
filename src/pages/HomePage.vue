@@ -16,10 +16,12 @@
 
         <div class="home-section-header__title">Top Feeds</div>
 
-        <button class="home-section-header__action">Explore</button>
+        <router-link to="/explore" class="home-section-header__action">
+            Explore
+        </router-link>
     </div>
 
-    <home-feed-section />
+    <home-feed-section :loading="isLoadingFeed" :feeds="feeds" />
 
     <template v-if="isMobile">
         <div class="home-section-header">
@@ -40,7 +42,8 @@ import HomeFeedSection from '@/components/home/HomeFeedSection.vue';
 import HomeCommunitySection from '@/components/home/HomeCommunitySection.vue';
 import BrandBanner from '@/components/BrandBanner.vue';
 
-import endpoint from '@/services/articles';
+import articleEndpoint from '@/services/articles';
+import exploreEndpoint from '@/services/explore';
 
 export default {
     name: 'HomePage',
@@ -55,13 +58,16 @@ export default {
     data() {
         return {
             isLoadingArticle: false,
+            isLoadingFeed: false,
 
-            articles: []
+            articles: [],
+            feeds: []
         };
     },
 
     mounted() {
         this.getArticles();
+        this.getFeeds();
     },
 
     methods: {
@@ -78,7 +84,7 @@ export default {
                 }
             };
 
-            const response = await endpoint.getArticles(config);
+            const response = await articleEndpoint.getArticles(config);
 
             if (response.data) {
                 this.articles = response.data.map((item) => {
@@ -94,6 +100,24 @@ export default {
             }
 
             this.isLoadingArticle = false;
+        },
+
+        async getFeeds() {
+            this.isLoadingFeed = true;
+
+            const config = {
+                sort: ['likesCount:desc'],
+                start: 0,
+                limit: 4
+            };
+
+            const response = await exploreEndpoint.getFeeds(config);
+
+            if (response) {
+                this.feeds = response;
+            }
+
+            this.isLoadingFeed = false;
         }
     }
 };
