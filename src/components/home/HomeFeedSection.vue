@@ -17,17 +17,22 @@
                 </div>
 
                 <div
+                    v-if="isAuthenticated"
                     :class="{
-                        'home-feed__action': true,
-                        'home-feed__action--like': true,
-                        'home-feed__action--liked': feed.liked
+                        'home-feed__action-like': true,
+                        'home-feed__action-like--liked': feed.liked
                     }"
+                    @click="$emit('likeButtonClicked', i)"
                 >
-                    <atma-icon name="favorite" size="20" />
+                    <atma-icon name="favorite" size="20" :fill="feed.liked" />
                 </div>
 
-                <div class="home-feed__action">
-                    <atma-icon name="more-vert" size="20" />
+                <div
+                    v-else
+                    v-tooltip="'Login to Your Account First'"
+                    class="home-feed__action-like"
+                >
+                    <atma-icon name="favorite" size="20" />
                 </div>
             </div>
         </div>
@@ -56,6 +61,8 @@ export default {
             default: () => []
         }
     },
+
+    inject: ['isAuthenticated'],
 
     computed: {
         feedsMobile() {
@@ -112,9 +119,11 @@ export default {
         }
     }
 
-    &__action {
+    &__action-like {
         width: 32px;
         height: 32px;
+
+        margin-right: -8px;
 
         display: flex;
         align-items: center;
@@ -125,22 +134,13 @@ export default {
 
         color: var(--system-color-outline);
 
+        > * {
+            margin-bottom: -1px;
+        }
+
         &:hover {
             background: var(--system-color-surface-container);
-        }
-
-        &:last-of-type {
-            margin-right: -8px;
-        }
-
-        &--like {
-            > * {
-                margin-bottom: -1px;
-            }
-
-            &:hover {
-                color: #e30072;
-            }
+            color: #e30072;
         }
 
         &--liked {

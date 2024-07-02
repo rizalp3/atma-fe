@@ -21,7 +21,11 @@
         </router-link>
     </div>
 
-    <home-feed-section :loading="isLoadingFeed" :feeds="feeds" />
+    <home-feed-section
+        :loading="isLoadingFeed"
+        :feeds="feeds"
+        @like-button-clicked="handleLikeButtonClicked"
+    />
 
     <template v-if="isMobile">
         <div class="home-section-header">
@@ -118,6 +122,26 @@ export default {
             }
 
             this.isLoadingFeed = false;
+        },
+
+        async handleLikeButtonClicked(index) {
+            const feed = this.feeds[index];
+            const target = !feed.liked;
+
+            this.feeds[index].liked = target;
+
+            let response;
+
+            if (target) {
+                response = await exploreEndpoint.likeFeed(feed.id);
+            } else {
+                response = await exploreEndpoint.dislikeFeed(feed.id);
+            }
+
+            // When Failed, Revert Status
+            if (!response.id) {
+                this.feeds[index].liked = !target;
+            }
         }
     }
 };
