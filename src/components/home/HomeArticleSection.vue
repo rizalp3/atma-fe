@@ -5,53 +5,32 @@
         <!-- MOBILE -->
         <div v-if="isMobile" class="home-article">
             <div class="home-article__list">
-                <div class="home-article__item">
+                <div
+                    v-for="(article, i) in articleListMobile"
+                    :key="`article-${i}`"
+                    class="home-article__item"
+                >
                     <div class="home-article__item-detail">
                         <atma-text
                             size="12"
                             weight="600"
                             color-scheme="primary"
                         >
-                            Yoga
+                            {{ article.category }}
                         </atma-text>
 
                         <div class="home-article__item-title">
-                            The Ultimate Guide to Getting Help for Mental Health
-                            Problems
+                            {{ article.title }}
                         </div>
 
                         <div class="home-article__item-subtitle">
-                            <div>2 hours ago</div>
+                            <div>{{ formatDate(article.createdAt) }}</div>
                             <div></div>
-                            <div>2 min read</div>
+                            <div>{{ article.reading_time }} min read</div>
                         </div>
                     </div>
 
-                    <img src="https://picsum.photos/id/89/100/100" alt="img" />
-                </div>
-
-                <div class="home-article__item">
-                    <div class="home-article__item-detail">
-                        <atma-text
-                            size="12"
-                            weight="600"
-                            color-scheme="primary"
-                        >
-                            Living Hacks
-                        </atma-text>
-
-                        <div class="home-article__item-title">
-                            Tips for Improving Your Mental Health
-                        </div>
-
-                        <div class="home-article__item-subtitle">
-                            <div>A day ago</div>
-                            <div></div>
-                            <div>2 min read</div>
-                        </div>
-                    </div>
-
-                    <img src="https://picsum.photos/id/70/100/100" alt="img" />
+                    <img :src="getImage(article.image)" alt="img" />
                 </div>
             </div>
         </div>
@@ -59,8 +38,9 @@
         <!-- DESKTOP -->
         <div v-else class="home-article">
             <div class="home-article__content">
+                <!-- Trending Article -->
                 <div class="home-article__highlight">
-                    <img src="https://picsum.photos/id/89/300/200" alt="img" />
+                    <img :src="getImage(trending.image)" alt="img" />
 
                     <div class="home-article__highlight-detail">
                         <atma-text
@@ -72,65 +52,34 @@
                         </atma-text>
 
                         <div class="home-article__highlight-title">
-                            The Ultimate Guide to Getting Help for Mental Health
-                            Problems
+                            {{ trending.title }}
                         </div>
 
                         <div class="home-article__highlight-subdetail">
-                            <div>2 hours ago</div>
+                            <div>{{ formatDate(trending.createdAt) }}</div>
                             <div></div>
-                            <div>2 min read</div>
+                            <div>{{ trending.reading_time }} min read</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- List Article -->
                 <div class="home-article__list">
-                    <div class="home-article__item">
+                    <div
+                        v-for="(article, i) in articleList"
+                        :key="`article-${i}`"
+                        class="home-article__item"
+                    >
                         <div class="home-article__item-detail">
                             <div class="home-article__item-title">
-                                Tips for Improving Your Mental Health
+                                {{ article.title }}
                             </div>
                             <div class="home-article__item-subtitle">
-                                1 min read
+                                {{ article.reading_time }} min read
                             </div>
                         </div>
 
-                        <img
-                            src="https://picsum.photos/id/70/100/100"
-                            alt="img"
-                        />
-                    </div>
-
-                    <div class="home-article__item">
-                        <div class="home-article__item-detail">
-                            <div class="home-article__item-title">
-                                The Importance of Sleep for Mental Health
-                            </div>
-                            <div class="home-article__item-subtitle">
-                                2 mins read
-                            </div>
-                        </div>
-
-                        <img
-                            src="https://picsum.photos/id/120/100/100"
-                            alt="img"
-                        />
-                    </div>
-
-                    <div class="home-article__item">
-                        <div class="home-article__item-detail">
-                            <div class="home-article__item-title">
-                                Doctor Visit? Don't Forget Your Mental Health!
-                            </div>
-                            <div class="home-article__item-subtitle">
-                                1 min read
-                            </div>
-                        </div>
-
-                        <img
-                            src="https://picsum.photos/id/90/100/100"
-                            alt="img"
-                        />
+                        <img :src="getImage(article.image)" alt="img" />
                     </div>
                 </div>
             </div>
@@ -139,6 +88,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import HomeArticleLoader from './HomeArticleLoader.vue';
 
 export default {
@@ -152,6 +103,34 @@ export default {
         loading: {
             type: Boolean,
             default: false
+        },
+        articles: {
+            type: Array,
+            default: () => []
+        }
+    },
+
+    computed: {
+        trending() {
+            return this.articles?.[0] || {};
+        },
+        articleList() {
+            return this.articles.slice(1);
+        },
+        articleListMobile() {
+            return this.articles.slice(0, 2);
+        }
+    },
+
+    methods: {
+        formatDate(date) {
+            return moment(date).fromNow() || '-';
+        },
+        getImage(image) {
+            const baseUrl = import.meta.env.VITE_API_BASE_URL;
+            const url = image.data.attributes.url;
+
+            return baseUrl + url;
         }
     }
 };
@@ -172,7 +151,10 @@ export default {
         img {
             width: 100%;
             height: 164px;
+
             border-radius: 16px 16px 0 0;
+            object-fit: cover;
+
             background: var(--system-color-surface-variant);
         }
 
@@ -199,6 +181,10 @@ export default {
             align-items: center;
             gap: 8px;
             color: var(--system-color-outline);
+
+            > *:first-letter {
+                text-transform: uppercase;
+            }
 
             > *:nth-child(2) {
                 width: 2px;
@@ -229,7 +215,10 @@ export default {
         img {
             width: 68px;
             height: 68px;
+
             border-radius: 12px;
+            object-fit: cover;
+
             background: var(--system-color-surface-variant);
         }
 
@@ -252,6 +241,10 @@ export default {
             @include text(12px, 500);
             margin-top: 6px;
             color: var(--system-color-outline);
+
+            > *:first-letter {
+                text-transform: uppercase;
+            }
         }
     }
 }
