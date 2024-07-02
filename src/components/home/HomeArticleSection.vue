@@ -1,90 +1,85 @@
 <template>
     <home-article-loader v-if="loading" />
 
-    <template v-else>
-        <!-- MOBILE -->
-        <div v-if="isMobile" class="home-article">
+    <!-- MOBILE -->
+    <div v-else-if="isMobile" class="home-article">
+        <div class="home-article__list">
+            <router-link
+                v-for="(article, i) in articleListMobile"
+                :key="`article-${i}`"
+                :to="`/article/${article.id}`"
+                class="home-article__item"
+            >
+                <div class="home-article__item-detail">
+                    <atma-text size="12" weight="600" color-scheme="primary">
+                        {{ article.category }}
+                    </atma-text>
+
+                    <div class="home-article__item-title">
+                        {{ article.title }}
+                    </div>
+
+                    <div class="home-article__item-subtitle">
+                        <div>{{ formatDate(article.createdAt) }}</div>
+                        <div></div>
+                        <div>{{ article.readingTime }} min read</div>
+                    </div>
+                </div>
+
+                <img :src="getImage(article.image)" alt="img" />
+            </router-link>
+        </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div v-else class="home-article">
+        <div class="home-article__content">
+            <!-- Trending Article -->
+            <router-link
+                :to="`/article/${trending.id}`"
+                class="home-article__highlight"
+            >
+                <img :src="getImage(trending.image)" alt="img" />
+
+                <div class="home-article__highlight-detail">
+                    <atma-text size="12" weight="600" color-scheme="primary">
+                        Trending
+                    </atma-text>
+
+                    <div class="home-article__highlight-title">
+                        {{ trending.title }}
+                    </div>
+
+                    <div class="home-article__highlight-subdetail">
+                        <div>{{ formatDate(trending.createdAt) }}</div>
+                        <div></div>
+                        <div>{{ trending.readingTime }} min read</div>
+                    </div>
+                </div>
+            </router-link>
+
+            <!-- List Article -->
             <div class="home-article__list">
-                <div
-                    v-for="(article, i) in articleListMobile"
+                <router-link
+                    v-for="(article, i) in articleList"
                     :key="`article-${i}`"
+                    :to="`/article/${article.id}`"
                     class="home-article__item"
                 >
                     <div class="home-article__item-detail">
-                        <atma-text
-                            size="12"
-                            weight="600"
-                            color-scheme="primary"
-                        >
-                            {{ article.category }}
-                        </atma-text>
-
                         <div class="home-article__item-title">
                             {{ article.title }}
                         </div>
-
                         <div class="home-article__item-subtitle">
-                            <div>{{ formatDate(article.createdAt) }}</div>
-                            <div></div>
-                            <div>{{ article.reading_time }} min read</div>
+                            {{ article.readingTime }} min read
                         </div>
                     </div>
 
                     <img :src="getImage(article.image)" alt="img" />
-                </div>
+                </router-link>
             </div>
         </div>
-
-        <!-- DESKTOP -->
-        <div v-else class="home-article">
-            <div class="home-article__content">
-                <!-- Trending Article -->
-                <div class="home-article__highlight">
-                    <img :src="getImage(trending.image)" alt="img" />
-
-                    <div class="home-article__highlight-detail">
-                        <atma-text
-                            size="12"
-                            weight="600"
-                            color-scheme="primary"
-                        >
-                            Trending
-                        </atma-text>
-
-                        <div class="home-article__highlight-title">
-                            {{ trending.title }}
-                        </div>
-
-                        <div class="home-article__highlight-subdetail">
-                            <div>{{ formatDate(trending.createdAt) }}</div>
-                            <div></div>
-                            <div>{{ trending.reading_time }} min read</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- List Article -->
-                <div class="home-article__list">
-                    <div
-                        v-for="(article, i) in articleList"
-                        :key="`article-${i}`"
-                        class="home-article__item"
-                    >
-                        <div class="home-article__item-detail">
-                            <div class="home-article__item-title">
-                                {{ article.title }}
-                            </div>
-                            <div class="home-article__item-subtitle">
-                                {{ article.reading_time }} min read
-                            </div>
-                        </div>
-
-                        <img :src="getImage(article.image)" alt="img" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
+    </div>
 </template>
 
 <script>
@@ -128,9 +123,7 @@ export default {
         },
         getImage(image) {
             const baseUrl = import.meta.env.VITE_API_BASE_URL;
-            const url = image.data.attributes.url;
-
-            return baseUrl + url;
+            return baseUrl + image;
         }
     }
 };

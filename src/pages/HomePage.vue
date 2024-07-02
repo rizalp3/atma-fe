@@ -9,7 +9,7 @@
         </router-link>
     </div>
 
-    <home-article-section />
+    <home-article-section :loading="isLoadingArticle" :articles="articles" />
 
     <div class="home-section-header">
         <atma-icon class="home-section-header__icon" name="pages" />
@@ -40,6 +40,8 @@ import HomeFeedSection from '@/components/home/HomeFeedSection.vue';
 import HomeCommunitySection from '@/components/home/HomeCommunitySection.vue';
 import BrandBanner from '@/components/BrandBanner.vue';
 
+import endpoint from '@/services/articles';
+
 export default {
     name: 'HomePage',
 
@@ -48,6 +50,51 @@ export default {
         HomeFeedSection,
         HomeCommunitySection,
         BrandBanner
+    },
+
+    data() {
+        return {
+            isLoadingArticle: false,
+
+            articles: []
+        };
+    },
+
+    mounted() {
+        this.getArticles();
+    },
+
+    methods: {
+        async getArticles() {
+            this.isLoadingArticle = true;
+
+            const config = {
+                fields: ['title', 'createdAt', 'reading_time'],
+                pagination: { start: 0, limit: 4 },
+                sort: ['view:desc'],
+                populate: {
+                    image: { fields: ['url'] },
+                    category: { fields: ['name'] }
+                }
+            };
+
+            const response = await endpoint.getArticles(config);
+
+            if (response.data) {
+                this.articles = response.data.map((item) => {
+                    return {
+                        id: item.id,
+                        title: item.attributes.title,
+                        createdAt: item.attributes.createdAt,
+                        readingTime: item.attributes.reading_time,
+                        image: item.attributes.image.data.attributes.url,
+                        category: item.attributes.category.data.attributes.name
+                    };
+                });
+            }
+
+            this.isLoadingArticle = false;
+        }
     }
 };
 </script>
