@@ -1,11 +1,7 @@
 <template>
-    <div class="article-list-sidebar">
-        <div class="article-list-sidebar__section-title">Category</div>
-
-        <article-category-filter />
-
+    <div class="explore-sidebar">
         <!-- Sorting Section -->
-        <div class="article-list-sidebar__section-title">Sort By</div>
+        <div class="explore-sidebar__section-title">Sort By</div>
 
         <div v-for="data in sortingValues" :key="data.key" class="form-check">
             <input
@@ -24,7 +20,7 @@
         </div>
 
         <!-- Time Section -->
-        <div class="article-list-sidebar__section-title">Date Posted</div>
+        <div class="explore-sidebar__section-title">Date Posted</div>
 
         <div
             v-for="data in timeFilterValues"
@@ -48,19 +44,13 @@
 </template>
 
 <script>
-import ArticleCategoryFilter from './ArticleCategoryFilter.vue';
-
-import { useArticleStore } from '@/stores/article';
+import { useExploreStore } from '@/stores/explore';
 
 export default {
-    name: 'ArticleListSidebar',
-
-    components: {
-        ArticleCategoryFilter
-    },
+    name: 'ExploreSidebar',
 
     setup() {
-        const store = useArticleStore();
+        const store = useExploreStore();
         return { store };
     },
 
@@ -87,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.article-list-sidebar {
+.explore-sidebar {
     padding: 24px;
     border-radius: 16px;
 

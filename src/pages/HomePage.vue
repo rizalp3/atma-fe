@@ -9,17 +9,23 @@
         </router-link>
     </div>
 
-    <home-article-section />
+    <home-article-section :loading="isLoadingArticle" :articles="articles" />
 
     <div class="home-section-header">
         <atma-icon class="home-section-header__icon" name="pages" />
 
         <div class="home-section-header__title">Top Feeds</div>
 
-        <button class="home-section-header__action">Explore</button>
+        <router-link to="/explore" class="home-section-header__action">
+            Explore
+        </router-link>
     </div>
 
-    <home-feed-section />
+    <home-feed-section
+        :loading="isLoadingFeed"
+        :feeds="feeds"
+        @like-button-clicked="handleLikeButtonClicked"
+    />
 
     <template v-if="isMobile">
         <div class="home-section-header">
@@ -40,6 +46,9 @@ import HomeFeedSection from '@/components/home/HomeFeedSection.vue';
 import HomeCommunitySection from '@/components/home/HomeCommunitySection.vue';
 import BrandBanner from '@/components/BrandBanner.vue';
 
+import articleEndpoint from '@/services/articles';
+import exploreEndpoint from '@/services/explore';
+
 export default {
     name: 'HomePage',
 
@@ -48,6 +57,92 @@ export default {
         HomeFeedSection,
         HomeCommunitySection,
         BrandBanner
+    },
+
+    data() {
+        return {
+            isLoadingArticle: false,
+            isLoadingFeed: false,
+
+            articles: [],
+            feeds: []
+        };
+    },
+
+    mounted() {
+        this.getArticles();
+        this.getFeeds();
+    },
+
+    methods: {
+        async getArticles() {
+            this.isLoadingArticle = true;
+
+            const config = {
+                fields: ['title', 'createdAt', 'reading_time'],
+                pagination: { start: 0, limit: 4 },
+                sort: ['view:desc'],
+                populate: {
+                    image: { fields: ['url'] },
+                    category: { fields: ['name'] }
+                }
+            };
+
+            const response = await articleEndpoint.getArticles(config);
+
+            if (response.data) {
+                this.articles = response.data.map((item) => {
+                    return {
+                        id: item.id,
+                        title: item.attributes.title,
+                        createdAt: item.attributes.createdAt,
+                        readingTime: item.attributes.reading_time,
+                        image: item.attributes.image.data.attributes.url,
+                        category: item.attributes.category.data.attributes.name
+                    };
+                });
+            }
+
+            this.isLoadingArticle = false;
+        },
+
+        async getFeeds() {
+            this.isLoadingFeed = true;
+
+            const config = {
+                sort: ['likesCount:desc'],
+                start: 0,
+                limit: 4
+            };
+
+            const response = await exploreEndpoint.getFeeds(config);
+
+            if (response) {
+                this.feeds = response;
+            }
+
+            this.isLoadingFeed = false;
+        },
+
+        async handleLikeButtonClicked(index) {
+            const feed = this.feeds[index];
+            const target = !feed.liked;
+
+            this.feeds[index].liked = target;
+
+            let response;
+
+            if (target) {
+                response = await exploreEndpoint.likeFeed(feed.id);
+            } else {
+                response = await exploreEndpoint.dislikeFeed(feed.id);
+            }
+
+            // When Failed, Revert Status
+            if (!response.id) {
+                this.feeds[index].liked = !target;
+            }
+        }
     }
 };
 </script>

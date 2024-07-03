@@ -136,6 +136,7 @@ export default {
 .article-detail {
     &__title {
         @include text(24px, 600);
+        color: var(--system-color-on-surface);
     }
 
     &__info {
@@ -147,7 +148,7 @@ export default {
 
         > * {
             @include text(14px, 400);
-            color: #929292;
+            color: var(--system-color-outline);
         }
     }
 
@@ -155,7 +156,7 @@ export default {
         width: 3px;
         height: 3px;
         border-radius: 1.5px;
-        background: #929292;
+        background: var(--system-color-outline);
     }
 
     &__image {
@@ -167,14 +168,17 @@ export default {
         flex-shrink: 0;
         border-radius: 8px;
 
-        background: #d9d9d9;
+        background: var(--system-color-surface-dim);
     }
 
     &__text {
         display: flex;
         flex-direction: column;
         gap: 12px;
+
         margin: 24px 0 0;
+
+        color: var(--system-color-on-surface);
     }
 
     &__separator {
@@ -183,7 +187,7 @@ export default {
         height: 1px;
         margin: 24px -16px;
 
-        background: #f0f0f0;
+        background: var(--system-color-outline-variant);
     }
 
     &__recommendation {
@@ -198,7 +202,7 @@ export default {
 
         > * {
             text-decoration: none;
-            color: #252525;
+            color: var(--system-color-on-surface);
         }
 
         &-title {

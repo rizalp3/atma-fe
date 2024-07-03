@@ -43,7 +43,7 @@
                         <atma-icon name="arrow-back" />
                     </router-link>
 
-                    <h1 v-if="$route.meta.title" class="title-bar__text">
+                    <h1 :class="titleBarClasses">
                         {{ $route.meta.title }}
                     </h1>
 
@@ -82,11 +82,6 @@
             <router-view v-slot="{ Component: UtilityBar }" name="utilityBar">
                 <!-- Rendered View -->
                 <component v-if="UtilityBar" :is="UtilityBar" />
-
-                <!-- Default Fallback -->
-                <template v-else>
-                    <moodboard />
-                </template>
             </router-view>
         </div>
 
@@ -116,6 +111,9 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
 import Logo from './assets/image/logo.svg';
 
 import Moodboard from './components/Moodboard.vue';
@@ -128,6 +126,11 @@ export default {
 
     components: { Moodboard, MenuDropdown, AuthModal },
 
+    setup() {
+        const authStore = useAuthStore();
+        return { authStore };
+    },
+
     data() {
         return {
             Logo,
@@ -136,6 +139,7 @@ export default {
     },
 
     created() {
+        // -- Theme --
         const theme = this.getTheme();
 
         if (theme === 'dark') {
@@ -143,6 +147,10 @@ export default {
         }
 
         this.theme = theme;
+
+        // -- Authentication --
+        this.authStore.getAuthToken();
+        this.authStore.getAuthData();
     },
 
     computed: {
@@ -173,6 +181,26 @@ export default {
 
         themeIcon() {
             return this.theme === 'light' ? 'light-mode' : 'dark-mode';
+        },
+
+        titleBarClasses() {
+            const classes = ['title-bar__text'];
+
+            if (this.$route.meta.back) {
+                classes.push('title-bar__text--back');
+            }
+
+            if (this.isMobile) {
+                classes.push('title-bar__text--mini');
+            } else if (this.isTablet) {
+                classes.push(
+                    this.authStore.isAuthenticated
+                        ? 'title-bar__text--compact'
+                        : 'title-bar__text--extended'
+                );
+            }
+
+            return classes;
         }
     },
 
@@ -193,6 +221,14 @@ export default {
             localStorage.setItem('color-theme', target);
             this.theme = target;
         }
+    },
+
+    provide() {
+        return {
+            token: computed(() => this.authStore.token),
+            user: computed(() => this.authStore.user),
+            isAuthenticated: computed(() => this.authStore.isAuthenticated)
+        };
     }
 };
 </script>

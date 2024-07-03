@@ -1,199 +1,132 @@
 <template>
     <div class="community-board">
-        <div class="community-detail" @click="showCommunityDetail">
+        <!-- Community Detail Action -->
+        <div
+            v-if="store?.community?.logo"
+            class="community-detail-action"
+            @click="showCommunityDetail"
+        >
             <img
-                :src="Logo"
-                class="community-detail__image"
-                alt="Social Connect Logo"
+                :src="store.community.logo"
+                class="community-detail-action__image"
+                alt="Community Logo"
             />
 
-            <div class="community-detail__content">
-                <div class="community-detail__title">Social Connect</div>
-                <div class="community-detail__subtitle">
-                    Mental Health Community
+            <div class="community-detail-action__content">
+                <div class="community-detail-action__title">
+                    {{ store.community.name }}
+                </div>
+                <div class="community-detail-action__subtitle">
+                    {{ store.community.subname }}
                 </div>
             </div>
 
             <vue-feather type="chevron-right" size="24" />
         </div>
 
-        <!-- Timeline Item -->
-        <div
+        <!-- Timeline Items -->
+        <timeline-item
             v-for="(post, i) in posts"
-            :key="i"
-            class="timeline-item"
-            @click="redirectToDetailPage(post, i)"
-        >
-            <div class="timeline-item__side">
-                <div class="timeline-item__box">
-                    <div class="timeline-item__date">
-                        {{ moment(post.date).date() }}
-                    </div>
-
-                    <div class="timeline-item__month">
-                        {{ moment(post.date).format('MMM') }}
-                    </div>
-                </div>
-
-                <div class="timeline-item__line"></div>
-            </div>
-
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">
-                    {{ post.title }}
-                </h2>
-
-                <!-- Link -->
-                <atma-link-preview
-                    v-if="post.category === 'link'"
-                    :url="post.link"
-                />
-
-                <template v-else>
-                    <!-- Single Image -->
-                    <img
-                        v-if="post.images.length === 1"
-                        :src="post.images[0]"
-                        alt="Community Post"
-                        class="timeline-item__image"
-                    />
-
-                    <!-- Talk Session -->
-                    <img
-                        v-else-if="post?.session?.image"
-                        :src="post.session.image"
-                        alt="Community Post"
-                        class="timeline-item__image"
-                    />
-
-                    <!-- Gallery -->
-                    <div
-                        v-else-if="post.images.length > 2"
-                        class="timeline-item__gallery"
-                    >
-                        <div class="gallery-main">
-                            <img
-                                :src="post.images[0]"
-                                alt="Gallery Image Main"
-                            />
-                        </div>
-                        <div class="gallery-side">
-                            <img
-                                :src="post.images[1]"
-                                alt="Gallery Image Secondary"
-                                class="gallery-photo"
-                            />
-                            <img
-                                :src="post.images[2]"
-                                alt="Gallery Image Ternary"
-                                class="gallery-photo"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="timeline-item__description">
-                        {{ post.summary }}
-                    </div>
-                </template>
-            </div>
-        </div>
+            :key="`timeline-item-${i}`"
+            :post="post"
+        />
     </div>
 
     <atma-modal v-model="isShowModal" title="Social Connect">
-        <div class="community-modal">
-            <img
-                :src="Logo"
-                alt="Social Connect Logo"
-                class="community-modal__image"
-            />
-
-            <p class="community-modal__about">
-                Berdiri sejak tahun 2019, Social Connect sudah berhasil
-                mendorong lebih dari 1.000 edukasi digital dan 50 program daring
-                serta luring di bidang kesehatan mental.<br /><br />Social
-                Connect sudah berkolaborasi dengan beberapa lembaga pemerintah,
-                perusahaan asing, perusahaan loka, hingga rintisan. Hubungi kami
-                dan ciptakan perubahan bersama-sama.
-            </p>
-
-            <a
-                href="https://www.instagram.com/socialconnect.id"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="instagram" size="20" />
-                Instagram
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-
-            <a
-                href="https://www.linkedin.com/company/socialconnectid"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="linkedin" size="20" />
-                LinkedIn
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-
-            <a
-                href="https://socialconnect.id"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="link" size="20" />
-                Website
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-        </div>
+        <community-detail />
     </atma-modal>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
-
-import moment from 'moment';
-
+<script>
 import { useCommunityStore } from '@/stores/community';
-import communityPosts from '@/mocks/community.json';
+import endpoint from '@/services/community';
 
-import Logo from '@/assets/image/community.png';
+import CommunityDetail from '@/components/community/CommunityDetail.vue';
+import TimelineItem from '@/components/community/TimelineItem.vue';
 
-/* Store Data Initialization */
-const store = useCommunityStore();
+export default {
+    name: 'CommunityBoardPage',
 
-const { posts } = storeToRefs(store);
+    components: {
+        CommunityDetail,
+        TimelineItem
+    },
 
-store.$patch({ posts: communityPosts });
+    setup() {
+        const store = useCommunityStore();
+        return { store };
+    },
 
-/* Community Detail Modal */
-const isShowModal = ref(false);
+    data() {
+        return {
+            isShowModal: false,
 
-const showCommunityDetail = () => {
-    isShowModal.value = true;
-};
+            posts: []
+        };
+    },
 
-/* Redirect to Detail Page */
-const router = useRouter();
+    mounted() {
+        this.getCommunityDetail();
+        this.getCommunityPosts();
+    },
 
-const redirectToDetailPage = (post, index) => {
-    if (post.category === 'link') {
-        return;
+    methods: {
+        async getCommunityDetail() {
+            const response = await endpoint.getCommunityDetail();
+
+            if (response?.data?.attributes) {
+                this.store.setCommunityDetail(response.data);
+            }
+        },
+
+        async getCommunityPosts() {
+            const response = await endpoint.getCommunityPosts();
+
+            if (response.data) {
+                this.posts = response.data.map((post) => {
+                    let images = [];
+                    let session = {};
+
+                    // Preprocess Images Data
+                    if (post.attributes?.images?.data) {
+                        images = post.attributes.images.data.map((image) => {
+                            return this.getImageUrl(image.attributes.url);
+                        });
+                    }
+
+                    // Preprocess Session Data
+                    if (post.attributes?.session?.image) {
+                        session = {
+                            image: this.getImageUrl(
+                                post.attributes.session.image.data.attributes
+                                    .url
+                            )
+                        };
+                    }
+
+                    return {
+                        id: post.id,
+                        category: post.attributes.category,
+                        title: post.attributes.title,
+                        date: post.attributes.date,
+                        summary: post.attributes?.summary || '',
+                        link: post.attributes?.link || '',
+                        images,
+                        session
+                    };
+                });
+            }
+        },
+
+        showCommunityDetail() {
+            this.isShowModal = true;
+        },
+
+        getImageUrl(image) {
+            const baseUrl = import.meta.env.VITE_API_BASE_URL;
+            return baseUrl + image;
+        }
     }
-
-    store.$patch({ post: post });
-
-    const target =
-        post.category === 'question'
-            ? `/community/session/${index}`
-            : `/community/${index}`;
-
-    router.push(target);
 };
 </script>
 
@@ -203,10 +136,10 @@ const redirectToDetailPage = (post, index) => {
     flex-direction: column;
 }
 
-.community-detail {
+.community-detail-action {
     width: 100%;
 
-    padding: 16px;
+    padding: 16px 24px;
     margin-bottom: 24px;
 
     display: none;
@@ -215,7 +148,10 @@ const redirectToDetailPage = (post, index) => {
     cursor: pointer;
 
     border-radius: 12px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--system-color-surface-container-high);
+
+    background: var(--system-color-surface);
+    color: var(--system-color-on-surface);
 
     &__image {
         width: 48px;
@@ -232,228 +168,19 @@ const redirectToDetailPage = (post, index) => {
 
     &__subtitle {
         @include text(14px, 300);
-        color: #929292;
+        color: var(--system-color-outline);
     }
 
     &:hover {
-        background: #fbfbfb;
-    }
-}
-
-.community-modal {
-    display: flex;
-    flex-direction: column;
-
-    &__image {
-        width: 96px;
-        height: 96px;
-        margin-bottom: 16px;
-        align-self: center;
+        background: var(--system-color-surface-container-low);
     }
 
-    &__about {
-        @include text(14px, 300);
-        margin-bottom: 24px;
-        color: #5c5c5c;
+    @media (max-width: 600px) {
+        padding: 16px;
     }
 
-    &__link {
-        width: 100%;
-
-        padding: 12px 16px;
-        margin-bottom: 12px;
-        gap: 12px;
-
+    @media (max-width: 1035px) {
         display: flex;
-        align-items: center;
-
-        border-radius: 12px;
-        border: 1px solid #f0f0f0;
-
-        color: #929292;
-
-        @include text(14px, 400);
-        text-decoration: none;
-
-        > *:last-child {
-            margin-left: auto;
-            color: #c9c9c9;
-        }
-
-        &:hover {
-            background: #fbfbfb;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
-}
-
-.timeline-item {
-    display: flex;
-
-    &__side {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    &__box {
-        width: 50px;
-        height: 50px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        flex-shrink: 0;
-
-        border-radius: 12px;
-
-        background: #eeeaff;
-        color: #59499e;
-    }
-
-    &__date {
-        @include text(16px, 500);
-    }
-
-    &__month {
-        @include text(12px, 500);
-        margin-top: -2px;
-    }
-
-    &__line {
-        flex: 1;
-        width: 2px;
-        background: #ebebeb;
-    }
-
-    &__content {
-        flex: 1;
-        margin: 0 0 28px 16px;
-        cursor: pointer;
-    }
-
-    &__title {
-        @include text(18px, 400);
-        margin-bottom: 8px;
-    }
-
-    &__description {
-        @include text(16px, 300);
-        color: #929292;
-    }
-
-    &__image {
-        width: 100%;
-        height: 240px;
-
-        object-fit: cover;
-        flex-shrink: 0;
-
-        border-radius: 8px;
-        margin-bottom: 8px;
-
-        background: #d9d9d9;
-    }
-
-    &__gallery {
-        display: flex;
-        margin-bottom: 8px;
-
-        .gallery-main {
-            flex: 1;
-            max-width: 100%;
-            max-height: 240px;
-
-            > img {
-                width: 100%;
-                height: 100%;
-
-                object-fit: cover;
-
-                border-radius: 8px;
-
-                background: #d9d9d9;
-            }
-        }
-
-        .gallery-side {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-left: 8px;
-        }
-
-        .gallery-photo {
-            width: 148px;
-            height: 116px;
-
-            object-fit: cover;
-            flex-shrink: 0;
-
-            border-radius: 8px;
-
-            background: #d9d9d9;
-        }
-    }
-}
-
-.timeline-item:last-of-type .timeline-item {
-    &__line {
-        display: none;
-    }
-}
-
-@media (max-width: 1035px) {
-    .community-detail {
-        display: flex;
-    }
-}
-
-@media (max-width: 600px) {
-    .timeline-item {
-        &__box {
-            width: 42px;
-            height: 42px;
-        }
-
-        &__date {
-            @include text(14px);
-        }
-
-        &__month {
-            @include text(10px);
-        }
-
-        &__line {
-            width: 1px;
-        }
-
-        &__title {
-            @include text(16px);
-        }
-
-        &__description {
-            @include text(14px);
-        }
-
-        &__image {
-            height: 160px;
-        }
-
-        &__gallery {
-            .gallery-main {
-                max-height: 160px;
-            }
-
-            .gallery-photo {
-                width: 100px;
-                height: 76px;
-            }
-        }
     }
 }
 </style>

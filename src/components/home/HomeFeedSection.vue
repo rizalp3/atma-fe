@@ -1,90 +1,80 @@
 <template>
-    <div class="home-feed">
-        <div class="home-feed__item">
+    <home-feed-loader v-if="loading" />
+
+    <div v-else class="home-feed">
+        <div
+            v-for="(feed, i) in isMobile ? feedsMobile : feeds"
+            :key="`feed-${i}`"
+            class="home-feed__item"
+        >
             <div class="home-feed__text">
-                It's important to recognize and take steps to manage stress,
-                such as practicing relaxation techniques, exercising regularly,
-                getting enough sleep, and talking to a trusted friend or mental
-                health professional.
+                {{ feed.content }}
             </div>
 
             <div class="d-flex align-items-center">
-                <div class="home-feed__detail">2 hours ago</div>
-
-                <div class="home-feed__action home-feed__action--like">
-                    <atma-icon name="favorite" size="20" />
+                <div class="home-feed__detail">
+                    {{ formatDate(feed.createdAt) }}
                 </div>
 
-                <div class="home-feed__action">
-                    <atma-icon name="more-vert" size="20" />
+                <div
+                    v-if="isAuthenticated"
+                    :class="{
+                        'home-feed__action-like': true,
+                        'home-feed__action-like--liked': feed.liked
+                    }"
+                    @click="$emit('likeButtonClicked', i)"
+                >
+                    <atma-icon name="favorite" size="20" :fill="feed.liked" />
+                </div>
+
+                <div
+                    v-else
+                    v-tooltip="'Login to Your Account First'"
+                    class="home-feed__action-like"
+                >
+                    <atma-icon name="favorite" size="20" />
                 </div>
             </div>
         </div>
-
-        <div class="home-feed__item">
-            <div class="home-feed__text">
-                Feeling really stressed about social media lately
-            </div>
-
-            <div class="d-flex align-items-center">
-                <div class="home-feed__detail">2 hours ago</div>
-
-                <div class="home-feed__action home-feed__action--like">
-                    <atma-icon name="favorite" size="20" />
-                </div>
-
-                <div class="home-feed__action">
-                    <atma-icon name="more-vert" size="20" />
-                </div>
-            </div>
-        </div>
-
-        <template v-if="!isMobile">
-            <div class="home-feed__item">
-                <div class="home-feed__text">Yes I tried lol</div>
-
-                <div class="d-flex align-items-center">
-                    <div class="home-feed__detail">2 hours ago</div>
-
-                    <div class="home-feed__action home-feed__action--like">
-                        <atma-icon name="favorite" size="20" />
-                    </div>
-
-                    <div class="home-feed__action">
-                        <atma-icon name="more-vert" size="20" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="home-feed__item">
-                <div class="home-feed__text">
-                    Just tried the new vegan burger at my favorite restaurant
-                    and it was amazing! So good to see more plant-based options
-                    becoming available. Can't wait to go back and try more of
-                    the menu
-                </div>
-
-                <div class="d-flex align-items-center">
-                    <div class="home-feed__detail">2 hours ago</div>
-
-                    <div
-                        class="home-feed__action home-feed__action--like home-feed__action--liked"
-                    >
-                        <atma-icon name="favorite" size="20" fill />
-                    </div>
-
-                    <div class="home-feed__action">
-                        <atma-icon name="more-vert" size="20" />
-                    </div>
-                </div>
-            </div>
-        </template>
     </div>
 </template>
 
 <script>
+import moment from 'moment';
+
+import HomeFeedLoader from './HomeFeedLoader.vue';
+
 export default {
-    name: 'HomeFeedSection'
+    name: 'HomeFeedSection',
+
+    components: {
+        HomeFeedLoader
+    },
+
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        },
+        feeds: {
+            type: Array,
+            default: () => []
+        }
+    },
+
+    inject: ['isAuthenticated'],
+
+    computed: {
+        feedsMobile() {
+            return this.feeds.slice(0, 2);
+        }
+    },
+
+    methods: {
+        formatDate(date) {
+            return moment(date).fromNow() || '-';
+        }
+    }
 };
 </script>
 
@@ -123,11 +113,17 @@ export default {
         @include text(12px);
         margin-right: auto;
         color: var(--system-color-outline);
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
     }
 
-    &__action {
+    &__action-like {
         width: 32px;
         height: 32px;
+
+        margin-right: -8px;
 
         display: flex;
         align-items: center;
@@ -138,22 +134,13 @@ export default {
 
         color: var(--system-color-outline);
 
+        > * {
+            margin-bottom: -1px;
+        }
+
         &:hover {
             background: var(--system-color-surface-container);
-        }
-
-        &:last-of-type {
-            margin-right: -8px;
-        }
-
-        &--like {
-            > * {
-                margin-bottom: -1px;
-            }
-
-            &:hover {
-                color: #e30072;
-            }
+            color: #e30072;
         }
 
         &--liked {

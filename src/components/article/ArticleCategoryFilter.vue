@@ -1,9 +1,11 @@
 <template>
     <div class="article-category">
         <template v-for="(data, i) in categories" :key="data.key">
-            <atma-button v-bind="composeAttrs(data)" @click="handleClick(i)">
+            <div :class="composeClass(data)" @click="handleClick(i)">
+                <atma-icon name="check" size="20" />
+
                 {{ data.name }}
-            </atma-button>
+            </div>
         </template>
     </div>
 </template>
@@ -53,16 +55,11 @@ export default {
             }
         },
 
-        composeAttrs({ active }) {
-            return {
-                class: [
-                    'article-category__button',
-                    { 'article-category__button--active': active }
-                ],
-                variant: active ? 'primary' : 'custom',
-                icon: active ? 'check' : '',
-                size: 'sm'
-            };
+        composeClass({ active }) {
+            return [
+                'article-category__item',
+                { 'article-category__item--active': active }
+            ];
         },
 
         handleClick(i) {
@@ -116,15 +113,44 @@ export default {
     flex-wrap: wrap;
     gap: 8px;
 
-    &__button:not(.article-category__button--active) {
-        background: #ffffff;
-        border: 1px solid #929292 !important;
-        color: #5c5c5c;
+    &__item {
+        $item: &;
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        padding: 5px 12px;
+        border-radius: 8px;
+
+        cursor: pointer;
+        border: 1px solid var(--system-color-outline);
+
+        color: var(--system-color-outline);
+
+        @include text(14px, 500);
+
+        > * {
+            display: none;
+            margin-left: -4px;
+        }
 
         &:hover {
-            background: #fff;
-            border-color: #6350b2 !important;
-            color: #6350b2;
+            background: var(--system-color-surface-container-low);
+        }
+
+        &--active {
+            border-color: var(--system-color-primary);
+            background: var(--system-color-primary);
+            color: var(--system-color-on-primary);
+
+            &:hover {
+                background: var(--system-color-primary-variant);
+            }
+
+            > * {
+                display: unset;
+            }
         }
     }
 }

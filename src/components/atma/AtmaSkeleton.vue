@@ -35,6 +35,6 @@ export default {
 
 <style lang="scss" scoped>
 .atma-skeleton {
-    background-color: #dbdbdb;
+    background-color: var(--system-color-surface-container-highest);
 }
 </style>

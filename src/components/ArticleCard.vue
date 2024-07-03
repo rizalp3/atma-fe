@@ -66,6 +66,8 @@ export default {
     align-items: center;
     gap: 16px;
 
+    color: var(--system-color-on-surface);
+
     &__image {
         order: -1;
 
@@ -77,7 +79,7 @@ export default {
         flex-shrink: 0;
         border-radius: 8px;
 
-        background: #d9d9d9;
+        background: var(--system-color-surface-container);
     }
 
     &__content {
@@ -102,7 +104,7 @@ export default {
 
         > * {
             @include text(16px, 400);
-            color: #929292;
+            color: var(--system-color-outline);
         }
     }
 
@@ -114,7 +116,7 @@ export default {
         width: 3px;
         height: 3px;
         border-radius: 1.5px;
-        background: #929292;
+        background: var(--system-color-outline);
     }
 }
 

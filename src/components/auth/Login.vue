@@ -49,6 +49,21 @@
                 <div class="invalid-feedback">{{ errors.password }}</div>
             </div>
 
+            <!-- General Error Alert -->
+            <div
+                v-if="errors.general"
+                class="login-section__alert alert fade show"
+                role="alert"
+            >
+                <div class="login-section__alert-text">
+                    {{ errors.general }}
+                </div>
+
+                <button class="d-flex" type="button" @click="handleHideError">
+                    <atma-icon name="close" size="20" />
+                </button>
+            </div>
+
             <!-- Submit -->
             <button class="login-section__submit" type="submit">Login</button>
 
@@ -67,12 +82,14 @@
 <script>
 import { useAuthStore } from '@/stores/auth';
 
+import endpoints from '@/services/auth';
+
 export default {
     name: 'LoginSection',
 
     setup() {
-        const store = useAuthStore();
-        return { store };
+        const authStore = useAuthStore();
+        return { authStore };
     },
 
     data() {
@@ -121,21 +138,48 @@ export default {
             }
         },
 
+        handleHideError() {
+            delete this.errors.general;
+        },
+
         handlePasswordVisibility() {
             this.isPasswordShown = !this.isPasswordShown;
         },
 
-        handleSubmit() {
+        async handleSubmit() {
             this.validateEmail();
             this.validatePassword();
 
-            if (Object.keys(this.errors).length <= 0) {
-                console.log({ email: this.email, password: this.password });
+            // Reset general error
+            if (this.errors.general) {
+                delete this.errors.general;
+            }
+
+            // Check if there is any error
+            if (Object.keys(this.errors).length > 0) {
+                return;
+            }
+
+            const payload = {
+                identifier: this.email,
+                password: this.password
+            };
+
+            const response = await endpoints.login(payload);
+
+            if (response.jwt && response.user) {
+                this.authStore.setAuthData(response.jwt, response.user);
+                this.authStore.hideAuthModal();
+            }
+
+            if (response.error) {
+                this.errors.general =
+                    response.error.message || 'Something went wrong';
             }
         },
 
         handleRedirectToRegister() {
-            this.store.showAuthModal('register');
+            this.authStore.showAuthModal('register');
         }
     }
 };
@@ -215,6 +259,21 @@ export default {
 
         &:hover {
             color: var(--system-color-on-surface);
+        }
+    }
+
+    &__alert {
+        display: flex;
+        gap: 8px;
+
+        --bs-alert-bg: var(--system-color-error-container);
+        --bs-alert-color: var(--system-color-on-error-container);
+        --bs-alert-padding-y: 12px;
+        --bs-alert-padding-x: 12px;
+
+        &-text {
+            @include text(14px);
+            margin-right: auto;
         }
     }
 

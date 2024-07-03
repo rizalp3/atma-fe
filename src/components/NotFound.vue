@@ -66,18 +66,18 @@ export default {
         @include text(24px, 700);
 
         margin: 36px 0 0;
-        color: #252525;
+        color: var(--system-color-on-surface);
     }
 
     &__subtitle {
         margin: 8px 0 36px;
         font-weight: 300;
-        color: #8a8a8a;
+        color: var(--system-color-outline);
     }
 
     &__action {
         text-decoration: none;
-        color: var(--victoria-600);
+        color: var(--system-color-primary);
     }
 }
 </style>
