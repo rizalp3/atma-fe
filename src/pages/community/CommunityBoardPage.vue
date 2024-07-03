@@ -152,7 +152,35 @@
     </atma-modal>
 </template>
 
-<script setup>
+<script>
+import { useCommunityStore } from '@/stores/community';
+import endpoint from '@/services/community';
+
+export default {
+    name: 'CommunityBoardPage',
+
+    setup() {
+        const store = useCommunityStore();
+        return { store };
+    },
+
+    mounted() {
+        this.getCommunityDetail();
+    },
+
+    methods: {
+        async getCommunityDetail() {
+            const response = await endpoint.getCommunityDetail();
+
+            if (response?.data?.attributes) {
+                this.store.setCommunityDetail(response.data);
+            }
+        }
+    }
+};
+</script>
+
+<!-- <script setup>
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
@@ -195,7 +223,7 @@ const redirectToDetailPage = (post, index) => {
 
     router.push(target);
 };
-</script>
+</script> -->
 
 <style lang="scss" scoped>
 .community-board {
