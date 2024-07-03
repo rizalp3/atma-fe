@@ -24,86 +24,12 @@
             <vue-feather type="chevron-right" size="24" />
         </div>
 
-        <!-- Timeline Item -->
-        <div
+        <!-- Timeline Items -->
+        <timeline-item
             v-for="(post, i) in posts"
-            :key="i"
-            class="timeline-item"
-            @click="redirectToDetailPage(post, i)"
-        >
-            <div class="timeline-item__side">
-                <div class="timeline-item__box">
-                    <div class="timeline-item__date">
-                        {{ moment(post.date).date() }}
-                    </div>
-
-                    <div class="timeline-item__month">
-                        {{ moment(post.date).format('MMM') }}
-                    </div>
-                </div>
-
-                <div class="timeline-item__line"></div>
-            </div>
-
-            <div class="timeline-item__content">
-                <h2 class="timeline-item__title">
-                    {{ post.title }}
-                </h2>
-
-                <!-- Link -->
-                <atma-link-preview
-                    v-if="post.category === 'link'"
-                    :url="post.link"
-                />
-
-                <template v-else>
-                    <!-- Single Image -->
-                    <img
-                        v-if="post.images.length === 1"
-                        :src="post.images[0]"
-                        alt="Community Post"
-                        class="timeline-item__image"
-                    />
-
-                    <!-- Talk Session -->
-                    <img
-                        v-else-if="post?.session?.image"
-                        :src="post.session.image"
-                        alt="Community Post"
-                        class="timeline-item__image"
-                    />
-
-                    <!-- Gallery -->
-                    <div
-                        v-else-if="post.images.length > 2"
-                        class="timeline-item__gallery"
-                    >
-                        <div class="gallery-main">
-                            <img
-                                :src="post.images[0]"
-                                alt="Gallery Image Main"
-                            />
-                        </div>
-                        <div class="gallery-side">
-                            <img
-                                :src="post.images[1]"
-                                alt="Gallery Image Secondary"
-                                class="gallery-photo"
-                            />
-                            <img
-                                :src="post.images[2]"
-                                alt="Gallery Image Ternary"
-                                class="gallery-photo"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="timeline-item__description">
-                        {{ post.summary }}
-                    </div>
-                </template>
-            </div>
-        </div>
+            :key="`timeline-item-${i}`"
+            :post="post"
+        />
     </div>
 
     <atma-modal v-model="isShowModal" title="Social Connect">
@@ -116,11 +42,15 @@ import { useCommunityStore } from '@/stores/community';
 import endpoint from '@/services/community';
 
 import CommunityDetail from '@/components/community/CommunityDetail.vue';
+import TimelineItem from '@/components/community/TimelineItem.vue';
 
 export default {
     name: 'CommunityBoardPage',
 
-    components: { CommunityDetail },
+    components: {
+        CommunityDetail,
+        TimelineItem
+    },
 
     setup() {
         const store = useCommunityStore();
@@ -129,7 +59,59 @@ export default {
 
     data() {
         return {
-            isShowModal: false
+            isShowModal: false,
+
+            posts: [
+                {
+                    id: 3,
+                    category: 'news',
+                    title: 'Podcast Special Edition: Social Connect Ambassador Program (SCAP) 2023',
+                    date: '2024-04-21',
+                    summary:
+                        'A special edition of the Social Connect Ambassador Program (SCAP 2023) podcast has been released via Spotify!',
+                    link: '',
+                    images: [],
+                    session: {}
+                },
+                {
+                    id: 4,
+                    category: 'question',
+                    title: 'EvoTalks Session: Kick Out The Burnout',
+                    date: '2024-04-06',
+                    summary:
+                        'EvoTalks is collaborating with Zakaria Anshari, a psychology specialist, to delve deeper into many aspects of burnout and how we should effectively face it!',
+                    link: '',
+                    images: [],
+                    session: {
+                        image: 'http://localhost:1337/uploads/session_example_0565a367ce.jpg'
+                    }
+                },
+                {
+                    id: 2,
+                    category: 'news',
+                    title: 'Take a Peek: Kafh x Social Connect Goes to Campus IPB University',
+                    date: '2024-03-07',
+                    summary:
+                        'A total of 475 new students were provided with material on Sexual Violence in the Higher Education Environment delivered by Dr. Ayudya Cenderasari, MKK.',
+                    link: '',
+                    images: [
+                        'http://localhost:1337/uploads/conference_1_4d247bdd4a.jpg',
+                        'http://localhost:1337/uploads/conference_2_e2dcbbf320.jpg',
+                        'http://localhost:1337/uploads/conference_3_86bfaa8cba.jpg'
+                    ],
+                    session: {}
+                },
+                {
+                    id: 1,
+                    category: 'link',
+                    title: 'Read Our Latest Article!',
+                    date: '2024-02-14',
+                    summary: '',
+                    link: 'https://narasi.tv/read/narasi-daily/generasi-stroberi-adalah',
+                    images: [],
+                    session: {}
+                }
+            ]
         };
     },
 
@@ -152,51 +134,6 @@ export default {
     }
 };
 </script>
-
-<!-- <script setup>
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
-
-import moment from 'moment';
-
-import { useCommunityStore } from '@/stores/community';
-import communityPosts from '@/mocks/community.json';
-
-import Logo from '@/assets/image/community.png';
-
-/* Store Data Initialization */
-const store = useCommunityStore();
-
-const { posts } = storeToRefs(store);
-
-store.$patch({ posts: communityPosts });
-
-/* Community Detail Modal */
-const isShowModal = ref(false);
-
-const showCommunityDetail = () => {
-    isShowModal.value = true;
-};
-
-/* Redirect to Detail Page */
-const router = useRouter();
-
-const redirectToDetailPage = (post, index) => {
-    if (post.category === 'link') {
-        return;
-    }
-
-    store.$patch({ post: post });
-
-    const target =
-        post.category === 'question'
-            ? `/community/session/${index}`
-            : `/community/${index}`;
-
-    router.push(target);
-};
-</script> -->
 
 <style lang="scss" scoped>
 .community-board {
@@ -249,167 +186,6 @@ const redirectToDetailPage = (post, index) => {
 
     @media (max-width: 1035px) {
         display: flex;
-    }
-}
-
-.timeline-item {
-    display: flex;
-
-    &__side {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    &__box {
-        width: 50px;
-        height: 50px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        flex-shrink: 0;
-
-        border-radius: 12px;
-
-        background: #eeeaff;
-        color: #59499e;
-    }
-
-    &__date {
-        @include text(16px, 500);
-    }
-
-    &__month {
-        @include text(12px, 500);
-        margin-top: -2px;
-    }
-
-    &__line {
-        flex: 1;
-        width: 2px;
-        background: #ebebeb;
-    }
-
-    &__content {
-        flex: 1;
-        margin: 0 0 28px 16px;
-        cursor: pointer;
-    }
-
-    &__title {
-        @include text(18px, 400);
-        margin-bottom: 8px;
-    }
-
-    &__description {
-        @include text(16px, 300);
-        color: #929292;
-    }
-
-    &__image {
-        width: 100%;
-        height: 240px;
-
-        object-fit: cover;
-        flex-shrink: 0;
-
-        border-radius: 8px;
-        margin-bottom: 8px;
-
-        background: #d9d9d9;
-    }
-
-    &__gallery {
-        display: flex;
-        margin-bottom: 8px;
-
-        .gallery-main {
-            flex: 1;
-            max-width: 100%;
-            max-height: 240px;
-
-            > img {
-                width: 100%;
-                height: 100%;
-
-                object-fit: cover;
-
-                border-radius: 8px;
-
-                background: #d9d9d9;
-            }
-        }
-
-        .gallery-side {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-left: 8px;
-        }
-
-        .gallery-photo {
-            width: 148px;
-            height: 116px;
-
-            object-fit: cover;
-            flex-shrink: 0;
-
-            border-radius: 8px;
-
-            background: #d9d9d9;
-        }
-    }
-}
-
-.timeline-item:last-of-type .timeline-item {
-    &__line {
-        display: none;
-    }
-}
-
-@media (max-width: 600px) {
-    .timeline-item {
-        &__box {
-            width: 42px;
-            height: 42px;
-        }
-
-        &__date {
-            @include text(14px);
-        }
-
-        &__month {
-            @include text(10px);
-        }
-
-        &__line {
-            width: 1px;
-        }
-
-        &__title {
-            @include text(16px);
-        }
-
-        &__description {
-            @include text(14px);
-        }
-
-        &__image {
-            height: 160px;
-        }
-
-        &__gallery {
-            .gallery-main {
-                max-height: 160px;
-            }
-
-            .gallery-photo {
-                width: 100px;
-                height: 76px;
-            }
-        }
     }
 }
 </style>
