@@ -171,14 +171,14 @@ export default {
     }
 
     &__title {
-        @include text(18px);
+        @include text(18px, 500);
 
         margin-bottom: 8px;
 
         color: var(--system-color-on-surface);
 
         @media (max-width: 600px) {
-            @include text(16px);
+            @include text(16px, 500);
         }
     }
 

@@ -61,62 +61,13 @@ export default {
         return {
             isShowModal: false,
 
-            posts: [
-                {
-                    id: 3,
-                    category: 'news',
-                    title: 'Podcast Special Edition: Social Connect Ambassador Program (SCAP) 2023',
-                    date: '2024-04-21',
-                    summary:
-                        'A special edition of the Social Connect Ambassador Program (SCAP 2023) podcast has been released via Spotify!',
-                    link: '',
-                    images: [],
-                    session: {}
-                },
-                {
-                    id: 4,
-                    category: 'question',
-                    title: 'EvoTalks Session: Kick Out The Burnout',
-                    date: '2024-04-06',
-                    summary:
-                        'EvoTalks is collaborating with Zakaria Anshari, a psychology specialist, to delve deeper into many aspects of burnout and how we should effectively face it!',
-                    link: '',
-                    images: [],
-                    session: {
-                        image: 'http://localhost:1337/uploads/session_example_0565a367ce.jpg'
-                    }
-                },
-                {
-                    id: 2,
-                    category: 'news',
-                    title: 'Take a Peek: Kafh x Social Connect Goes to Campus IPB University',
-                    date: '2024-03-07',
-                    summary:
-                        'A total of 475 new students were provided with material on Sexual Violence in the Higher Education Environment delivered by Dr. Ayudya Cenderasari, MKK.',
-                    link: '',
-                    images: [
-                        'http://localhost:1337/uploads/conference_1_4d247bdd4a.jpg',
-                        'http://localhost:1337/uploads/conference_2_e2dcbbf320.jpg',
-                        'http://localhost:1337/uploads/conference_3_86bfaa8cba.jpg'
-                    ],
-                    session: {}
-                },
-                {
-                    id: 1,
-                    category: 'link',
-                    title: 'Read Our Latest Article!',
-                    date: '2024-02-14',
-                    summary: '',
-                    link: 'https://narasi.tv/read/narasi-daily/generasi-stroberi-adalah',
-                    images: [],
-                    session: {}
-                }
-            ]
+            posts: []
         };
     },
 
     mounted() {
         this.getCommunityDetail();
+        this.getCommunityPosts();
     },
 
     methods: {
@@ -128,8 +79,52 @@ export default {
             }
         },
 
+        async getCommunityPosts() {
+            const response = await endpoint.getCommunityPosts();
+
+            if (response.data) {
+                this.posts = response.data.map((post) => {
+                    let images = [];
+                    let session = {};
+
+                    // Preprocess Images Data
+                    if (post.attributes?.images?.data) {
+                        images = post.attributes.images.data.map((image) => {
+                            return this.getImageUrl(image.attributes.url);
+                        });
+                    }
+
+                    // Preprocess Session Data
+                    if (post.attributes?.session?.image) {
+                        session = {
+                            image: this.getImageUrl(
+                                post.attributes.session.image.data.attributes
+                                    .url
+                            )
+                        };
+                    }
+
+                    return {
+                        id: post.id,
+                        category: post.attributes.category,
+                        title: post.attributes.title,
+                        date: post.attributes.date,
+                        summary: post.attributes?.summary || '',
+                        link: post.attributes?.link || '',
+                        images,
+                        session
+                    };
+                });
+            }
+        },
+
         showCommunityDetail() {
             this.isShowModal = true;
+        },
+
+        getImageUrl(image) {
+            const baseUrl = import.meta.env.VITE_API_BASE_URL;
+            return baseUrl + image;
         }
     }
 };
