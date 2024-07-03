@@ -1,16 +1,23 @@
 <template>
     <div class="community-board">
-        <div class="community-detail" @click="showCommunityDetail">
+        <!-- Community Detail Action -->
+        <div
+            v-if="store?.community?.logo"
+            class="community-detail-action"
+            @click="showCommunityDetail"
+        >
             <img
-                :src="Logo"
-                class="community-detail__image"
-                alt="Social Connect Logo"
+                :src="store.community.logo"
+                class="community-detail-action__image"
+                alt="Community Logo"
             />
 
-            <div class="community-detail__content">
-                <div class="community-detail__title">Social Connect</div>
-                <div class="community-detail__subtitle">
-                    Mental Health Community
+            <div class="community-detail-action__content">
+                <div class="community-detail-action__title">
+                    {{ store.community.name }}
+                </div>
+                <div class="community-detail-action__subtitle">
+                    {{ store.community.subname }}
                 </div>
             </div>
 
@@ -100,55 +107,7 @@
     </div>
 
     <atma-modal v-model="isShowModal" title="Social Connect">
-        <div class="community-modal">
-            <img
-                :src="Logo"
-                alt="Social Connect Logo"
-                class="community-modal__image"
-            />
-
-            <p class="community-modal__about">
-                Berdiri sejak tahun 2019, Social Connect sudah berhasil
-                mendorong lebih dari 1.000 edukasi digital dan 50 program daring
-                serta luring di bidang kesehatan mental.<br /><br />Social
-                Connect sudah berkolaborasi dengan beberapa lembaga pemerintah,
-                perusahaan asing, perusahaan loka, hingga rintisan. Hubungi kami
-                dan ciptakan perubahan bersama-sama.
-            </p>
-
-            <a
-                href="https://www.instagram.com/socialconnect.id"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="instagram" size="20" />
-                Instagram
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-
-            <a
-                href="https://www.linkedin.com/company/socialconnectid"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="linkedin" size="20" />
-                LinkedIn
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-
-            <a
-                href="https://socialconnect.id"
-                class="community-modal__link"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <vue-feather type="link" size="20" />
-                Website
-                <vue-feather type="chevron-right" size="20" />
-            </a>
-        </div>
+        <community-detail />
     </atma-modal>
 </template>
 
@@ -156,12 +115,22 @@
 import { useCommunityStore } from '@/stores/community';
 import endpoint from '@/services/community';
 
+import CommunityDetail from '@/components/community/CommunityDetail.vue';
+
 export default {
     name: 'CommunityBoardPage',
+
+    components: { CommunityDetail },
 
     setup() {
         const store = useCommunityStore();
         return { store };
+    },
+
+    data() {
+        return {
+            isShowModal: false
+        };
     },
 
     mounted() {
@@ -175,6 +144,10 @@ export default {
             if (response?.data?.attributes) {
                 this.store.setCommunityDetail(response.data);
             }
+        },
+
+        showCommunityDetail() {
+            this.isShowModal = true;
         }
     }
 };
@@ -231,10 +204,10 @@ const redirectToDetailPage = (post, index) => {
     flex-direction: column;
 }
 
-.community-detail {
+.community-detail-action {
     width: 100%;
 
-    padding: 16px;
+    padding: 16px 24px;
     margin-bottom: 24px;
 
     display: none;
@@ -243,7 +216,10 @@ const redirectToDetailPage = (post, index) => {
     cursor: pointer;
 
     border-radius: 12px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--system-color-surface-container-high);
+
+    background: var(--system-color-surface);
+    color: var(--system-color-on-surface);
 
     &__image {
         width: 48px;
@@ -260,61 +236,19 @@ const redirectToDetailPage = (post, index) => {
 
     &__subtitle {
         @include text(14px, 300);
-        color: #929292;
+        color: var(--system-color-outline);
     }
 
     &:hover {
-        background: #fbfbfb;
-    }
-}
-
-.community-modal {
-    display: flex;
-    flex-direction: column;
-
-    &__image {
-        width: 96px;
-        height: 96px;
-        margin-bottom: 16px;
-        align-self: center;
+        background: var(--system-color-surface-container-low);
     }
 
-    &__about {
-        @include text(14px, 300);
-        margin-bottom: 24px;
-        color: #5c5c5c;
+    @media (max-width: 600px) {
+        padding: 16px;
     }
 
-    &__link {
-        width: 100%;
-
-        padding: 12px 16px;
-        margin-bottom: 12px;
-        gap: 12px;
-
+    @media (max-width: 1035px) {
         display: flex;
-        align-items: center;
-
-        border-radius: 12px;
-        border: 1px solid #f0f0f0;
-
-        color: #929292;
-
-        @include text(14px, 400);
-        text-decoration: none;
-
-        > *:last-child {
-            margin-left: auto;
-            color: #c9c9c9;
-        }
-
-        &:hover {
-            background: #fbfbfb;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-        }
     }
 }
 
@@ -432,12 +366,6 @@ const redirectToDetailPage = (post, index) => {
 .timeline-item:last-of-type .timeline-item {
     &__line {
         display: none;
-    }
-}
-
-@media (max-width: 1035px) {
-    .community-detail {
-        display: flex;
     }
 }
 
