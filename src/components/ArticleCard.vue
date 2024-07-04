@@ -75,6 +75,7 @@ export default {
         height: 120px;
 
         object-fit: cover;
+        overflow-clip-margin: unset;
 
         flex-shrink: 0;
         border-radius: 8px;

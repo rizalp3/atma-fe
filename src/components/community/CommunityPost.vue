@@ -62,6 +62,7 @@ const props = defineProps({
         height: 300px;
 
         object-fit: cover;
+        overflow-clip-margin: unset;
 
         flex-shrink: 0;
         border-radius: 8px;

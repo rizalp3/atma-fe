@@ -112,6 +112,7 @@ export default {
             border-radius: 12px 0px 0px 12px;
 
             object-fit: cover;
+            overflow-clip-margin: unset;
 
             @media (min-width: 600px) {
                 width: 88px;

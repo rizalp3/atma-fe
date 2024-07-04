@@ -210,6 +210,7 @@ export default {
 
         flex-shrink: 0;
         object-fit: cover;
+        overflow-clip-margin: unset;
 
         background: var(--system-color-surface-container-high);
 
@@ -234,6 +235,7 @@ export default {
                 border-radius: 8px;
 
                 object-fit: cover;
+                overflow-clip-margin: unset;
 
                 background: var(--system-color-surface-container-high);
             }
@@ -258,6 +260,7 @@ export default {
                 flex-shrink: 0;
 
                 object-fit: cover;
+                overflow-clip-margin: unset;
 
                 background: var(--system-color-surface-container-high);
 

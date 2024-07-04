@@ -74,7 +74,9 @@ onMounted(async () => {
         height: 96px;
 
         flex-shrink: 0;
+
         object-fit: cover;
+        overflow-clip-margin: unset;
 
         background: #d9d9d9;
     }
