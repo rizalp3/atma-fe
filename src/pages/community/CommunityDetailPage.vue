@@ -16,7 +16,15 @@
             </div>
         </div>
 
-        <community-post-page :images="post.images" :content="post.content" />
+        <!-- Question Post -->
+        <community-question-page v-if="isQuestionPost" :post="post" />
+
+        <!-- Other Post -->
+        <community-post-page
+            v-else
+            :images="post.images"
+            :content="post.content"
+        />
 
         <!-- <div class="community-detail__content">
             <community-question v-if="post.category === 'question'" />
@@ -41,13 +49,15 @@ import endpoint from '@/services/community';
 import NotFound from '@/components/NotFound.vue';
 
 import CommunityPostPage from './CommunityPostPage.vue';
+import CommunityQuestionPage from './CommunityQuestionPage.vue';
 
 export default {
     name: 'CommunityDetailPage',
 
     components: {
         NotFound,
-        CommunityPostPage
+        CommunityPostPage,
+        CommunityQuestionPage
     },
 
     beforeRouteEnter(to) {
@@ -84,6 +94,10 @@ export default {
     computed: {
         post() {
             return this.store.post || {};
+        },
+
+        isQuestionPost() {
+            return this.post.category === 'question';
         },
 
         formattedDate() {
