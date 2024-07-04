@@ -30,5 +30,22 @@ export default {
         return request('get', '/community-posts', {
             strapi: config || defaultConfig
         });
+    },
+
+    getCommunityPost(id) {
+        const config = {
+            populate: {
+                images: {
+                    fields: ['url']
+                },
+                session: {
+                    populate: { image: { fields: ['url'] } }
+                }
+            }
+        };
+
+        return request('get', `/community-posts/${id}`, {
+            strapi: config
+        });
     }
 };
