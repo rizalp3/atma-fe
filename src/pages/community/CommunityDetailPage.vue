@@ -16,6 +16,8 @@
             </div>
         </div>
 
+        <community-post-page :images="post.images" :content="post.content" />
+
         <!-- <div class="community-detail__content">
             <community-question v-if="post.category === 'question'" />
             <community-post v-else :images="post.images" :text="post.text" />
@@ -38,11 +40,14 @@ import endpoint from '@/services/community';
 
 import NotFound from '@/components/NotFound.vue';
 
+import CommunityPostPage from './CommunityPostPage.vue';
+
 export default {
     name: 'CommunityDetailPage',
 
     components: {
-        NotFound
+        NotFound,
+        CommunityPostPage
     },
 
     beforeRouteEnter(to) {
