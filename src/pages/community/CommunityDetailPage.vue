@@ -77,6 +77,10 @@ export default {
         document.title = title ? `${title} | Atma` : 'Atma';
     },
 
+    unmounted() {
+        this.store.post = {};
+    },
+
     computed: {
         post() {
             return this.store.post || {};
