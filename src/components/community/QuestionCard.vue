@@ -1,15 +1,14 @@
 <template>
     <div class="question-card">
         <div class="question-card__content">
-            {{ content }}
+            {{ data.question }}
         </div>
 
         <div
             :class="{
                 'question-card__upvote': true,
-                'question-card__upvote--active': !!voted
+                'question-card__upvote--active': isVoted
             }"
-            @click="$emit('toggleVote', id, !voted)"
         >
             <vue-feather
                 class="question-card__icon"
@@ -18,43 +17,43 @@
             />
 
             <div class="question-card__count">
-                {{ count }}
+                {{ data.votesCount }}
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    id: {
-        type: Number,
-        default: ''
+<script>
+export default {
+    name: 'QuestionCard',
+
+    props: {
+        data: {
+            type: Object,
+            default: () => ({})
+        }
     },
-    content: {
-        type: String,
-        default: ''
-    },
-    count: {
-        type: Number,
-        default: ''
-    },
-    voted: {
-        type: Boolean,
-        default: false
+
+    computed: {
+        isVoted() {
+            return !!this.data.voted;
+        }
     }
-});
+};
 </script>
 
 <style lang="scss" scoped>
 .question-card {
-    padding: 16px;
+    padding: 16px 20px;
 
     display: flex;
     align-items: flex-start;
     gap: 20px;
 
     border-radius: 12px;
-    border: 1px solid #e3e3e3;
+    border: 1px solid var(--system-color-surface-container-high);
+
+    background: var(--system-color-surface);
 
     &__content {
         min-height: 62px;
@@ -65,6 +64,7 @@ const props = defineProps({
         align-items: center;
 
         @include text(16px);
+        color: var(--system-color-on-surface);
     }
 
     &__upvote {
@@ -81,42 +81,44 @@ const props = defineProps({
     }
 
     &__icon :deep(svg) {
-        stroke: #c9c9c9;
+        stroke: var(--system-color-outline-variant);
     }
 
     &__count {
-        @include text(16px);
-        color: #c9c9c9;
+        @include text(16px, 500);
+        color: var(--system-color-outline-variant);
     }
 }
 
 .question-card__upvote {
     &:hover {
-        background-color: #f8f8f8;
+        background-color: var(--system-color-surface-container);
 
         .question-card__icon :deep(svg) {
-            stroke: #59499e;
+            stroke: var(--system-color-primary);
         }
 
         .question-card__count {
-            color: #59499e;
+            color: var(--system-color-primary);
         }
     }
 
     &--active {
         .question-card__icon :deep(svg) {
-            stroke: #59499e;
-            fill: #59499e;
+            stroke: var(--system-color-primary);
+            fill: var(--system-color-primary);
         }
 
         .question-card__count {
-            color: #59499e;
+            color: var(--system-color-primary);
         }
     }
 }
 
 @media (max-width: 600px) {
     .question-card {
+        padding: 16px 12px 16px 20px;
+
         &__content {
             min-height: 58px;
             @include text(14px);

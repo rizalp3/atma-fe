@@ -47,5 +47,9 @@ export default {
         return request('get', `/community-posts/${id}`, {
             strapi: config
         });
+    },
+
+    getSessionQuestions(id) {
+        return request('get', `/session-questions/${id}`);
     }
 };

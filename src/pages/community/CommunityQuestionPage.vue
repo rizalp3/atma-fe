@@ -28,6 +28,16 @@
                 />
             </div>
         </div>
+
+        <div class="community-question__section-title">Questions</div>
+
+        <div class="community-question__question-list">
+            <question-card
+                v-for="(question, i) in questions"
+                :key="`question-${i}`"
+                :data="question"
+            />
+        </div>
     </div>
 
     <atma-modal v-model="isShowModal" title="Session Detail">
@@ -38,13 +48,17 @@
 <script>
 import moment from 'moment';
 
+import endpoint from '@/services/community';
+
 import SessionDetail from '@/components/community/SessionDetail.vue';
+import QuestionCard from '@/components/community/QuestionCard.vue';
 
 export default {
     name: 'CommunityQuestionPage',
 
     components: {
-        SessionDetail
+        SessionDetail,
+        QuestionCard
     },
 
     props: {
@@ -56,14 +70,20 @@ export default {
 
     data() {
         return {
-            isShowModal: false
+            isShowModal: false,
+            questions: []
         };
+    },
+
+    mounted() {
+        this.getQuestions();
     },
 
     computed: {
         session() {
             return this.post?.session || {};
         },
+
         formattedSessionDate() {
             return this.session.date
                 ? moment(this.session.date).format('D MMM YYYY HH:mm')
@@ -72,6 +92,14 @@ export default {
     },
 
     methods: {
+        async getQuestions() {
+            const response = await endpoint.getSessionQuestions(this.post.id);
+
+            if (response.questions) {
+                this.questions = response.questions;
+            }
+        },
+
         showSessionDetailModal() {
             this.isShowModal = true;
         }
@@ -134,6 +162,7 @@ export default {
 
             overflow: hidden;
             display: -webkit-box;
+            line-clamp: 1;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
 
@@ -150,6 +179,12 @@ export default {
             margin-right: -2px;
             color: var(--system-color-outline);
         }
+    }
+
+    &__question-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
 }
 </style>
