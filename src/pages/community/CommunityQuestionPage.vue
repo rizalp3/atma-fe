@@ -36,6 +36,7 @@
                 v-for="(question, i) in questions"
                 :key="`question-${i}`"
                 :data="question"
+                @vote-button-clicked="handleVoteButtonClicked(i)"
             />
         </div>
     </div>
@@ -102,6 +103,23 @@ export default {
 
         showSessionDetailModal() {
             this.isShowModal = true;
+        },
+
+        async handleVoteButtonClicked(index) {
+            const question = this.questions[index];
+            const target = !question.voted;
+
+            this.questions[index].voted = target;
+
+            if (target) {
+                this.questions[index].votesCount++;
+                await endpoint.voteSessionQuestion(question.id);
+            } else {
+                this.questions[index].votesCount--;
+                await endpoint.unvoteSessionQuestion(question.id);
+            }
+
+            this.getQuestions();
         }
     }
 };

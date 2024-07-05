@@ -4,11 +4,26 @@
             {{ data.question }}
         </div>
 
+        <button
+            v-if="isAuthenticated"
+            :class="composeUpvoteClass"
+            @click="$emit('voteButtonClicked')"
+        >
+            <vue-feather
+                class="question-card__icon"
+                type="triangle"
+                size="20"
+            />
+
+            <div class="question-card__count">
+                {{ data.votesCount }}
+            </div>
+        </button>
+
         <div
-            :class="{
-                'question-card__upvote': true,
-                'question-card__upvote--active': isVoted
-            }"
+            v-else
+            v-tooltip="'You Need to Login to Upvote'"
+            :class="composeUpvoteClass"
         >
             <vue-feather
                 class="question-card__icon"
@@ -34,9 +49,17 @@ export default {
         }
     },
 
+    inject: ['isAuthenticated'],
+
     computed: {
         isVoted() {
             return !!this.data.voted;
+        },
+        composeUpvoteClass() {
+            return {
+                'question-card__upvote': true,
+                'question-card__upvote--active': this.isVoted
+            };
         }
     }
 };

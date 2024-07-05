@@ -51,5 +51,13 @@ export default {
 
     getSessionQuestions(id) {
         return request('get', `/session-questions/${id}`);
+    },
+
+    voteSessionQuestion(id) {
+        return request('put', `/session-questions/vote/${id}`);
+    },
+
+    unvoteSessionQuestion(id) {
+        return request('put', `/session-questions/unvote/${id}`);
     }
 };
