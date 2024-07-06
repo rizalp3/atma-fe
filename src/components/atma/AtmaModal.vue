@@ -19,6 +19,8 @@
                 v-if="secondaryButton.title"
                 class="atma-modal__button"
                 variant="secondary"
+                radius="12"
+                :disabled="secondaryButton.disabled"
                 :icon="secondaryButton.icon"
             >
                 {{ secondaryButton.title }}
@@ -28,6 +30,8 @@
                 v-if="primaryButton.title"
                 class="atma-modal__button"
                 variant="primary"
+                radius="12"
+                :disabled="primaryButton.disabled"
                 :icon="primaryButton.icon"
             >
                 {{ primaryButton.title }}
