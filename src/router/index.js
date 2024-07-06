@@ -93,7 +93,7 @@ const routes = [
             default: CommunityDetailPage,
             utilityBar: CommunityPostSidebar
         },
-        meta: { title: '', back: '/community' }
+        meta: { title: '', back: '/community', customBottomBar: true }
     },
 
     {

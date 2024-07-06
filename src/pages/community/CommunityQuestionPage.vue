@@ -39,11 +39,19 @@
                 @vote-button-clicked="handleVoteButtonClicked(i)"
             />
         </div>
+
+        <floating-button
+            icon="add"
+            label="New Question"
+            @action="showAddQuestionModal"
+        />
     </div>
 
-    <atma-modal v-model="isShowModal" title="Session Detail">
+    <atma-modal v-model="isDetailModalShown" title="Session Detail">
         <session-detail />
     </atma-modal>
+
+    <question-modal v-if="isAddModalShown" v-model="isAddModalShown" />
 </template>
 
 <script>
@@ -51,15 +59,20 @@ import moment from 'moment';
 
 import endpoint from '@/services/community';
 
+import FloatingButton from '@/components/FloatingButton.vue';
+
 import SessionDetail from '@/components/community/SessionDetail.vue';
 import QuestionCard from '@/components/community/QuestionCard.vue';
+import QuestionModal from '@/components/community/QuestionModal.vue';
 
 export default {
     name: 'CommunityQuestionPage',
 
     components: {
+        FloatingButton,
         SessionDetail,
-        QuestionCard
+        QuestionCard,
+        QuestionModal
     },
 
     props: {
@@ -71,8 +84,11 @@ export default {
 
     data() {
         return {
-            isShowModal: false,
-            questions: []
+            isDetailModalShown: false,
+            isAddModalShown: false,
+
+            questions: [],
+            question: ''
         };
     },
 
@@ -102,7 +118,11 @@ export default {
         },
 
         showSessionDetailModal() {
-            this.isShowModal = true;
+            this.isDetailModalShown = true;
+        },
+
+        showAddQuestionModal() {
+            this.isAddModalShown = true;
         },
 
         async handleVoteButtonClicked(index) {
@@ -127,6 +147,8 @@ export default {
 
 <style lang="scss" scoped>
 .community-question {
+    margin-bottom: 88px;
+
     &__section-title {
         margin-bottom: 12px;
 
