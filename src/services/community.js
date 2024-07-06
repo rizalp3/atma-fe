@@ -49,8 +49,8 @@ export default {
         });
     },
 
-    getSessionQuestions(id) {
-        return request('get', `/session-questions/${id}`);
+    getSessionQuestions(id, strapi = {}) {
+        return request('get', `/session-questions/${id}`, { strapi });
     },
 
     voteSessionQuestion(id) {

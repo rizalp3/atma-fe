@@ -1,51 +1,66 @@
 <template>
     <div class="question-card">
-        <div class="question-card__body">
+        <div :class="composeBodyClass">
             <div class="question-card__content">
                 {{ data.question }}
             </div>
 
-            <button
-                v-if="isAuthenticated"
-                :class="composeUpvoteClass"
-                @click="$emit('voteButtonClicked')"
-            >
-                <vue-feather
-                    class="question-card__icon"
-                    type="triangle"
-                    size="20"
-                />
+            <template v-if="isStatus('open')">
+                <button
+                    v-if="isAuthenticated"
+                    :class="composeUpvoteClass"
+                    @click="$emit('voteButtonClicked')"
+                >
+                    <vue-feather
+                        class="question-card__icon"
+                        type="triangle"
+                        size="20"
+                    />
 
-                <div class="question-card__count">
-                    {{ data.votesCount }}
+                    <div class="question-card__count">
+                        {{ data.votesCount }}
+                    </div>
+                </button>
+
+                <div
+                    v-else
+                    v-tooltip="'You Need to Login to Upvote'"
+                    :class="composeUpvoteClass"
+                >
+                    <vue-feather
+                        class="question-card__icon"
+                        type="triangle"
+                        size="20"
+                    />
+
+                    <div class="question-card__count">
+                        {{ data.votesCount }}
+                    </div>
                 </div>
-            </button>
+            </template>
 
-            <div
-                v-else
-                v-tooltip="'You Need to Login to Upvote'"
-                :class="composeUpvoteClass"
-            >
-                <vue-feather
-                    class="question-card__icon"
-                    type="triangle"
-                    size="20"
-                />
-
-                <div class="question-card__count">
-                    {{ data.votesCount }}
-                </div>
+            <div v-if="isAnswerShown" class="question-card__answer">
+                {{ data.answer }}
             </div>
         </div>
 
-        <div v-if="data.authored" class="question-card__footer">
+        <div v-if="isFooterShown" class="question-card__footer">
             <button
+                v-if="isStatus('open')"
                 class="question-card__delete"
                 @click="$emit('deleteButtonClicked')"
             >
                 <atma-icon name="delete" size="20" />
                 Delete Question
             </button>
+
+            <div
+                v-if="isStatus('answered')"
+                class="question-card__not-answered"
+            >
+                <atma-icon name="close" size="20" />
+                Not Answered
+            </div>
         </div>
     </div>
 </template>
@@ -58,6 +73,10 @@ export default {
         data: {
             type: Object,
             default: () => ({})
+        },
+        status: {
+            type: String,
+            default: 'closed'
         }
     },
 
@@ -67,11 +86,37 @@ export default {
         isVoted() {
             return !!this.data.voted;
         },
+
+        isAnswerShown() {
+            return this.isStatus('answered') && this.data.answer;
+        },
+
+        isFooterShown() {
+            return (
+                (this.isStatus('open') && this.data.authored) ||
+                (this.isStatus('answered') && !this.data.answer)
+            );
+        },
+
+        composeBodyClass() {
+            return {
+                'question-card__body': true,
+                'question-card__body--closed': this.isStatus('closed'),
+                'question-card__body--answered': this.isStatus('answered')
+            };
+        },
+
         composeUpvoteClass() {
             return {
                 'question-card__upvote': true,
                 'question-card__upvote--active': this.isVoted
             };
+        }
+    },
+
+    methods: {
+        isStatus(key) {
+            return this.status === key;
         }
     }
 };
@@ -79,6 +124,8 @@ export default {
 
 <style lang="scss" scoped>
 .question-card {
+    $this: &;
+
     &__body {
         padding: 16px 20px;
 
@@ -93,6 +140,29 @@ export default {
 
         &:not(:only-child) {
             border-radius: 12px 12px 0 0;
+        }
+
+        &--closed {
+            #{$this}__content {
+                min-height: unset;
+            }
+        }
+
+        &--answered {
+            flex-direction: column;
+            gap: 12px;
+
+            #{$this}__content {
+                min-height: unset;
+
+                &:only-child {
+                    color: var(--system-color-outline);
+                }
+
+                &:not(:only-child) {
+                    font-weight: 500;
+                }
+            }
         }
     }
 
@@ -130,6 +200,11 @@ export default {
         color: var(--system-color-outline-variant);
     }
 
+    &__answer {
+        @include text(16px, 400);
+        color: var(--system-color-outline);
+    }
+
     &__footer {
         margin-top: -1px;
         padding: 12px 20px;
@@ -152,6 +227,16 @@ export default {
         gap: 4px;
 
         color: var(--system-color-error);
+    }
+
+    &__not-answered {
+        @include text(14px, 500);
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        color: var(--system-color-outline);
     }
 }
 
@@ -188,7 +273,6 @@ export default {
 
         &__content {
             min-height: 58px;
-            @include text(14px);
         }
 
         &__count {

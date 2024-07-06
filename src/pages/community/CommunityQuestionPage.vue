@@ -29,19 +29,23 @@
             </div>
         </div>
 
-        <div class="community-question__section-title">Questions</div>
+        <div class="community-question__section-title">
+            {{ sectionTitle }}
+        </div>
 
         <div class="community-question__question-list">
             <question-card
                 v-for="(question, i) in questions"
                 :key="`question-${i}`"
                 :data="question"
+                :status="session.status"
                 @vote-button-clicked="handleVoteButtonClicked(i)"
                 @delete-button-clicked="showDeleteQuestionModal(i)"
             />
         </div>
 
         <floating-button
+            v-if="isStatus('open')"
             icon="add"
             label="New Question"
             @action="showAddQuestionModal"
@@ -139,6 +143,16 @@ export default {
             return this.post?.session || {};
         },
 
+        sectionTitle() {
+            const title = {
+                open: 'Questions',
+                closed: 'Questions (Waiting for Answers)',
+                answered: 'Questions & Answers'
+            };
+
+            return title[this.session.status] || 'Questions';
+        },
+
         deleteModalAttrs() {
             return {
                 title: 'Delete Question',
@@ -156,11 +170,34 @@ export default {
 
     methods: {
         async getQuestions() {
-            const response = await endpoint.getSessionQuestions(this.post.id);
+            const config = {
+                populate: {
+                    questions: {
+                        populate: {
+                            votes: {
+                                fields: ['id']
+                            },
+                            author: {
+                                fields: ['id']
+                            }
+                        },
+                        sort: ['answer:asc', 'votesCount:desc']
+                    }
+                }
+            };
+
+            const response = await endpoint.getSessionQuestions(
+                this.post.id,
+                this.isStatus('answered') ? config : {}
+            );
 
             if (response.questions) {
                 this.questions = response.questions;
             }
+        },
+
+        isStatus(key) {
+            return this.session.status === key;
         },
 
         showSessionDetailModal() {
