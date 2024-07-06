@@ -3,6 +3,7 @@
         v-model="value"
         title="Add New Question"
         :primary-button="submitButton"
+        @primary-click="$emit('submit', question)"
     >
         <div class="question-modal">
             <textarea
@@ -25,7 +26,7 @@ export default {
 
     props: ['modelValue'],
 
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'submit'],
 
     data() {
         return {

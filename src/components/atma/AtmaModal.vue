@@ -22,6 +22,7 @@
                 radius="12"
                 :disabled="secondaryButton.disabled"
                 :icon="secondaryButton.icon"
+                @click="$emit('secondaryClick')"
             >
                 {{ secondaryButton.title }}
             </atma-button>
@@ -33,6 +34,7 @@
                 radius="12"
                 :disabled="primaryButton.disabled"
                 :icon="primaryButton.icon"
+                @click="$emit('primaryClick')"
             >
                 {{ primaryButton.title }}
             </atma-button>

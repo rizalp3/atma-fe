@@ -51,7 +51,7 @@
         <session-detail />
     </atma-modal>
 
-    <question-modal v-if="isAddModalShown" v-model="isAddModalShown" />
+    <question-modal v-model="isAddModalShown" @submit="handleAddQuestion" />
 </template>
 
 <script>
@@ -87,8 +87,7 @@ export default {
             isDetailModalShown: false,
             isAddModalShown: false,
 
-            questions: [],
-            question: ''
+            questions: []
         };
     },
 
@@ -140,6 +139,23 @@ export default {
             }
 
             this.getQuestions();
+        },
+
+        async handleAddQuestion(question) {
+            const payload = {
+                data: {
+                    post: [this.post.id],
+                    question
+                }
+            };
+
+            const response = await endpoint.addCommunityQuestion(payload);
+
+            if (response.data) {
+                await this.getQuestions();
+
+                this.isAddModalShown = false;
+            }
         }
     }
 };

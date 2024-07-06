@@ -59,5 +59,9 @@ export default {
 
     unvoteSessionQuestion(id) {
         return request('put', `/session-questions/unvote/${id}`);
+    },
+
+    addCommunityQuestion(data) {
+        return request('post', '/community-questions', { data });
     }
 };
