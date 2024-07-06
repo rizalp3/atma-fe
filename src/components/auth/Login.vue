@@ -169,7 +169,7 @@ export default {
 
             if (response.jwt && response.user) {
                 this.authStore.setAuthData(response.jwt, response.user);
-                this.authStore.hideAuthModal();
+                location.reload();
             }
 
             if (response.error) {
