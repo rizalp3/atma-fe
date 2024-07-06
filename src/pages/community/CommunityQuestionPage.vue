@@ -82,6 +82,8 @@ export default {
         }
     },
 
+    inject: ['user'],
+
     data() {
         return {
             isDetailModalShown: false,
@@ -145,6 +147,7 @@ export default {
             const payload = {
                 data: {
                     post: [this.post.id],
+                    author: this.user.id,
                     question
                 }
             };
