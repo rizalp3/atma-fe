@@ -63,5 +63,9 @@ export default {
 
     addCommunityQuestion(data) {
         return request('post', '/community-questions', { data });
+    },
+
+    deleteQuestion(id) {
+        return request('delete', `/community-questions/${id}`);
     }
 };

@@ -37,6 +37,7 @@
                 :key="`question-${i}`"
                 :data="question"
                 @vote-button-clicked="handleVoteButtonClicked(i)"
+                @delete-button-clicked="showDeleteQuestionModal(i)"
             />
         </div>
 
@@ -51,7 +52,31 @@
         <session-detail />
     </atma-modal>
 
-    <question-modal v-model="isAddModalShown" @submit="handleAddQuestion" />
+    <atma-modal
+        v-model="isDeleteModalShown"
+        v-bind="deleteModalAttrs"
+        @primary-click="handleDeleteQuestion"
+        @secondary-click="hideDeleteQuestionModal"
+    >
+        <atma-text
+            class="mb-2"
+            size="16"
+            weight="500"
+            color-scheme="on-surface"
+        >
+            Are you sure you want to delete this question?
+        </atma-text>
+
+        <atma-text size="16" weight="400" color-scheme="outline">
+            {{ this.data.question }}
+        </atma-text>
+    </atma-modal>
+
+    <question-modal
+        v-if="isAddModalShown"
+        v-model="isAddModalShown"
+        @submit="handleAddQuestion"
+    />
 </template>
 
 <script>
@@ -88,8 +113,10 @@ export default {
         return {
             isDetailModalShown: false,
             isAddModalShown: false,
+            isDeleteModalShown: false,
 
-            questions: []
+            questions: [],
+            data: {}
         };
     },
 
@@ -97,9 +124,27 @@ export default {
         this.getQuestions();
     },
 
+    watch: {
+        isDeleteModalShown: {
+            handler(value) {
+                if (!value) {
+                    this.data = {};
+                }
+            }
+        }
+    },
+
     computed: {
         session() {
             return this.post?.session || {};
+        },
+
+        deleteModalAttrs() {
+            return {
+                title: 'Delete Question',
+                primaryButton: { title: 'Delete' },
+                secondaryButton: { title: 'Cancel' }
+            };
         },
 
         formattedSessionDate() {
@@ -124,6 +169,15 @@ export default {
 
         showAddQuestionModal() {
             this.isAddModalShown = true;
+        },
+
+        showDeleteQuestionModal(index) {
+            this.data = this.questions[index];
+            this.isDeleteModalShown = true;
+        },
+
+        hideDeleteQuestionModal() {
+            this.isDeleteModalShown = false;
         },
 
         async handleVoteButtonClicked(index) {
@@ -158,6 +212,16 @@ export default {
                 await this.getQuestions();
 
                 this.isAddModalShown = false;
+            }
+        },
+
+        async handleDeleteQuestion() {
+            const response = await endpoint.deleteQuestion(this.data.id);
+
+            if (response.data) {
+                await this.getQuestions();
+
+                this.isDeleteModalShown = false;
             }
         }
     }

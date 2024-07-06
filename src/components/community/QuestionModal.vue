@@ -26,8 +26,6 @@ export default {
 
     props: ['modelValue'],
 
-    emits: ['update:modelValue', 'submit'],
-
     data() {
         return {
             question: ''
@@ -40,10 +38,6 @@ export default {
                 return this.modelValue;
             },
             set(value) {
-                if (!value) {
-                    this.question = '';
-                }
-
                 this.$emit('update:modelValue', value);
             }
         },

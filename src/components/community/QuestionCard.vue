@@ -1,39 +1,51 @@
 <template>
     <div class="question-card">
-        <div class="question-card__content">
-            {{ data.question }}
+        <div class="question-card__body">
+            <div class="question-card__content">
+                {{ data.question }}
+            </div>
+
+            <button
+                v-if="isAuthenticated"
+                :class="composeUpvoteClass"
+                @click="$emit('voteButtonClicked')"
+            >
+                <vue-feather
+                    class="question-card__icon"
+                    type="triangle"
+                    size="20"
+                />
+
+                <div class="question-card__count">
+                    {{ data.votesCount }}
+                </div>
+            </button>
+
+            <div
+                v-else
+                v-tooltip="'You Need to Login to Upvote'"
+                :class="composeUpvoteClass"
+            >
+                <vue-feather
+                    class="question-card__icon"
+                    type="triangle"
+                    size="20"
+                />
+
+                <div class="question-card__count">
+                    {{ data.votesCount }}
+                </div>
+            </div>
         </div>
 
-        <button
-            v-if="isAuthenticated"
-            :class="composeUpvoteClass"
-            @click="$emit('voteButtonClicked')"
-        >
-            <vue-feather
-                class="question-card__icon"
-                type="triangle"
-                size="20"
-            />
-
-            <div class="question-card__count">
-                {{ data.votesCount }}
-            </div>
-        </button>
-
-        <div
-            v-else
-            v-tooltip="'You Need to Login to Upvote'"
-            :class="composeUpvoteClass"
-        >
-            <vue-feather
-                class="question-card__icon"
-                type="triangle"
-                size="20"
-            />
-
-            <div class="question-card__count">
-                {{ data.votesCount }}
-            </div>
+        <div v-if="data.authored" class="question-card__footer">
+            <button
+                class="question-card__delete"
+                @click="$emit('deleteButtonClicked')"
+            >
+                <atma-icon name="delete" size="20" />
+                Delete Question
+            </button>
         </div>
     </div>
 </template>
@@ -67,16 +79,22 @@ export default {
 
 <style lang="scss" scoped>
 .question-card {
-    padding: 16px 20px;
+    &__body {
+        padding: 16px 20px;
 
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
 
-    border-radius: 12px;
-    border: 1px solid var(--system-color-surface-container-high);
+        border-radius: 12px;
+        border: 1px solid var(--system-color-surface-container-high);
 
-    background: var(--system-color-surface);
+        background: var(--system-color-surface);
+
+        &:not(:only-child) {
+            border-radius: 12px 12px 0 0;
+        }
+    }
 
     &__content {
         min-height: 62px;
@@ -111,6 +129,30 @@ export default {
         @include text(16px, 500);
         color: var(--system-color-outline-variant);
     }
+
+    &__footer {
+        margin-top: -1px;
+        padding: 12px 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 0 0 12px 12px;
+        border: 1px solid var(--system-color-surface-container-high);
+
+        background: var(--system-color-surface-container-low);
+    }
+
+    &__delete {
+        @include text(14px, 500);
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        color: var(--system-color-error);
+    }
 }
 
 .question-card__upvote {
@@ -140,7 +182,9 @@ export default {
 
 @media (max-width: 600px) {
     .question-card {
-        padding: 16px 12px 16px 20px;
+        &__body {
+            padding: 16px 12px 16px 20px;
+        }
 
         &__content {
             min-height: 58px;
