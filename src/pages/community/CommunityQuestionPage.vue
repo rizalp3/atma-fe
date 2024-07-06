@@ -1,5 +1,6 @@
 <template>
     <div class="community-question">
+        <!-- Session Detail (Tablet & Mobile Only) -->
         <div v-if="isTablet" class="community-question__section-title">
             Session Detail
         </div>
@@ -29,6 +30,7 @@
             </div>
         </div>
 
+        <!-- Questions List -->
         <div class="community-question__section-title">
             {{ sectionTitle }}
         </div>
@@ -44,6 +46,7 @@
             />
         </div>
 
+        <!-- FAB for Add Question -->
         <floating-button
             v-if="isStatus('open')"
             icon="add"
@@ -52,10 +55,12 @@
         />
     </div>
 
+    <!-- Session Detail Modal -->
     <atma-modal v-model="isDetailModalShown" title="Session Detail">
         <session-detail />
     </atma-modal>
 
+    <!-- Delete Question Modal -->
     <atma-modal
         v-model="isDeleteModalShown"
         v-bind="deleteModalAttrs"
@@ -76,6 +81,7 @@
         </atma-text>
     </atma-modal>
 
+    <!-- Add Question Modal -->
     <question-modal
         v-if="isAddModalShown"
         v-model="isAddModalShown"
