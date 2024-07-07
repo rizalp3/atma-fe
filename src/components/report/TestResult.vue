@@ -153,5 +153,20 @@ export default {
             @include text(12px, 500);
         }
     }
+
+    @media (max-width: 600px) {
+        &__icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        &__subject {
+            @include text(16px, 500);
+        }
+
+        &__time {
+            @include text(14px, 400);
+        }
+    }
 }
 </style>
