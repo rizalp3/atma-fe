@@ -25,15 +25,6 @@
                 <test-result :result="result" />
             </div>
         </div>
-
-        <atma-modal
-            v-model="isShowModal"
-            title="SRQ-20 Test"
-            :primary-button="{ title: 'Self Test' }"
-            :secondary-button="{ title: 'Test Others' }"
-        >
-            <test-description />
-        </atma-modal>
     </div>
 </template>
 
@@ -80,8 +71,7 @@ export default {
                     time: '2024-06-17T12:00:00.000Z',
                     value: 5
                 }
-            ],
-            isShowModal: false
+            ]
         };
     }
 };
