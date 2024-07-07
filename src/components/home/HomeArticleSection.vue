@@ -147,6 +147,7 @@ export default {
 
             border-radius: 16px 16px 0 0;
             object-fit: cover;
+            overflow-clip-margin: unset;
 
             background: var(--system-color-surface-variant);
         }
@@ -211,6 +212,7 @@ export default {
 
             border-radius: 12px;
             object-fit: cover;
+            overflow-clip-margin: unset;
 
             background: var(--system-color-surface-variant);
         }

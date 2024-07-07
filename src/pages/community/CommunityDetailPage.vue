@@ -1,80 +1,171 @@
 <template>
-    <div class="community-detail">
+    <template v-if="isLoading"></template>
+
+    <div v-else-if="post.title" class="community-detail">
         <h1 class="community-detail__title">
             {{ post.title }}
         </h1>
 
         <div class="community-detail__info">
-            <div class="community-detail__category">{{ post.category }}</div>
-            <div class="community-detail__dot"></div>
+            <div class="community-detail__category">
+                {{ formattedCategory }}
+            </div>
+            <div class="community-detail__dot" />
             <div class="community-detail__date">
-                {{ moment(post.date).format('D MMMM YYYY') }}
+                {{ formattedDate }}
             </div>
         </div>
 
-        <div class="community-detail__content">
+        <!-- Question Post -->
+        <community-question-page v-if="isQuestionPost" :post="post" />
+
+        <!-- Other Post -->
+        <community-post-page
+            v-else
+            :images="post.images"
+            :content="post.content"
+        />
+
+        <!-- <div class="community-detail__content">
             <community-question v-if="post.category === 'question'" />
             <community-post v-else :images="post.images" :text="post.text" />
-        </div>
+        </div> -->
     </div>
+
+    <not-found
+        v-else
+        class="mt-5"
+        title="Post Not Found"
+        :action="{ text: 'View Other Posts', target: '/community' }"
+    />
 </template>
 
-<script setup>
+<script>
 import moment from 'moment';
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
 import { useCommunityStore } from '@/stores/community';
-import communityPosts from '@/mocks/community.json';
+import endpoint from '@/services/community';
 
-import CommunityPost from '@/components/community/CommunityPost.vue';
-import CommunityQuestion from '@/components/community/CommunityQuestion.vue';
+import NotFound from '@/components/NotFound.vue';
 
-const route = useRoute();
-const store = useCommunityStore();
+import CommunityPostPage from './CommunityPostPage.vue';
+import CommunityQuestionPage from './CommunityQuestionPage.vue';
 
-const { post } = storeToRefs(store);
+export default {
+    name: 'CommunityDetailPage',
 
-if (!post.value) {
-    store.$patch({ post: communityPosts[route.params.id] });
-}
+    components: {
+        NotFound,
+        CommunityPostPage,
+        CommunityQuestionPage
+    },
 
-onMounted(() => {
-    window.scrollTo(0, 0);
-    document.title = `${post.value.title} | Atma`;
-});
+    beforeRouteEnter(to) {
+        const numberOnly = /^[0-9]*$/;
+
+        if (!numberOnly.test(to.params.id)) {
+            return { name: 'NotFound' };
+        }
+    },
+
+    setup() {
+        const store = useCommunityStore();
+        return { store };
+    },
+
+    data() {
+        return {
+            isLoading: false
+        };
+    },
+
+    async mounted() {
+        await this.getPost();
+
+        const { title } = this.post;
+
+        document.title = title ? `${title} | Atma` : 'Atma';
+    },
+
+    unmounted() {
+        this.store.post = {};
+    },
+
+    computed: {
+        post() {
+            return this.store.post || {};
+        },
+
+        isQuestionPost() {
+            return this.post.category === 'question';
+        },
+
+        formattedDate() {
+            return this.post.date
+                ? moment(this.post.date).format('D MMMM YYYY')
+                : '-';
+        },
+
+        formattedCategory() {
+            const data = {
+                news: 'News',
+                question: 'Q & A'
+            };
+
+            return data[this.post.category] || '-';
+        }
+    },
+
+    methods: {
+        async getPost() {
+            this.isLoading = true;
+
+            const response = await endpoint.getCommunityPost(
+                this.$route.params.id
+            );
+
+            if (response?.data?.attributes) {
+                const { category } = response.data.attributes;
+
+                if (['question', 'news'].includes(category)) {
+                    this.store.setCommunityPost(response.data);
+                }
+            }
+
+            this.isLoading = false;
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
 .community-detail {
     &__title {
         @include text(24px, 600);
+        color: var(--system-color-on-surface);
     }
 
     &__info {
+        margin: 10px 0 16px;
+
         display: flex;
         align-items: center;
-
-        margin: 10px 0 16px;
-        gap: 10px;
+        gap: 12px;
 
         > * {
             @include text(14px, 400);
-            color: #929292;
+            color: var(--system-color-outline);
         }
     }
 
     &__dot {
-        width: 3px;
-        height: 3px;
-        border-radius: 1.5px;
-        background: #929292;
+        width: 2px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--system-color-outline);
     }
-}
 
-@media (max-width: 600px) {
-    .community-detail {
+    @media (max-width: 600px) {
         &__title {
             @include text(20px, 600);
         }

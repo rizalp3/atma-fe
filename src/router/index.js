@@ -15,6 +15,7 @@ import ExploreSidebar from '@/components/explore/ExploreSidebar.vue';
 import CommunityBoardPage from '@/pages/community/CommunityBoardPage.vue';
 import CommunityDetailPage from '@/pages/community/CommunityDetailPage.vue';
 import CommunitySidebar from '@/components/community/CommunitySidebar.vue';
+import CommunityPostSidebar from '@/components/community/CommunityPostSidebar.vue';
 import SessionDetail from '@/components/community/SessionDetail.vue';
 
 import ReportPage from '@/pages/report/ReportPage.vue';
@@ -88,8 +89,11 @@ const routes = [
     },
     {
         path: '/community/:id',
-        component: CommunityDetailPage,
-        meta: { title: '', back: '/community' }
+        components: {
+            default: CommunityDetailPage,
+            utilityBar: CommunityPostSidebar
+        },
+        meta: { title: '', back: '/community', customBottomBar: true }
     },
 
     {

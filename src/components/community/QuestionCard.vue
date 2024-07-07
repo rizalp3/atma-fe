@@ -1,60 +1,170 @@
 <template>
     <div class="question-card">
-        <div class="question-card__content">
-            {{ content }}
+        <div :class="composeBodyClass">
+            <div class="question-card__content">
+                {{ data.question }}
+            </div>
+
+            <template v-if="isStatus('open')">
+                <button
+                    v-if="isAuthenticated"
+                    :class="composeUpvoteClass"
+                    @click="$emit('voteButtonClicked')"
+                >
+                    <vue-feather
+                        class="question-card__icon"
+                        type="triangle"
+                        size="20"
+                    />
+
+                    <div class="question-card__count">
+                        {{ data.votesCount }}
+                    </div>
+                </button>
+
+                <div
+                    v-else
+                    v-tooltip="'You Need to Login to Upvote'"
+                    :class="composeUpvoteClass"
+                >
+                    <vue-feather
+                        class="question-card__icon"
+                        type="triangle"
+                        size="20"
+                    />
+
+                    <div class="question-card__count">
+                        {{ data.votesCount }}
+                    </div>
+                </div>
+            </template>
+
+            <div v-if="isAnswerShown" class="question-card__answer">
+                {{ data.answer }}
+            </div>
         </div>
 
-        <div
-            :class="{
-                'question-card__upvote': true,
-                'question-card__upvote--active': !!voted
-            }"
-            @click="$emit('toggleVote', id, !voted)"
-        >
-            <vue-feather
-                class="question-card__icon"
-                type="triangle"
-                size="20"
-            />
+        <div v-if="isFooterShown" class="question-card__footer">
+            <button
+                v-if="isStatus('open')"
+                class="question-card__delete"
+                @click="$emit('deleteButtonClicked')"
+            >
+                <atma-icon name="delete" size="20" />
+                Delete Question
+            </button>
 
-            <div class="question-card__count">
-                {{ count }}
+            <div
+                v-if="isStatus('answered')"
+                class="question-card__not-answered"
+            >
+                <atma-icon name="close" size="20" />
+                Not Answered
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-const props = defineProps({
-    id: {
-        type: Number,
-        default: ''
+<script>
+export default {
+    name: 'QuestionCard',
+
+    props: {
+        data: {
+            type: Object,
+            default: () => ({})
+        },
+        status: {
+            type: String,
+            default: 'closed'
+        }
     },
-    content: {
-        type: String,
-        default: ''
+
+    inject: ['isAuthenticated'],
+
+    computed: {
+        isVoted() {
+            return !!this.data.voted;
+        },
+
+        isAnswerShown() {
+            return this.isStatus('answered') && this.data.answer;
+        },
+
+        isFooterShown() {
+            return (
+                (this.isStatus('open') && this.data.authored) ||
+                (this.isStatus('answered') && !this.data.answer)
+            );
+        },
+
+        composeBodyClass() {
+            return {
+                'question-card__body': true,
+                'question-card__body--closed': this.isStatus('closed'),
+                'question-card__body--answered': this.isStatus('answered')
+            };
+        },
+
+        composeUpvoteClass() {
+            return {
+                'question-card__upvote': true,
+                'question-card__upvote--active': this.isVoted
+            };
+        }
     },
-    count: {
-        type: Number,
-        default: ''
-    },
-    voted: {
-        type: Boolean,
-        default: false
+
+    methods: {
+        isStatus(key) {
+            return this.status === key;
+        }
     }
-});
+};
 </script>
 
 <style lang="scss" scoped>
 .question-card {
-    padding: 16px;
+    $this: &;
 
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+    &__body {
+        padding: 16px 20px;
 
-    border-radius: 12px;
-    border: 1px solid #e3e3e3;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+
+        border-radius: 12px;
+        border: 1px solid var(--system-color-surface-container-high);
+
+        background: var(--system-color-surface);
+
+        &:not(:only-child) {
+            border-radius: 12px 12px 0 0;
+        }
+
+        &--closed {
+            #{$this}__content {
+                min-height: unset;
+            }
+        }
+
+        &--answered {
+            flex-direction: column;
+            gap: 12px;
+
+            #{$this}__content {
+                min-height: unset;
+
+                &:only-child {
+                    color: var(--system-color-outline);
+                }
+
+                &:not(:only-child) {
+                    font-weight: 500;
+                }
+            }
+        }
+    }
 
     &__content {
         min-height: 62px;
@@ -65,6 +175,7 @@ const props = defineProps({
         align-items: center;
 
         @include text(16px);
+        color: var(--system-color-on-surface);
     }
 
     &__upvote {
@@ -81,45 +192,87 @@ const props = defineProps({
     }
 
     &__icon :deep(svg) {
-        stroke: #c9c9c9;
+        stroke: var(--system-color-outline-variant);
     }
 
     &__count {
-        @include text(16px);
-        color: #c9c9c9;
+        @include text(16px, 500);
+        color: var(--system-color-outline-variant);
+    }
+
+    &__answer {
+        @include text(16px, 400);
+        color: var(--system-color-outline);
+    }
+
+    &__footer {
+        margin-top: -1px;
+        padding: 12px 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 0 0 12px 12px;
+        border: 1px solid var(--system-color-surface-container-high);
+
+        background: var(--system-color-surface-container-low);
+    }
+
+    &__delete {
+        @include text(14px, 500);
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        color: var(--system-color-error);
+    }
+
+    &__not-answered {
+        @include text(14px, 500);
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        color: var(--system-color-outline);
     }
 }
 
 .question-card__upvote {
     &:hover {
-        background-color: #f8f8f8;
+        background-color: var(--system-color-surface-container);
 
         .question-card__icon :deep(svg) {
-            stroke: #59499e;
+            stroke: var(--system-color-primary);
         }
 
         .question-card__count {
-            color: #59499e;
+            color: var(--system-color-primary);
         }
     }
 
     &--active {
         .question-card__icon :deep(svg) {
-            stroke: #59499e;
-            fill: #59499e;
+            stroke: var(--system-color-primary);
+            fill: var(--system-color-primary);
         }
 
         .question-card__count {
-            color: #59499e;
+            color: var(--system-color-primary);
         }
     }
 }
 
 @media (max-width: 600px) {
     .question-card {
+        &__body {
+            padding: 16px 12px 16px 20px;
+        }
+
         &__content {
             min-height: 58px;
-            @include text(14px);
         }
 
         &__count {

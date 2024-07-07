@@ -30,5 +30,42 @@ export default {
         return request('get', '/community-posts', {
             strapi: config || defaultConfig
         });
+    },
+
+    getCommunityPost(id) {
+        const config = {
+            populate: {
+                images: {
+                    fields: ['url']
+                },
+                session: {
+                    populate: { image: { fields: ['url'] } }
+                }
+            }
+        };
+
+        return request('get', `/community-posts/${id}`, {
+            strapi: config
+        });
+    },
+
+    getSessionQuestions(id, strapi = {}) {
+        return request('get', `/session-questions/${id}`, { strapi });
+    },
+
+    voteSessionQuestion(id) {
+        return request('put', `/session-questions/vote/${id}`);
+    },
+
+    unvoteSessionQuestion(id) {
+        return request('put', `/session-questions/unvote/${id}`);
+    },
+
+    addCommunityQuestion(data) {
+        return request('post', '/community-questions', { data });
+    },
+
+    deleteQuestion(id) {
+        return request('delete', `/community-questions/${id}`);
     }
 };

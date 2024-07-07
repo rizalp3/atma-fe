@@ -1,6 +1,6 @@
 <template>
-    <button :class="composeButtonClass">
-        <vue-feather v-if="icon" :type="icon" :size="iconSize" />
+    <button :class="composeButtonClass" :disabled="disabled">
+        <atma-icon v-if="icon" :name="icon" size="20" />
         <slot></slot>
     </button>
 </template>
@@ -10,10 +10,6 @@ export default {
     name: 'AtmaButton',
 
     props: {
-        size: {
-            type: String,
-            default: 'md'
-        },
         variant: {
             type: String,
             default: 'primary'
@@ -21,28 +17,33 @@ export default {
         icon: {
             type: String,
             default: ''
+        },
+        radius: {
+            type: String,
+            default: '20'
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
 
     computed: {
         composeButtonClass() {
-            return [
-                'atma-button',
-                `atma-button--${this.size}`,
-                `atma-button--${this.variant}`
-            ];
+            const classes = ['atma-button'];
+
+            if (this.icon) {
+                classes.push('atma-button--icon');
+            }
+
+            if (!this.disabled) {
+                classes.push(`atma-button--${this.variant}`);
+            }
+
+            return classes;
         },
-
-        iconSize() {
-            const sizes = {
-                xs: '16',
-                sm: '20',
-                md: '20',
-                lg: '24',
-                xl: '24'
-            };
-
-            return sizes[this.size];
+        radiusValue() {
+            return this.radius + 'px';
         }
     }
 };
@@ -50,15 +51,48 @@ export default {
 
 <style lang="scss" scoped>
 .atma-button {
+    padding: 9px 24px;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
 
-    font-weight: 500;
+    @include text(14px, 500);
 
-    border-radius: 8px;
+    border-radius: v-bind(radiusValue);
+    border-width: 1px;
+    border-style: solid;
 
-    cursor: pointer;
+    &--icon {
+        padding-left: 16px;
+    }
+
+    &--primary {
+        background: var(--system-color-primary);
+        color: var(--system-color-on-primary);
+        border-color: var(--system-color-primary);
+
+        &:hover {
+            background: var(--system-color-primary-variant);
+            border-color: var(--system-color-primary-variant);
+        }
+    }
+
+    &--secondary {
+        background: var(--system-color-surface);
+        color: var(--system-color-primary);
+        border-color: var(--system-color-primary);
+
+        &:hover {
+            background: var(--system-color-surface-container-low);
+        }
+    }
+
+    &:disabled {
+        background: var(--system-color-surface-container);
+        color: var(--system-color-outline-variant);
+        border-color: var(--system-color-surface-container-high);
+    }
 }
 </style>

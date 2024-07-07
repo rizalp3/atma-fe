@@ -149,7 +149,7 @@
 }
 
 .utility-bar {
-    width: 340px;
+    width: 320px;
     padding: 0 32px 0 8px;
 
     .header {
@@ -162,7 +162,7 @@
         top: 0;
         z-index: 100;
 
-        width: 300px;
+        width: 280px;
         height: 64px;
 
         display: flex;
@@ -274,7 +274,15 @@
 
 @media (max-width: 1035px) {
     .root {
-        max-width: 696px;
+        max-width: 672px;
+    }
+
+    .content {
+        width: 576px;
+    }
+
+    .title-bar {
+        max-width: 576px;
     }
 
     .utility-bar {

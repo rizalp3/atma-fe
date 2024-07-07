@@ -56,6 +56,8 @@ export default {
         height: 132px;
 
         object-fit: cover;
+        overflow-clip-margin: unset;
+
         border-radius: 16px 16px 0 0;
 
         background: var(--system-color-surface-variant);

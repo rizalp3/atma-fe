@@ -241,7 +241,10 @@ export default {
         &-avatar {
             width: 32px;
             height: 32px;
+
             object-fit: cover;
+            overflow-clip-margin: unset;
+
             border-radius: 50%;
             margin-left: 12px;
         }
@@ -276,7 +279,10 @@ export default {
         &__avatar {
             width: 40px;
             height: 40px;
+
             object-fit: cover;
+            overflow-clip-margin: unset;
+
             border-radius: 50%;
         }
 

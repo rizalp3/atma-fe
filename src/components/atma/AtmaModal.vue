@@ -19,7 +19,10 @@
                 v-if="secondaryButton.title"
                 class="atma-modal__button"
                 variant="secondary"
+                radius="12"
+                :disabled="secondaryButton.disabled"
                 :icon="secondaryButton.icon"
+                @click="$emit('secondaryClick')"
             >
                 {{ secondaryButton.title }}
             </atma-button>
@@ -28,7 +31,10 @@
                 v-if="primaryButton.title"
                 class="atma-modal__button"
                 variant="primary"
+                radius="12"
+                :disabled="primaryButton.disabled"
                 :icon="primaryButton.icon"
+                @click="$emit('primaryClick')"
             >
                 {{ primaryButton.title }}
             </atma-button>
@@ -91,7 +97,7 @@ export default {
         display: flex;
         flex-direction: column;
 
-        background: #fff;
+        background: var(--system-color-surface);
     }
 
     &__header {
@@ -102,11 +108,12 @@ export default {
         gap: 20px;
 
         border-radius: 16px 16px 0 0;
-        border-bottom: 1px solid #eaecef;
+        border-bottom: 1px solid var(--system-color-surface-container-high);
     }
 
     &__title {
         @include text(18px, 500);
+        color: var(--system-color-on-surface);
     }
 
     &__close-button {
@@ -116,11 +123,11 @@ export default {
         display: flex;
         cursor: pointer;
 
-        color: #9caab1;
+        color: var(--system-color-outline);
 
         &:hover {
             border-radius: 8px;
-            background: #f7f9fd;
+            background: var(--system-color-surface-container);
         }
     }
 
@@ -138,7 +145,7 @@ export default {
         justify-content: flex-end;
         gap: 16px;
 
-        border-top: 1px solid #eaecef;
+        border-top: 1px solid var(--system-color-surface-container-high);
 
         @media (max-width: 600px) {
             justify-content: center;

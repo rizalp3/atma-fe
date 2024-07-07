@@ -1,5 +1,5 @@
 <template>
-    <a v-if="post" class="timeline-item" href="#">
+    <div v-if="post" class="timeline-item">
         <!-- Timeline Section -->
         <div class="timeline-item__side">
             <div class="timeline-item__box">
@@ -16,7 +16,7 @@
         </div>
 
         <!-- Content Section -->
-        <div class="timeline-item__content">
+        <div class="timeline-item__content" @click="handleClickItem">
             <!-- Title -->
             <h2 class="timeline-item__title">
                 {{ post.title }}
@@ -71,7 +71,7 @@
                 {{ post.summary }}
             </div>
         </div>
-    </a>
+    </div>
 </template>
 
 <script>
@@ -99,6 +99,13 @@ export default {
     methods: {
         isVariant(key) {
             return this.post.category === key;
+        },
+        handleClickItem(event) {
+            if (this.isVariant('link')) {
+                window.open(this.post.link, '_blank');
+            } else {
+                this.redirect(`/community/${this.post.id}`, event);
+            }
         }
     }
 };
@@ -116,8 +123,11 @@ export default {
 
     &__content {
         flex: 1;
+
         margin-left: 16px;
         margin-bottom: 40px;
+
+        cursor: pointer;
     }
 
     &__box {
@@ -200,6 +210,7 @@ export default {
 
         flex-shrink: 0;
         object-fit: cover;
+        overflow-clip-margin: unset;
 
         background: var(--system-color-surface-container-high);
 
@@ -224,6 +235,7 @@ export default {
                 border-radius: 8px;
 
                 object-fit: cover;
+                overflow-clip-margin: unset;
 
                 background: var(--system-color-surface-container-high);
             }
@@ -248,6 +260,7 @@ export default {
                 flex-shrink: 0;
 
                 object-fit: cover;
+                overflow-clip-margin: unset;
 
                 background: var(--system-color-surface-container-high);
 
