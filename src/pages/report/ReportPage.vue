@@ -1,8 +1,15 @@
 <template>
     <div class="report">
-        <div v-show="isMobile" class="mb-4">
-            <report-action />
+        <action-mood-card v-if="isTablet" class="mb-3" />
+
+        <div class="report__section-title">
+            <atma-icon name="task" size="24" />
+            <div>Moodboard</div>
         </div>
+
+        <moodboard class="my-3" />
+
+        <action-test-card v-if="isTablet" class="mb-3" />
 
         <div class="report__section-title">
             <atma-icon name="task" size="24" />
@@ -19,8 +26,6 @@
             </div>
         </div>
 
-        <moodboard class="mt-4" />
-
         <atma-modal
             v-model="isShowModal"
             title="SRQ-20 Test"
@@ -35,7 +40,8 @@
 <script>
 import Moodboard from '@/components/Moodboard.vue';
 
-import ReportAction from '@/components/report/ReportAction.vue';
+import ActionMoodCard from '@/components/report/ActionMoodCard.vue';
+import ActionTestCard from '@/components/report/ActionTestCard.vue';
 import TestDescription from '@/components/report/TestDescription.vue';
 import TestResult from '@/components/report/TestResult.vue';
 
@@ -44,7 +50,8 @@ export default {
 
     components: {
         Moodboard,
-        ReportAction,
+        ActionMoodCard,
+        ActionTestCard,
         TestDescription,
         TestResult
     },
