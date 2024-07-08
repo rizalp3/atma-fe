@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import endpoint from '@/services/report';
+
 import Moodboard from '@/components/Moodboard.vue';
 
 import ActionMoodCard from '@/components/report/ActionMoodCard.vue';
@@ -49,30 +51,28 @@ export default {
 
     data() {
         return {
-            results: [
-                {
-                    id: 1,
-                    type: 'others',
-                    name: 'Rantty',
-                    time: '2024-07-06T12:00:00.000Z',
-                    value: 2
-                },
-                {
-                    id: 2,
-                    type: 'self',
-                    name: 'Rizal Purnomo',
-                    time: '2024-06-25T12:00:00.000Z',
-                    value: 3
-                },
-                {
-                    id: 3,
-                    type: 'self',
-                    name: 'Rizal Purnomo',
-                    time: '2024-06-17T12:00:00.000Z',
-                    value: 5
-                }
-            ]
+            results: []
         };
+    },
+
+    mounted() {
+        this.getTestResults();
+    },
+
+    methods: {
+        async getTestResults() {
+            const response = await endpoint.getTestResults();
+
+            if (response.data) {
+                this.results = response.data.map((result) => ({
+                    id: result.id,
+                    type: result.attributes.type,
+                    name: result.attributes.name,
+                    value: result.attributes.value,
+                    time: result.attributes.createdAt
+                }));
+            }
+        }
     }
 };
 </script>
