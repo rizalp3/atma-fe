@@ -58,7 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 .home-test {
-    padding: 18px 20px 20px;
+    padding: 18px 20px 22px;
     border-radius: 16px;
     background: var(--system-color-surface);
 
