@@ -1,4 +1,5 @@
 <template>
+    <!-- Article Section -->
     <div class="home-section-header mt-0">
         <atma-icon class="home-section-header__icon" name="article" />
 
@@ -11,6 +12,7 @@
 
     <home-article-section :loading="isLoadingArticle" :articles="articles" />
 
+    <!-- Feed Section -->
     <div class="home-section-header">
         <atma-icon class="home-section-header__icon" name="pages" />
 
@@ -27,24 +29,33 @@
         @like-button-clicked="handleLikeButtonClicked"
     />
 
-    <template v-if="isMobile">
-        <div class="home-section-header">
-            <div class="home-section-header__title">Your Report</div>
+    <!-- Personalized Section -->
+    <div v-if="isTablet" class="home-section-header">
+        <atma-icon class="home-section-header__icon" name="account-circle" />
 
-            <button class="home-section-header__action">Explore</button>
+        <div class="home-section-header__title">Personalized Information</div>
+    </div>
+
+    <Teleport to="#utility-bar" :disabled="isTablet">
+        <div class="home-report">
+            <template v-if="isAuthenticated">
+                <home-community-section />
+
+                <home-test-section />
+            </template>
+
+            <brand-banner v-else />
         </div>
-
-        <home-community-section />
-
-        <brand-banner class="mt-3" />
-    </template>
+    </Teleport>
 </template>
 
 <script>
-import HomeArticleSection from '@/components/home/HomeArticleSection.vue';
-import HomeFeedSection from '@/components/home/HomeFeedSection.vue';
-import HomeCommunitySection from '@/components/home/HomeCommunitySection.vue';
 import BrandBanner from '@/components/BrandBanner.vue';
+
+import HomeArticleSection from '@/components/home/HomeArticleSection.vue';
+import HomeCommunitySection from '@/components/home/HomeCommunitySection.vue';
+import HomeFeedSection from '@/components/home/HomeFeedSection.vue';
+import HomeTestSection from '@/components/home/HomeTestSection.vue';
 
 import articleEndpoint from '@/services/articles';
 import exploreEndpoint from '@/services/explore';
@@ -53,11 +64,14 @@ export default {
     name: 'HomePage',
 
     components: {
+        BrandBanner,
         HomeArticleSection,
-        HomeFeedSection,
         HomeCommunitySection,
-        BrandBanner
+        HomeFeedSection,
+        HomeTestSection
     },
+
+    inject: ['isAuthenticated'],
 
     data() {
         return {
@@ -184,6 +198,12 @@ export default {
             background: var(--system-color-secondary-container-variant);
         }
     }
+}
+
+.home-report {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 @media (max-width: 600px) {

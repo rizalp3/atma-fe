@@ -66,7 +66,7 @@
         </div>
 
         <!-- Utility Bar (Right) -->
-        <div class="utility-bar">
+        <div class="utility-bar" id="utility-bar">
             <!-- Header -->
             <div class="header">
                 <div class="header-wrapper">
