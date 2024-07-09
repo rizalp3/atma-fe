@@ -116,7 +116,6 @@ import { useAuthStore } from '@/stores/auth';
 
 import Logo from './assets/image/logo.svg';
 
-import Moodboard from './components/Moodboard.vue';
 import MenuDropdown from './components/MenuDropdown.vue';
 
 import AuthModal from './components/auth/AuthModal.vue';
@@ -124,7 +123,7 @@ import AuthModal from './components/auth/AuthModal.vue';
 export default {
     name: 'App',
 
-    components: { Moodboard, MenuDropdown, AuthModal },
+    components: { MenuDropdown, AuthModal },
 
     setup() {
         const authStore = useAuthStore();
