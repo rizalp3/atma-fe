@@ -7,7 +7,7 @@
 
         <action-mood-card v-if="isTablet" class="mb-3" />
 
-        <moodboard class="mb-4" />
+        <moodboard class="mb-4" :data="moods" />
 
         <div v-if="isTablet" class="report__section-title">
             <atma-icon name="assignment" size="24" />
@@ -55,12 +55,14 @@ export default {
 
     data() {
         return {
-            results: []
+            results: [],
+            moods: []
         };
     },
 
     mounted() {
         this.getTestResults();
+        this.getMoods();
     },
 
     methods: {
@@ -74,6 +76,19 @@ export default {
                     name: result.attributes.name,
                     value: result.attributes.value,
                     time: result.attributes.createdAt
+                }));
+            }
+        },
+
+        async getMoods() {
+            const response = await endpoint.getMoods();
+
+            if (response.data) {
+                this.moods = response.data.map((mood) => ({
+                    id: mood.id,
+                    emoji: mood.attributes.emoji,
+                    title: mood.attributes.title,
+                    date: mood.attributes.createdAt
                 }));
             }
         }

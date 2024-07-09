@@ -38,31 +38,15 @@
 import moment from 'moment';
 import { Tooltip } from 'floating-vue';
 
-const mock = [
-    {
-        date: '2024-05-31',
-        emoji: '🤩',
-        title: 'Lovely'
-    },
-    {
-        date: '2024-06-03',
-        emoji: '😭',
-        title: 'Sad'
-    },
-    {
-        date: '2024-06-04',
-        emoji: '😁',
-        title: 'Happy'
-    },
-    {
-        date: '2024-07-08',
-        emoji: '😋',
-        title: 'Extraordinary'
-    }
-];
-
 export default {
     name: 'Moodboard',
+
+    props: {
+        data: {
+            type: Array,
+            default: () => []
+        }
+    },
 
     components: {
         Tooltip
@@ -70,14 +54,14 @@ export default {
 
     computed: {
         composeCalendarData() {
-            const data = mock.map((item) => ({
+            const result = this.data.map((item) => ({
                 dates: moment(item.date).toDate(),
                 customData: {
                     emoji: item.emoji,
                     title: item.title
                 }
             }));
-            return [...data];
+            return [...result];
         },
 
         composeCalendarAttrs() {

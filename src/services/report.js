@@ -5,5 +5,9 @@ export default {
         return request('get', '/test-results', {
             strapi: { sort: ['createdAt:desc'], ...config }
         });
+    },
+
+    getMoods() {
+        return request('get', '/moods');
     }
 };
