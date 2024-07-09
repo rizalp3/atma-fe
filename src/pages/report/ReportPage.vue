@@ -1,19 +1,24 @@
 <template>
     <div class="report">
-        <action-mood-card v-if="isTablet" class="mb-3" />
-
         <div class="report__section-title">
-            <atma-icon name="task" size="24" />
+            <atma-icon name="mood" size="24" />
             <div>Moodboard</div>
         </div>
 
-        <moodboard class="my-3" />
+        <action-mood-card v-if="isTablet" class="mb-3" />
 
-        <action-test-card v-if="isTablet" class="mb-3" />
+        <moodboard class="mb-4" />
+
+        <div v-if="isTablet" class="report__section-title">
+            <atma-icon name="assignment" size="24" />
+            <div>Stress Level Test</div>
+        </div>
+
+        <action-test-card v-if="isTablet" class="my-3" />
 
         <div class="report__section-title">
             <atma-icon name="task" size="24" />
-            <div>Test Results</div>
+            <div>Latest Test Results</div>
         </div>
 
         <div class="report__result-wrapper">
@@ -31,10 +36,9 @@
 <script>
 import endpoint from '@/services/report';
 
-import Moodboard from '@/components/Moodboard.vue';
-
 import ActionMoodCard from '@/components/report/ActionMoodCard.vue';
 import ActionTestCard from '@/components/report/ActionTestCard.vue';
+import Moodboard from '@/components/report/Moodboard.vue';
 import TestDescription from '@/components/report/TestDescription.vue';
 import TestResult from '@/components/report/TestResult.vue';
 
@@ -42,9 +46,9 @@ export default {
     name: 'ReportPage',
 
     components: {
-        Moodboard,
         ActionMoodCard,
         ActionTestCard,
+        Moodboard,
         TestDescription,
         TestResult
     },
