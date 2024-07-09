@@ -6,7 +6,11 @@
         </div>
 
         <Teleport to="#utility-bar" :disabled="isTablet">
-            <action-mood-card class="mb-3" />
+            <action-mood-card
+                class="mb-3"
+                :disabled="isTodayMoodReported"
+                @add-success="getMoods"
+            />
         </Teleport>
 
         <moodboard class="mb-4" :data="moods" />
@@ -38,6 +42,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import endpoint from '@/services/report';
 
 import ActionMoodCard from '@/components/report/ActionMoodCard.vue';
@@ -59,14 +65,33 @@ export default {
 
     data() {
         return {
+            isLoading: false,
+
             results: [],
             moods: []
         };
     },
 
-    mounted() {
-        this.getTestResults();
-        this.getMoods();
+    async mounted() {
+        this.isLoading = true;
+
+        await this.getTestResults();
+        await this.getMoods();
+
+        this.isLoading = false;
+    },
+
+    computed: {
+        isTodayMoodReported() {
+            if (this.moods.length > 0) {
+                const date = moment(this.moods[0].date);
+                const today = moment();
+
+                return date.isSame(today, 'day');
+            }
+
+            return this.isLoading;
+        }
     },
 
     methods: {

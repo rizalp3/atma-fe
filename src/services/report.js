@@ -9,5 +9,9 @@ export default {
 
     getMoods() {
         return request('get', '/moods');
+    },
+
+    addMood(data) {
+        return request('post', '/moods', { data });
     }
 };
