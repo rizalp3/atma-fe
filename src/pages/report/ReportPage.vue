@@ -5,7 +5,9 @@
             <div>Moodboard</div>
         </div>
 
-        <action-mood-card v-if="isTablet" class="mb-3" />
+        <Teleport to="#utility-bar" :disabled="isTablet">
+            <action-mood-card class="mb-3" />
+        </Teleport>
 
         <moodboard class="mb-4" :data="moods" />
 
@@ -14,7 +16,9 @@
             <div>Stress Level Test</div>
         </div>
 
-        <action-test-card v-if="isTablet" class="my-3" />
+        <Teleport to="#utility-bar" :disabled="isTablet">
+            <action-test-card class="mt-3 mb-4" />
+        </Teleport>
 
         <div class="report__section-title">
             <atma-icon name="task" size="24" />
