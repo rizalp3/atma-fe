@@ -18,6 +18,7 @@ import CommunityPostSidebar from '@/components/community/CommunityPostSidebar.vu
 import SessionDetail from '@/components/community/SessionDetail.vue';
 
 import ReportPage from '@/pages/report/ReportPage.vue';
+import ReportTestPage from '@/pages/report/ReportTestPage.vue';
 
 /**
  * List of Meta Attribute
@@ -95,6 +96,11 @@ const routes = [
         path: '/report',
         component: ReportPage,
         meta: { title: 'Report' }
+    },
+    {
+        path: '/report/test',
+        component: ReportTestPage,
+        meta: { title: 'Test', back: '/report', customBottomBar: true }
     }
 ];
 
