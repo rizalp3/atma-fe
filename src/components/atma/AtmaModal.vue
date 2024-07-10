@@ -1,11 +1,20 @@
 <template>
-    <VueFinalModal class="atma-modal" content-class="atma-modal__wrapper">
+    <VueFinalModal
+        class="atma-modal"
+        content-class="atma-modal__wrapper"
+        :click-to-close="closable"
+        :esc-to-close="closable"
+    >
         <div class="atma-modal__header">
             <div class="atma-modal__title">
                 {{ title }}
             </div>
 
-            <button class="atma-modal__close-button" @click="closeModal">
+            <button
+                v-if="closable"
+                class="atma-modal__close-button"
+                @click="closeModal"
+            >
                 <vue-feather type="x" size="20" />
             </button>
         </div>
@@ -64,6 +73,10 @@ export default {
         secondaryButton: {
             type: Object,
             default: () => ({})
+        },
+        closable: {
+            type: Boolean,
+            default: true
         }
     },
 
