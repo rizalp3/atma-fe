@@ -78,6 +78,9 @@
                 </div>
             </div>
 
+            <!-- Fixed Utility Bar Content -->
+            <div class="utility-bar--fixed" id="utility-bar-fixed"></div>
+
             <!-- Utility Bar Content -->
             <router-view v-slot="{ Component: UtilityBar }" name="utilityBar">
                 <!-- Rendered View -->

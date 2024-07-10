@@ -171,6 +171,15 @@
 
         background: var(--system-color-surface-container);
     }
+
+    &--fixed {
+        position: sticky;
+        top: 80px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 }
 
 .bottom-spacer {
