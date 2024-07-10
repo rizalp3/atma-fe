@@ -8,6 +8,7 @@
                 variant="primary"
                 icon="assignment"
                 radius="12"
+                @click="handleRedirect"
             >
                 Take A Test
             </atma-button>
@@ -25,6 +26,12 @@ export default {
     components: {
         AccordionCard,
         TestDescription
+    },
+
+    methods: {
+        handleRedirect() {
+            this.redirect('/report/test');
+        }
     }
 };
 </script>

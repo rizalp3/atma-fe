@@ -7,6 +7,10 @@ export default {
         });
     },
 
+    addTestResult(data) {
+        return request('post', '/test-results', { data });
+    },
+
     getMoods() {
         return request('get', '/moods');
     },

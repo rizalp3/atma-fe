@@ -83,13 +83,18 @@
             You've answered all questions. Continue to submit this test?
         </atma-text>
     </atma-modal>
+
+    <!-- Result Modal -->
+    <test-result-modal v-model="isModalResultShown" :result="result" />
 </template>
 
 <script>
 import QuestionList from '@/utilities/srq-test.json';
+import endpoint from '@/services/report';
 
 import AccordionCard from '@/components/AccordionCard.vue';
 
+import TestResultModal from '@/components/report/TestResultModal.vue';
 import TestStartModal from '@/components/report/TestStartModal.vue';
 
 export default {
@@ -97,6 +102,7 @@ export default {
 
     components: {
         AccordionCard,
+        TestResultModal,
         TestStartModal
     },
 
@@ -104,15 +110,10 @@ export default {
         return {
             isModalStartShown: false,
             isModalConfirmationShown: false,
+            isModalResultShown: false,
 
-            info: {
-                type: '',
-                name: ''
-            },
-            result: {
-                level: 0,
-                name: ''
-            },
+            info: { type: '', name: '' },
+            result: { level: 0, name: '' },
 
             questions: [],
             answers: []
@@ -188,16 +189,24 @@ export default {
             }
         },
 
-        handleSubmit() {
+        async handleSubmit() {
             this.calculateScore();
 
             const payload = {
-                type: this.info.type,
-                name: this.info.name,
-                value: this.result.level
+                data: {
+                    type: this.info.type,
+                    name: this.info.name,
+                    value: this.result.level
+                }
             };
 
-            console.log(payload);
+            const response = await endpoint.addTestResult(payload);
+
+            this.isModalConfirmationShown = false;
+
+            if (response?.data?.id) {
+                this.isModalResultShown = true;
+            }
         }
     }
 };
@@ -297,6 +306,8 @@ export default {
     gap: 16px;
 
     border-radius: 12px;
+
+    pointer-events: all;
 
     background: var(--system-color-surface);
     color: var(--system-color-outline);
