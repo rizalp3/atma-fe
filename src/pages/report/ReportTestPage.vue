@@ -60,6 +60,7 @@
                         class="test-footer__button"
                         radius="12"
                         :disabled="!isAllAnswered"
+                        @click="isModalConfirmationShown = true"
                     >
                         Submit Test
                     </atma-button>
@@ -68,7 +69,20 @@
         </div>
     </div>
 
+    <!-- Start of Test Modal -->
     <test-start-modal v-model="isModalStartShown" @submit="setTestInfo" />
+
+    <!-- Confirmation Modal -->
+    <atma-modal
+        v-model="isModalConfirmationShown"
+        title="Confirmation"
+        :primary-button="{ title: 'Submit' }"
+        @primary-click="handleSubmit"
+    >
+        <atma-text size="16" weight="400" color-scheme="outline">
+            You've answered all questions. Continue to submit this test?
+        </atma-text>
+    </atma-modal>
 </template>
 
 <script>
@@ -89,9 +103,14 @@ export default {
     data() {
         return {
             isModalStartShown: false,
+            isModalConfirmationShown: false,
 
             info: {
                 type: '',
+                name: ''
+            },
+            result: {
+                level: 0,
                 name: ''
             },
 
@@ -151,6 +170,34 @@ export default {
         setTestInfo(data) {
             this.info = data;
             this.isModalStartShown = false;
+        },
+
+        calculateScore() {
+            const score = this.answers.reduce((sum, val) => sum + val, 0);
+
+            if (score < 5) {
+                this.result = { level: 1, name: 'Normal' };
+            } else if (score < 9) {
+                this.result = { level: 2, name: 'Slightly Stress' };
+            } else if (score < 13) {
+                this.result = { level: 3, name: 'Stress' };
+            } else if (score < 17) {
+                this.result = { level: 4, name: 'Very Stress' };
+            } else {
+                this.result = { level: 5, name: 'Severe Stress' };
+            }
+        },
+
+        handleSubmit() {
+            this.calculateScore();
+
+            const payload = {
+                type: this.info.type,
+                name: this.info.name,
+                value: this.result.level
+            };
+
+            console.log(payload);
         }
     }
 };
