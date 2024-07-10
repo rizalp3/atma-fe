@@ -67,6 +67,8 @@
             </Teleport>
         </div>
     </div>
+
+    <test-start-modal v-model="isModalStartShown" @submit="setTestInfo" />
 </template>
 
 <script>
@@ -74,15 +76,25 @@ import QuestionList from '@/utilities/srq-test.json';
 
 import AccordionCard from '@/components/AccordionCard.vue';
 
+import TestStartModal from '@/components/report/TestStartModal.vue';
+
 export default {
     name: 'ReportTestPage',
 
     components: {
-        AccordionCard
+        AccordionCard,
+        TestStartModal
     },
 
     data() {
         return {
+            isModalStartShown: false,
+
+            info: {
+                type: '',
+                name: ''
+            },
+
             questions: [],
             answers: []
         };
@@ -90,6 +102,10 @@ export default {
 
     created() {
         this.resetData();
+    },
+
+    mounted() {
+        this.isModalStartShown = true;
     },
 
     computed: {
@@ -130,6 +146,11 @@ export default {
 
         chooseAnswer(value, index) {
             this.answers[index] = value;
+        },
+
+        setTestInfo(data) {
+            this.info = data;
+            this.isModalStartShown = false;
         }
     }
 };
