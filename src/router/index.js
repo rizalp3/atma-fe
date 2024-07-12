@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 import HomePage from '@/pages/HomePage.vue';
-import HomeSidebar from '@/components/home/HomeSidebar.vue';
 
 import ArticleListPage from '@/pages/article/ArticleListPage.vue';
 import ArticleDetailPage from '@/pages/article/ArticleDetailPage.vue';
@@ -19,7 +18,7 @@ import CommunityPostSidebar from '@/components/community/CommunityPostSidebar.vu
 import SessionDetail from '@/components/community/SessionDetail.vue';
 
 import ReportPage from '@/pages/report/ReportPage.vue';
-import ReportSidebar from '@/components/report/ReportSidebar.vue';
+import ReportTestPage from '@/pages/report/ReportTestPage.vue';
 
 /**
  * List of Meta Attribute
@@ -41,10 +40,7 @@ const routes = [
 
     {
         path: '/',
-        components: {
-            default: HomePage,
-            utilityBar: HomeSidebar
-        },
+        component: HomePage,
         meta: { title: 'Home' }
     },
 
@@ -98,11 +94,13 @@ const routes = [
 
     {
         path: '/report',
-        components: {
-            default: ReportPage,
-            utilityBar: ReportSidebar
-        },
+        component: ReportPage,
         meta: { title: 'Report' }
+    },
+    {
+        path: '/report/test',
+        component: ReportTestPage,
+        meta: { title: 'Test', back: '/report', customBottomBar: true }
     }
 ];
 

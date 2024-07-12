@@ -1,19 +1,32 @@
 <template>
     <div class="report">
-        <action-mood-card v-if="isTablet" class="mb-3" />
-
         <div class="report__section-title">
-            <atma-icon name="task" size="24" />
+            <atma-icon name="mood" size="24" />
             <div>Moodboard</div>
         </div>
 
-        <moodboard class="my-3" />
+        <Teleport to="#utility-bar" :disabled="isTablet">
+            <action-mood-card
+                class="mb-3"
+                :disabled="isTodayMoodReported"
+                @add-success="getMoods"
+            />
+        </Teleport>
 
-        <action-test-card v-if="isTablet" class="mb-3" />
+        <moodboard class="mb-4" :data="moods" />
+
+        <div v-if="isTablet" class="report__section-title">
+            <atma-icon name="assignment" size="24" />
+            <div>Stress Level Test</div>
+        </div>
+
+        <Teleport to="#utility-bar" :disabled="isTablet">
+            <action-test-card class="mt-3 mb-4" />
+        </Teleport>
 
         <div class="report__section-title">
             <atma-icon name="task" size="24" />
-            <div>Test Results</div>
+            <div>Latest Test Results</div>
         </div>
 
         <div class="report__result-wrapper">
@@ -29,10 +42,13 @@
 </template>
 
 <script>
-import Moodboard from '@/components/Moodboard.vue';
+import moment from 'moment';
+
+import endpoint from '@/services/report';
 
 import ActionMoodCard from '@/components/report/ActionMoodCard.vue';
 import ActionTestCard from '@/components/report/ActionTestCard.vue';
+import Moodboard from '@/components/report/Moodboard.vue';
 import TestDescription from '@/components/report/TestDescription.vue';
 import TestResult from '@/components/report/TestResult.vue';
 
@@ -40,39 +56,71 @@ export default {
     name: 'ReportPage',
 
     components: {
-        Moodboard,
         ActionMoodCard,
         ActionTestCard,
+        Moodboard,
         TestDescription,
         TestResult
     },
 
     data() {
         return {
-            results: [
-                {
-                    id: 1,
-                    type: 'others',
-                    name: 'Rantty',
-                    time: '2024-07-06T12:00:00.000Z',
-                    value: 2
-                },
-                {
-                    id: 2,
-                    type: 'self',
-                    name: 'Rizal Purnomo',
-                    time: '2024-06-25T12:00:00.000Z',
-                    value: 3
-                },
-                {
-                    id: 3,
-                    type: 'self',
-                    name: 'Rizal Purnomo',
-                    time: '2024-06-17T12:00:00.000Z',
-                    value: 5
-                }
-            ]
+            isLoading: false,
+
+            results: [],
+            moods: []
         };
+    },
+
+    async mounted() {
+        this.isLoading = true;
+
+        await this.getTestResults();
+        await this.getMoods();
+
+        this.isLoading = false;
+    },
+
+    computed: {
+        isTodayMoodReported() {
+            if (this.moods.length > 0) {
+                const date = moment(this.moods[0].date);
+                const today = moment();
+
+                return date.isSame(today, 'day');
+            }
+
+            return this.isLoading;
+        }
+    },
+
+    methods: {
+        async getTestResults() {
+            const response = await endpoint.getTestResults();
+
+            if (response.data) {
+                this.results = response.data.map((result) => ({
+                    id: result.id,
+                    type: result.attributes.type,
+                    name: result.attributes.name,
+                    value: result.attributes.value,
+                    time: result.attributes.createdAt
+                }));
+            }
+        },
+
+        async getMoods() {
+            const response = await endpoint.getMoods();
+
+            if (response.data) {
+                this.moods = response.data.map((mood) => ({
+                    id: mood.id,
+                    emoji: mood.attributes.emoji,
+                    title: mood.attributes.title,
+                    date: mood.attributes.createdAt
+                }));
+            }
+        }
     }
 };
 </script>

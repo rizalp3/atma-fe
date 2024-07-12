@@ -7,7 +7,7 @@ export default {
          * @param {object} event - Click Event
          */
         redirect(target, event) {
-            if (event.ctrlKey || event.metaKey) {
+            if (event?.ctrlKey || event?.metaKey) {
                 window.open(target, '_blank');
             } else {
                 this.$router.push(target);

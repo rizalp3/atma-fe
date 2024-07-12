@@ -117,6 +117,10 @@ export default {
     &__time {
         @include text(12px, 400);
         color: var(--system-color-outline);
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
     }
 
     &__level {

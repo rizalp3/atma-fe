@@ -4,34 +4,63 @@
             Community
         </atma-text>
 
-        <div class="home-community__item">
+        <router-link
+            v-for="(post, i) in posts"
+            :key="`post-${i}`"
+            :to="`/community/${post.id}`"
+            class="home-community__item"
+        >
             <div class="home-community__detail">
-                <atma-text size="14" weight="600">16</atma-text>
-                <atma-text size="12" weight="500">Jun</atma-text>
+                <atma-text size="14" weight="600">{{ post.date }}</atma-text>
+                <atma-text size="12" weight="500">{{ post.month }}</atma-text>
             </div>
 
             <div class="home-community__title">
-                EvoTalks Session: Kick Out The Burnout
+                {{ post.title }}
             </div>
-        </div>
-
-        <div class="home-community__item">
-            <div class="home-community__detail">
-                <atma-text size="14" weight="600">6</atma-text>
-                <atma-text size="12" weight="500">Aug</atma-text>
-            </div>
-
-            <div class="home-community__title">
-                Podcast Special Edition: Social Connect Ambassador Program
-                (SCAP) 2023
-            </div>
-        </div>
+        </router-link>
     </div>
 </template>
 
 <script>
+import moment from 'moment';
+
+import endpoint from '@/services/community';
+
 export default {
-    name: 'HomeCommunitySection'
+    name: 'HomeCommunitySection',
+
+    data() {
+        return {
+            posts: []
+        };
+    },
+
+    mounted() {
+        this.getPosts();
+    },
+
+    methods: {
+        async getPosts() {
+            const config = {
+                fields: ['title', 'date'],
+                filters: { category: { $ne: 'link' } },
+                sort: ['date:desc'],
+                pagination: { limit: 3 }
+            };
+
+            const response = await endpoint.getCommunityPosts(config);
+
+            if (response.data) {
+                this.posts = response.data.map((post) => ({
+                    id: post.id,
+                    title: post.attributes.title,
+                    date: moment(post.attributes.date).format('D'),
+                    month: moment(post.attributes.date).format('MMM')
+                }));
+            }
+        }
+    }
 };
 </script>
 
@@ -41,7 +70,7 @@ export default {
     flex-direction: column;
 
     gap: 16px;
-    padding: 18px 20px 20px;
+    padding: 18px 20px 22px;
     border-radius: 16px;
 
     background: var(--system-color-surface);
@@ -73,6 +102,7 @@ export default {
         overflow: hidden;
 
         display: -webkit-box;
+        line-clamp: 2;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
 
