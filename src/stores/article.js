@@ -65,7 +65,7 @@ export const useArticleStore = defineStore('article', {
                     }
                 },
                 populate: {
-                    image: { fields: ['url'] }
+                    image: { fields: ['formats'] }
                 },
                 fields: ['title', 'reading_time', 'createdAt']
             },

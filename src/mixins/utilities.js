@@ -12,6 +12,26 @@ export default {
             } else {
                 this.$router.push(target);
             }
+        },
+
+        /**
+         * @description Get Image URL from Strapi Media Library
+         *
+         * @param {string} image - Image Object
+         * @param {string} size - Target Size
+         *
+         * @returns {string} - Image URL
+         */
+        getImageURL(image = {}, size = 'real') {
+            let imageURL = '';
+
+            if (size === 'real') {
+                imageURL = image?.attributes?.url;
+            } else {
+                imageURL = image?.attributes?.formats?.[size]?.url;
+            }
+
+            return imageURL || '';
         }
     }
 };

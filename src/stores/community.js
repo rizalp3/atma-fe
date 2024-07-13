@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia';
 
-const imageUrl = (image) => {
-    const baseUrl = import.meta.env.VITE_API_BASE_URL;
-    return baseUrl + image;
+const getImageURL = (image = {}) => {
+    return image?.attributes?.url || '';
 };
 
 export const useCommunityStore = defineStore('community', {
@@ -25,7 +24,7 @@ export const useCommunityStore = defineStore('community', {
                 name: data.attributes.name,
                 subname: data.attributes.subname,
                 description: data.attributes.description,
-                logo: imageUrl(data.attributes.logo.data.attributes.url),
+                logo: getImageURL(data.attributes.logo.data),
                 socialLinks: data.attributes.socialLinks
             };
         },
@@ -36,7 +35,7 @@ export const useCommunityStore = defineStore('community', {
             // Preprocess Images Data
             if (data.attributes?.images?.data) {
                 images = data.attributes.images.data.map((image) => {
-                    return imageUrl(image.attributes.url);
+                    return getImageURL(image);
                 });
             }
 
@@ -44,9 +43,7 @@ export const useCommunityStore = defineStore('community', {
             if (data.attributes?.session?.image) {
                 session = {
                     ...data.attributes.session,
-                    image: imageUrl(
-                        data.attributes.session.image.data.attributes.url
-                    )
+                    image: getImageURL(data.attributes.session.image.data)
                 };
             }
 

@@ -116,12 +116,11 @@ export default {
             if (response?.data?.attributes) {
                 const { id, attributes } = response.data;
 
-                const imageUrl = attributes.image.data.attributes.url;
-                const baseUrl = import.meta.env.VITE_API_BASE_URL;
+                const image = this.getImageURL(attributes.image.data);
 
                 this.article = {
                     ...attributes,
-                    image: `${baseUrl}${imageUrl}`,
+                    image,
                     id
                 };
             }

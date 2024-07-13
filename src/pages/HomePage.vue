@@ -97,7 +97,7 @@ export default {
                 pagination: { start: 0, limit: 4 },
                 sort: ['view:desc'],
                 populate: {
-                    image: { fields: ['url'] },
+                    image: { fields: ['formats'] },
                     category: { fields: ['name'] }
                 }
             };
@@ -111,7 +111,10 @@ export default {
                         title: item.attributes.title,
                         createdAt: item.attributes.createdAt,
                         readingTime: item.attributes.reading_time,
-                        image: item.attributes.image.data.attributes.url,
+                        image: this.getImageURL(
+                            item.attributes.image.data,
+                            'small'
+                        ),
                         category: item.attributes.category.data.attributes.name
                     };
                 });
