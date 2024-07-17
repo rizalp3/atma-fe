@@ -3,6 +3,7 @@
         v-model="store.isAuthModalShown"
         class="auth-modal"
         content-class="auth-modal__wrapper"
+        overlay-class="auth-modal__overlay"
     >
         <!-- Header -->
         <div class="auth-modal__header">
@@ -63,6 +64,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &__overlay {
+        background: var(--system-color-modal-overlay);
+    }
 
     &__wrapper {
         width: 90%;

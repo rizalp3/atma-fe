@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <img :src="getImage(article.image)" alt="img" />
+                <img :src="article.image" alt="img" />
             </router-link>
         </div>
     </div>
@@ -39,7 +39,7 @@
                 :to="`/article/${trending.id}`"
                 class="home-article__highlight"
             >
-                <img :src="getImage(trending.image)" alt="img" />
+                <img :src="trending.image" alt="img" />
 
                 <div class="home-article__highlight-detail">
                     <atma-text size="12" weight="600" color-scheme="primary">
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <img :src="getImage(article.image)" alt="img" />
+                    <img :src="article.image" alt="img" />
                 </router-link>
             </div>
         </div>
@@ -120,10 +120,6 @@ export default {
     methods: {
         formatDate(date) {
             return moment(date).fromNow() || '-';
-        },
-        getImage(image) {
-            const baseUrl = import.meta.env.VITE_API_BASE_URL;
-            return baseUrl + image;
         }
     }
 };
@@ -163,6 +159,7 @@ export default {
 
             overflow: hidden;
             display: -webkit-box;
+            line-clamp: 3;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
 
@@ -226,6 +223,7 @@ export default {
 
             overflow: hidden;
             display: -webkit-box;
+            line-clamp: 2;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
 

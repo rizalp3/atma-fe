@@ -16,11 +16,11 @@ export default {
         const defaultConfig = {
             populate: {
                 images: {
-                    fields: ['url']
+                    fields: ['formats']
                 },
                 session: {
                     fields: ['id'],
-                    populate: { image: { fields: ['url'] } }
+                    populate: { image: { fields: ['formats'] } }
                 }
             },
             fields: ['category', 'title', 'date', 'summary', 'link'],

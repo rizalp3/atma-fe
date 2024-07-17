@@ -14,7 +14,7 @@
                     :title="attributes.title"
                     :time="attributes.reading_time"
                     :date="attributes.createdAt"
-                    :image="getImage(attributes.image)"
+                    :image="getImageURL(attributes.image.data, 'small')"
                 />
             </router-link>
         </template>
@@ -73,13 +73,6 @@ export default {
             }
 
             this.isLoading = false;
-        },
-
-        getImage(image) {
-            const baseUrl = import.meta.env.VITE_API_BASE_URL;
-            const url = image.data.attributes.url;
-
-            return baseUrl + url;
         }
     }
 };

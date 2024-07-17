@@ -2,6 +2,7 @@
     <VueFinalModal
         class="atma-modal"
         content-class="atma-modal__wrapper"
+        overlay-class="atma-modal__overlay"
         :click-to-close="closable"
         :esc-to-close="closable"
     >
@@ -99,6 +100,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &__overlay {
+        background: var(--system-color-modal-overlay);
+    }
 
     &__wrapper {
         width: 90%;

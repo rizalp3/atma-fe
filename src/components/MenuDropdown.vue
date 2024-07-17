@@ -29,22 +29,18 @@
             >
                 <div class="menu-dropdown__user-name">{{ userName }}</div>
 
-                <img
-                    class="menu-dropdown__user-avatar"
-                    src="https://i.pravatar.cc/200?img=13"
-                    alt="User Avatar"
-                />
+                <div class="menu-dropdown__user-avatar">
+                    <vue-feather type="user" size="16" />
+                </div>
             </button>
 
             <!-- Dropdown Menu -->
             <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2">
                 <!-- Profile Section -->
                 <div v-if="isAuthenticated" class="dropdown-profile">
-                    <img
-                        class="dropdown-profile__avatar"
-                        src="https://i.pravatar.cc/200?img=13"
-                        alt="User Avatar"
-                    />
+                    <div class="dropdown-profile__avatar">
+                        <vue-feather type="user" size="22" />
+                    </div>
 
                     <div>
                         <div class="dropdown-profile__name">{{ userName }}</div>
@@ -239,14 +235,18 @@ export default {
         color: var(--system-color-on-secondary-container);
 
         &-avatar {
-            width: 32px;
-            height: 32px;
-
-            object-fit: cover;
-            overflow-clip-margin: unset;
+            width: 28px;
+            height: 28px;
 
             border-radius: 50%;
-            margin-left: 12px;
+            margin: 2px 4px 2px 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--system-color-surface-tint);
+            color: var(--system-color-secondary-container);
         }
 
         &-name {
@@ -280,10 +280,14 @@ export default {
             width: 40px;
             height: 40px;
 
-            object-fit: cover;
-            overflow-clip-margin: unset;
-
             border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--system-color-surface-tint);
+            color: var(--system-color-secondary-container);
         }
 
         &__name {

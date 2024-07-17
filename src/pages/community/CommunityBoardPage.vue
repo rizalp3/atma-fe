@@ -90,16 +90,16 @@ export default {
                     // Preprocess Images Data
                     if (post.attributes?.images?.data) {
                         images = post.attributes.images.data.map((image) => {
-                            return this.getImageUrl(image.attributes.url);
+                            return this.getImageURL(image, 'small');
                         });
                     }
 
                     // Preprocess Session Data
                     if (post.attributes?.session?.image) {
                         session = {
-                            image: this.getImageUrl(
-                                post.attributes.session.image.data.attributes
-                                    .url
+                            image: this.getImageURL(
+                                post.attributes.session.image.data,
+                                'small'
                             )
                         };
                     }
@@ -120,11 +120,6 @@ export default {
 
         showCommunityDetail() {
             this.isShowModal = true;
-        },
-
-        getImageUrl(image) {
-            const baseUrl = import.meta.env.VITE_API_BASE_URL;
-            return baseUrl + image;
         }
     }
 };
