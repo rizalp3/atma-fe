@@ -52,5 +52,7 @@
     --system-color-surface-container-high: #2b292f;
     --system-color-surface-container-highest: #36343a;
 
+    --system-color-modal-overlay: #a9a9a930;
+
     color-scheme: dark;
 }
