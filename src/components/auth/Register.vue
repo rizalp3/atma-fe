@@ -64,7 +64,10 @@
                     <atma-icon :name="toggleIcon" size="20" />
                 </button>
 
-                <div class="register-section__rule-list">
+                <div
+                    v-show="!isPasswordValid"
+                    class="register-section__rule-list"
+                >
                     <div
                         v-for="(rule, i) in rules"
                         :key="`password-rule-${i}`"
@@ -83,6 +86,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- General Error Alert -->
+            <div
+                v-if="errors.general"
+                class="register-section__alert alert fade show"
+                role="alert"
+            >
+                <div class="register-section__alert-text">
+                    {{ errors.general }}
+                </div>
+
+                <button class="d-flex" type="button" @click="handleHideError">
+                    <atma-icon name="close" size="20" />
+                </button>
             </div>
 
             <!-- Submit -->
@@ -104,6 +122,8 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth';
+
+import endpoint from '@/services/auth';
 
 export default {
     name: 'RegisterSection',
@@ -152,6 +172,9 @@ export default {
     },
 
     computed: {
+        isPasswordValid() {
+            return this.rules.every((rule) => rule.passed);
+        },
         toggleIcon() {
             return this.isPasswordShown ? 'visibility-off' : 'visibility';
         },
@@ -202,22 +225,46 @@ export default {
             this.isPasswordShown = !this.isPasswordShown;
         },
 
-        handleSubmit() {
+        async handleSubmit() {
             this.validateName();
             this.validateEmail();
             this.validatePassword();
 
-            if (Object.keys(this.errors).length <= 0) {
-                console.log({
-                    name: this.name,
-                    email: this.email,
-                    password: this.password
-                });
+            // Reset general error
+            if (this.errors.general) {
+                delete this.errors.general;
+            }
+
+            // Check if there is any error
+            if (Object.keys(this.errors).length > 0) {
+                return;
+            }
+
+            const payload = {
+                username: this.name,
+                email: this.email,
+                password: this.password
+            };
+
+            const response = await endpoint.register(payload);
+
+            if (response.jwt && response.user) {
+                this.store.setAuthData(response.jwt, response.user);
+                location.reload();
+            }
+
+            if (response.error) {
+                this.errors.general =
+                    response.error.message || 'Something went wrong';
             }
         },
 
         handleRedirectToLogin() {
             this.store.showAuthModal('login');
+        },
+
+        handleHideError() {
+            delete this.errors.general;
         }
     }
 };
@@ -336,6 +383,21 @@ export default {
 
         &--passed {
             color: var(--system-color-valid);
+        }
+    }
+
+    &__alert {
+        display: flex;
+        gap: 8px;
+
+        --bs-alert-bg: var(--system-color-error-container);
+        --bs-alert-color: var(--system-color-on-error-container);
+        --bs-alert-padding-y: 12px;
+        --bs-alert-padding-x: 12px;
+
+        &-text {
+            @include text(14px);
+            margin-right: auto;
         }
     }
 
