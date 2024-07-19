@@ -29,7 +29,7 @@
 
                 <div
                     v-else
-                    v-tooltip="'Login to Your Account First'"
+                    v-tooltip="$t('general.authenticated')"
                     class="home-feed__action-like"
                 >
                     <atma-icon name="favorite" size="20" />

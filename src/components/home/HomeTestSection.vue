@@ -1,7 +1,7 @@
 <template>
     <div class="home-test">
         <atma-text size="16" weight="600" color-scheme="on-surface">
-            Test Result
+            {{ $t('home.personal.test') }}
         </atma-text>
 
         <div class="home-test__wrapper">

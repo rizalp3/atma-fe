@@ -3,10 +3,12 @@
     <div class="home-section-header mt-0">
         <atma-icon class="home-section-header__icon" name="article" />
 
-        <div class="home-section-header__title">Trending Articles</div>
+        <div class="home-section-header__title">
+            {{ $t('home.article.title') }}
+        </div>
 
         <router-link to="/article" class="home-section-header__action">
-            Read More
+            {{ $t('home.article.action') }}
         </router-link>
     </div>
 
@@ -16,10 +18,12 @@
     <div class="home-section-header">
         <atma-icon class="home-section-header__icon" name="pages" />
 
-        <div class="home-section-header__title">Top Feeds</div>
+        <div class="home-section-header__title">
+            {{ $t('home.feed.title') }}
+        </div>
 
         <router-link to="/explore" class="home-section-header__action">
-            Explore
+            {{ $t('home.feed.action') }}
         </router-link>
     </div>
 
@@ -33,7 +37,9 @@
     <div v-if="isTablet" class="home-section-header">
         <atma-icon class="home-section-header__icon" name="account-circle" />
 
-        <div class="home-section-header__title">Personalized Information</div>
+        <div class="home-section-header__title">
+            {{ $t('home.personal.title') }}
+        </div>
     </div>
 
     <Teleport to="#utility-bar" :disabled="isTablet">

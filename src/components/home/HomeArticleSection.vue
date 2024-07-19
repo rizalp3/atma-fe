@@ -22,7 +22,9 @@
                     <div class="home-article__item-subtitle">
                         <div>{{ formatDate(article.createdAt) }}</div>
                         <div></div>
-                        <div>{{ article.readingTime }} min read</div>
+                        <div>
+                            {{ formatReadTime(article.readingTime) }}
+                        </div>
                     </div>
                 </div>
 
@@ -43,7 +45,7 @@
 
                 <div class="home-article__highlight-detail">
                     <atma-text size="12" weight="600" color-scheme="primary">
-                        Trending
+                        {{ $t('home.article.trending') }}
                     </atma-text>
 
                     <div class="home-article__highlight-title">
@@ -53,7 +55,9 @@
                     <div class="home-article__highlight-subdetail">
                         <div>{{ formatDate(trending.createdAt) }}</div>
                         <div></div>
-                        <div>{{ trending.readingTime }} min read</div>
+                        <div>
+                            {{ formatReadTime(trending.readingTime) }}
+                        </div>
                     </div>
                 </div>
             </router-link>
@@ -71,7 +75,7 @@
                             {{ article.title }}
                         </div>
                         <div class="home-article__item-subtitle">
-                            {{ article.readingTime }} min read
+                            {{ formatReadTime(article.readingTime) }}
                         </div>
                     </div>
 
@@ -120,6 +124,9 @@ export default {
     methods: {
         formatDate(date) {
             return moment(date).fromNow() || '-';
+        },
+        formatReadTime(time) {
+            return this.$t('home.article.readTime', { time });
         }
     }
 };
