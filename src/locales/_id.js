@@ -1,4 +1,13 @@
 export default {
+    route: {
+        notFound: 'Halaman Tidak Ditemukan',
+        home: 'Beranda',
+        article: 'Artikel',
+        explore: 'Feed',
+        community: 'Komunitas',
+        report: 'Laporan',
+        test: 'Tes'
+    },
     general: {
         authenticated: 'Masuk Terlebih Dahulu'
     },

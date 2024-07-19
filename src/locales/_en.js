@@ -1,4 +1,13 @@
 export default {
+    route: {
+        notFound: 'Page Not Found',
+        home: 'Home',
+        article: 'Articles',
+        explore: 'Explore',
+        community: 'Community Board',
+        report: 'Report',
+        test: 'Test'
+    },
     general: {
         authenticated: 'Login to Your Account First'
     },
