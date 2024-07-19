@@ -1,20 +1,24 @@
 <template>
     <div class="register-section">
-        <div class="register-section__title">Register</div>
+        <div class="register-section__title">
+            {{ $t('auth.register.title') }}
+        </div>
 
         <div class="register-section__subtitle">
-            Please provide your details to sign up
+            {{ $t('auth.register.subtitle') }}
         </div>
 
         <form @submit.prevent="handleSubmit">
             <!-- Name -->
             <div class="register-section__input">
-                <label class="form-label" for="register-name">Name</label>
+                <label class="form-label" for="register-name">
+                    {{ $t('auth.register.name.label') }}
+                </label>
                 <input
                     v-model="name"
                     :class="['form-control', { 'is-invalid': errors.name }]"
+                    :placeholder="$t('auth.register.name.placeholder')"
                     type="text"
-                    placeholder="Enter your name"
                     id="register-name"
                     @change="validateName"
                 />
@@ -24,13 +28,13 @@
             <!-- Email -->
             <div class="register-section__input">
                 <label class="form-label" for="register-email">
-                    Email Address
+                    {{ $t('auth.register.email.label') }}
                 </label>
                 <input
                     v-model="email"
                     :class="['form-control', { 'is-invalid': errors.email }]"
+                    :placeholder="$t('auth.register.email.placeholder')"
                     type="email"
-                    placeholder="Enter your email address"
                     id="register-email"
                     @change="validateEmail"
                 />
@@ -40,7 +44,7 @@
             <!-- Password -->
             <div class="register-section__input">
                 <label class="form-label" for="register-password">
-                    Password
+                    {{ $t('auth.register.password.label') }}
                 </label>
 
                 <input
@@ -51,7 +55,7 @@
                         { 'is-invalid': errors.password }
                     ]"
                     :type="toggleType"
-                    placeholder="Password"
+                    :placeholder="$t('auth.register.password.placeholder')"
                     id="register-password"
                     @change="validatePassword"
                 />
@@ -105,15 +109,15 @@
 
             <!-- Submit -->
             <button class="register-section__submit" type="submit">
-                Register
+                {{ $t('auth.register.submit') }}
             </button>
 
             <!-- Login -->
             <div class="register-section__login">
-                <div>Already have an account?</div>
+                <div>{{ $t('auth.register.login.text') }}</div>
 
                 <button type="button" @click="handleRedirectToLogin">
-                    Login
+                    {{ $t('auth.register.login.action') }}
                 </button>
             </div>
         </form>
@@ -143,10 +147,22 @@ export default {
 
             errors: {},
             rules: [
-                { passed: false, message: 'At least 8 characters' },
-                { passed: false, message: 'Contain 1 uppercase character' },
-                { passed: false, message: 'Contain 1 number' },
-                { passed: false, message: `Can't contain any spaces` }
+                {
+                    passed: false,
+                    message: this.$t('auth.register.password.rules.min')
+                },
+                {
+                    passed: false,
+                    message: this.$t('auth.register.password.rules.upper')
+                },
+                {
+                    passed: false,
+                    message: this.$t('auth.register.password.rules.number')
+                },
+                {
+                    passed: false,
+                    message: this.$t('auth.register.password.rules.space')
+                }
             ]
         };
     },
@@ -186,7 +202,7 @@ export default {
     methods: {
         validateName() {
             if (this.name === '') {
-                this.errors.name = `Name is required`;
+                this.errors.name = this.$t('auth.register.name.error.required');
             }
         },
 
@@ -194,9 +210,13 @@ export default {
             const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
             if (this.email === '') {
-                this.errors.email = 'Email is required';
+                this.errors.email = this.$t(
+                    'auth.register.email.error.required'
+                );
             } else if (!emailRegex.test(this.email)) {
-                this.errors.email = 'Invalid email address';
+                this.errors.email = this.$t(
+                    'auth.register.email.error.invalid'
+                );
             }
         },
 
@@ -204,7 +224,9 @@ export default {
             const isPasswordValid = this.rules.every((rule) => rule.passed);
 
             if (!isPasswordValid) {
-                this.errors.password = 'Password is not valid';
+                this.errors.password = this.$t(
+                    'auth.register.password.error.invalid'
+                );
             }
         },
 
@@ -255,7 +277,7 @@ export default {
 
             if (response.error) {
                 this.errors.general =
-                    response.error.message || 'Something went wrong';
+                    response.error.message || this.$t('auth.register.error');
             }
         },
 

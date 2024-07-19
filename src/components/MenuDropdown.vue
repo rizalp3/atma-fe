@@ -56,7 +56,9 @@
                 <li v-if="isAuthenticated">
                     <div class="dropdown-item">
                         <atma-icon name="person" size="22" />
-                        <atma-text size="14" weight="500">Profile</atma-text>
+                        <atma-text size="14" weight="500">
+                            {{ $t('menu.profile') }}
+                        </atma-text>
                     </div>
                 </li>
 
@@ -72,7 +74,9 @@
                 <li>
                     <div class="dropdown-item">
                         <atma-icon name="info" size="22" />
-                        <atma-text size="14" weight="500">About Atma</atma-text>
+                        <atma-text size="14" weight="500">
+                            {{ $t('menu.about') }}
+                        </atma-text>
                     </div>
                 </li>
 
@@ -82,13 +86,17 @@
                 <li v-if="isAuthenticated">
                     <div class="dropdown-item" @click="handleLogout">
                         <atma-icon name="logout" size="22" />
-                        <atma-text size="14" weight="500">Logout</atma-text>
+                        <atma-text size="14" weight="500">
+                            {{ $t('menu.logout') }}
+                        </atma-text>
                     </div>
                 </li>
                 <li v-else>
                     <div class="dropdown-item" @click="handleShowLoginModal">
                         <atma-icon name="login" size="22" />
-                        <atma-text size="14" weight="500">Login</atma-text>
+                        <atma-text size="14" weight="500">
+                            {{ $t('menu.login') }}
+                        </atma-text>
                     </div>
                 </li>
             </ul>
@@ -100,7 +108,7 @@
             class="menu-dropdown__login"
             @click="handleShowLoginModal"
         >
-            Login
+            {{ $t('menu.login') }}
         </button>
     </div>
 </template>
@@ -136,8 +144,8 @@ export default {
         },
 
         themeText() {
-            const target = this.theme === 'light' ? 'Dark' : 'Light';
-            return `Switch to ${target} Mode`;
+            const target = this.theme === 'light' ? 'dark' : 'light';
+            return this.$t(`menu.theme.${target}`);
         },
 
         userName() {
