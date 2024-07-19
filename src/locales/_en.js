@@ -8,6 +8,11 @@ export default {
         report: 'Report',
         test: 'SRQ-20 Test'
     },
+    notFound: {
+        title: 'Page Not Found',
+        subtitle: "We Can't Find The Page You're Looking For",
+        action: 'Back To Home'
+    },
     general: {
         authenticated: 'Login to Your Account First'
     },

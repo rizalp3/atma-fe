@@ -6,12 +6,14 @@
             :src="Illustration"
         />
 
-        <h1 class="not-found__title">{{ title }}</h1>
+        <h1 class="not-found__title">{{ title || $t('notFound.title') }}</h1>
 
-        <p class="not-found__subtitle">{{ subtitle }}</p>
+        <p class="not-found__subtitle">
+            {{ subtitle || $t('notFound.subtitle') }}
+        </p>
 
         <router-link class="not-found__action" :to="action.target">
-            {{ action.text }}
+            {{ action.text || $t('notFound.action') }}
         </router-link>
     </div>
 </template>
@@ -25,16 +27,16 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Page Not Found'
+            default: ''
         },
         subtitle: {
             type: String,
-            default: `We Can't Find The Page You're Looking For`
+            default: ''
         },
         action: {
             type: Object,
             default: () => ({
-                text: 'Back to Home',
+                text: '',
                 target: '/'
             })
         }

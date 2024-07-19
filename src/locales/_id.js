@@ -8,6 +8,11 @@ export default {
         report: 'Laporan',
         test: 'Tes SRQ-20'
     },
+    notFound: {
+        title: 'Halaman Tidak Ditemukan',
+        subtitle: 'Kami Tidak Dapat Menemukan Halaman Yang Anda Cari',
+        action: 'Kembali Ke Beranda'
+    },
     general: {
         authenticated: 'Masuk Terlebih Dahulu'
     },
