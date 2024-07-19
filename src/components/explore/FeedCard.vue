@@ -26,13 +26,13 @@
                         <li>
                             <a class="dropdown-item" href="#">
                                 <atma-icon name="share" size="20" />
-                                Share
+                                {{ $t('explore.feed.share') }}
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="#">
                                 <atma-icon name="flag" size="20" />
-                                Report
+                                {{ $t('explore.feed.report') }}
                             </a>
                         </li>
                     </ul>
@@ -41,14 +41,14 @@
 
             <template v-else>
                 <div
-                    v-tooltip="'Login to Your Account First'"
+                    v-tooltip="$t('general.authenticated')"
                     class="feed-card__action feed-card__action-like"
                 >
                     <atma-icon name="favorite" size="20" />
                 </div>
 
                 <div
-                    v-tooltip="'Login to Your Account First'"
+                    v-tooltip="$t('general.authenticated')"
                     class="feed-card__action"
                 >
                     <atma-icon name="more-vert" size="20" />

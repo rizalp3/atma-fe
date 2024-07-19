@@ -1,28 +1,32 @@
 import { defineStore } from 'pinia';
 import moment from 'moment';
 
+import i18n from '@/locales';
+
+const { t } = i18n.global;
+
 const baseFilter = {
     sorting: [
         {
             key: 'trending',
-            name: 'Trending',
+            name: t('explore.filter.sort.trending'),
             formula: 'likesCount:desc'
         },
         {
             key: 'recent',
-            name: 'Recent',
+            name: t('explore.filter.sort.recent'),
             formula: 'createdAt:desc'
         }
     ],
     time: [
         {
             key: 'any',
-            name: 'Anytime',
+            name: t('explore.filter.time.anytime'),
             formula: {}
         },
         {
             key: 'week',
-            name: 'Past Week',
+            name: t('explore.filter.time.week'),
             formula: {
                 $between: [
                     moment().subtract(1, 'weeks').format(),
@@ -32,7 +36,7 @@ const baseFilter = {
         },
         {
             key: 'month',
-            name: 'Past Month',
+            name: t('explore.filter.time.month'),
             formula: {
                 $between: [
                     moment().subtract(1, 'months').format(),
@@ -42,7 +46,7 @@ const baseFilter = {
         },
         {
             key: 'year',
-            name: 'Past Year',
+            name: t('explore.filter.time.year'),
             formula: {
                 $between: [
                     moment().subtract(1, 'years').format(),
@@ -74,7 +78,5 @@ export const useExploreStore = defineStore('explore', {
         setTime(data) {
             this.config.filters.createdAt = data.formula;
         }
-
-        
     }
 });
