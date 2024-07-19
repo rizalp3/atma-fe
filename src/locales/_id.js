@@ -122,5 +122,49 @@ export default {
                 year: 'Setahun Terakhir'
             }
         }
+    },
+    community: {
+        board: {
+            about: 'Tentang',
+            contact: 'Kontak'
+        },
+        post: {
+            notFound: {
+                text: 'Post Tidak Ditemukan',
+                action: 'Lihat Post Lainnya'
+            },
+            category: {
+                news: 'Berita',
+                question: 'Tanya Jawab'
+            }
+        },
+        quiz: {
+            action: {
+                upvote: 'Masuk untuk Melakukan Upvote',
+                add: 'Pertanyaan Baru',
+                delete: 'Hapus Pertanyaan',
+                unanswered: 'Tidak Terjawab'
+            },
+            session: {
+                title: 'Detail Sesi',
+                about: 'Tentang Sesi Ini'
+            },
+            status: {
+                open: 'Pertanyaan',
+                close: 'Pertanyaan (Menunggu Jawaban)',
+                answered: 'Pertanyaan dan Jawaban'
+            },
+            add: {
+                title: 'Buat Pertanyaan Baru',
+                placeholder: 'Tulis pertanyaan anda',
+                action: 'Kirim'
+            },
+            delete: {
+                title: 'Hapus Pertanyaan',
+                description: 'Apakah anda ingin menghapus pertanyaan ini?',
+                action: 'Hapus',
+                cancel: 'Batal'
+            }
+        }
     }
 };

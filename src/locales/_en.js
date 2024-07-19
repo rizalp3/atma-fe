@@ -4,7 +4,7 @@ export default {
         home: 'Home',
         article: 'Articles',
         explore: 'Explore',
-        community: 'Community Board',
+        community: 'Community',
         report: 'Report',
         test: 'Test'
     },
@@ -120,6 +120,50 @@ export default {
                 week: 'Past Week',
                 month: 'Past Month',
                 year: 'Past Year'
+            }
+        }
+    },
+    community: {
+        board: {
+            about: 'About',
+            contact: 'Contact'
+        },
+        post: {
+            notFound: {
+                text: 'Post Not Found',
+                action: 'View Other Posts'
+            },
+            category: {
+                news: 'News',
+                question: 'Q & A'
+            }
+        },
+        quiz: {
+            action: {
+                upvote: 'Login to Upvote',
+                add: 'New Question',
+                delete: 'Delete Question',
+                unanswered: 'Not Answered'
+            },
+            session: {
+                title: 'Session Detail',
+                about: 'About This Session'
+            },
+            status: {
+                open: 'Questions',
+                close: 'Questions (Waiting for Answers)',
+                answered: 'Questions and Answers'
+            },
+            add: {
+                title: 'Add New Question',
+                placeholder: 'Enter your question',
+                action: 'Submit'
+            },
+            delete: {
+                title: 'Delete Question',
+                description: 'Are you sure you want to delete this question?',
+                action: 'Delete',
+                cancel: 'Cancel'
             }
         }
     }

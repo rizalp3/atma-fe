@@ -24,7 +24,7 @@
 
                 <div
                     v-else
-                    v-tooltip="'You Need to Login to Upvote'"
+                    v-tooltip="$t('community.quiz.action.upvote')"
                     :class="composeUpvoteClass"
                 >
                     <vue-feather
@@ -51,7 +51,7 @@
                 @click="$emit('deleteButtonClicked')"
             >
                 <atma-icon name="delete" size="20" />
-                Delete Question
+                {{ $t('community.quiz.action.delete') }}
             </button>
 
             <div
@@ -59,7 +59,7 @@
                 class="question-card__not-answered"
             >
                 <atma-icon name="close" size="20" />
-                Not Answered
+                {{ $t('community.quiz.action.unanswered') }}
             </div>
         </div>
     </div>

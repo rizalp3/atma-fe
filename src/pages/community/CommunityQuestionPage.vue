@@ -2,7 +2,7 @@
     <div class="community-question">
         <!-- Session Detail (Tablet & Mobile Only) -->
         <div v-if="isTablet" class="community-question__section-title">
-            Session Detail
+            {{ $t('community.quiz.session.title') }}
         </div>
 
         <div
@@ -50,13 +50,16 @@
         <floating-button
             v-if="isStatus('open')"
             icon="add"
-            label="New Question"
+            :label="$t('community.quiz.action.add')"
             @action="showAddQuestionModal"
         />
     </div>
 
     <!-- Session Detail Modal -->
-    <atma-modal v-model="isDetailModalShown" title="Session Detail">
+    <atma-modal
+        v-model="isDetailModalShown"
+        :title="$t('community.quiz.session.title')"
+    >
         <session-detail />
     </atma-modal>
 
@@ -73,7 +76,7 @@
             weight="500"
             color-scheme="on-surface"
         >
-            Are you sure you want to delete this question?
+            {{ $t('community.quiz.delete.description') }}
         </atma-text>
 
         <atma-text size="16" weight="400" color-scheme="outline">
@@ -150,20 +153,22 @@ export default {
         },
 
         sectionTitle() {
-            const title = {
-                open: 'Questions',
-                closed: 'Questions (Waiting for Answers)',
-                answered: 'Questions & Answers'
-            };
+            if (['open', 'closed', 'answered'].includes(this.session.status)) {
+                return this.$t(`community.quiz.status.${this.session.status}`);
+            }
 
-            return title[this.session.status] || 'Questions';
+            return this.$t('community.quiz.status.open');
         },
 
         deleteModalAttrs() {
             return {
-                title: 'Delete Question',
-                primaryButton: { title: 'Delete' },
-                secondaryButton: { title: 'Cancel' }
+                title: this.$t('community.quiz.delete.title'),
+                primaryButton: {
+                    title: this.$t('community.quiz.delete.action')
+                },
+                secondaryButton: {
+                    title: this.$t('community.quiz.delete.cancel')
+                }
             };
         },
 
