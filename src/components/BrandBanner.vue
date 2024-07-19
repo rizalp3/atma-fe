@@ -4,16 +4,15 @@
 
         <div class="brand-banner__detail">
             <div class="brand-banner__title">
-                Enjoy all feature by login into your account, it's free!
+                {{ $t('ads.title') }}
             </div>
 
             <div class="brand-banner__subtitle">
-                Record your daily mood, or take a stress test. All personalized
-                for you.
+                {{ $t('ads.subtitle') }}
             </div>
 
             <button class="brand-banner__action" @click="handleShowLoginModal">
-                Login to Your Account
+                {{ $t('ads.action') }}
             </button>
         </div>
     </div>

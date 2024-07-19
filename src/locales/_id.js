@@ -21,6 +21,12 @@ export default {
             dark: 'Ubah ke Mode Gelap'
         }
     },
+    ads: {
+        title: 'Nikmati semua fitur dengan masuk ke akun Anda, gratis!',
+        subtitle:
+            'Pantau mood harian anda, atau lakukan tes tingkat stres. Semua dipersonalisasi untuk anda.',
+        action: 'Masuk ke Akun Anda'
+    },
     auth: {
         login: {
             title: 'Masuk Akun',

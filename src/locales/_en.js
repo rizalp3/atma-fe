@@ -21,6 +21,12 @@ export default {
             dark: 'Switch to Dark Mode'
         }
     },
+    ads: {
+        title: "Enjoy all feature by login into your account, it's free!",
+        subtitle:
+            'Record your daily mood, or take a stress test. All personalized for you.',
+        action: 'Login to Your Account'
+    },
     auth: {
         login: {
             title: 'Login',
