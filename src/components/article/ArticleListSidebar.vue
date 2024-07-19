@@ -1,11 +1,15 @@
 <template>
     <div class="article-list-sidebar">
-        <div class="article-list-sidebar__section-title">Category</div>
+        <div class="article-list-sidebar__section-title">
+            {{ $t('article.category.title') }}
+        </div>
 
         <article-category-filter />
 
         <!-- Sorting Section -->
-        <div class="article-list-sidebar__section-title">Sort By</div>
+        <div class="article-list-sidebar__section-title">
+            {{ $t('article.sort.title') }}
+        </div>
 
         <div v-for="data in sortingValues" :key="data.key" class="form-check">
             <input
@@ -24,7 +28,9 @@
         </div>
 
         <!-- Time Section -->
-        <div class="article-list-sidebar__section-title">Date Posted</div>
+        <div class="article-list-sidebar__section-title">
+            {{ $t('article.time.title') }}
+        </div>
 
         <div
             v-for="data in timeFilterValues"

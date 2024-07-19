@@ -109,6 +109,25 @@ export default {
             test: 'Hasil Test'
         }
     },
+    article: {
+        readTime: '{time} menit baca',
+        category: {
+            title: 'Kategori',
+            default: 'Semua Artikel'
+        },
+        sort: {
+            title: 'Urutkan',
+            trending: 'Terpopuler',
+            recent: 'Terbaru'
+        },
+        time: {
+            title: 'Rentang Waktu',
+            anytime: 'Semua',
+            week: 'Seminggu Terakhir',
+            month: 'Sebulan Terakhir',
+            year: 'Setahun Terakhir'
+        }
+    },
     explore: {
         feed: {
             share: 'Bagikan',

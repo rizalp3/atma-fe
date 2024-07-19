@@ -109,6 +109,25 @@ export default {
             test: 'Test Results'
         }
     },
+    article: {
+        readTime: '1 min read | {time} mins read',
+        category: {
+            title: 'Category',
+            default: 'All Article'
+        },
+        sort: {
+            title: 'Sort By',
+            trending: 'Trending',
+            recent: 'Recent'
+        },
+        time: {
+            title: 'Date Posted',
+            anytime: 'Anytime',
+            week: 'Past Week',
+            month: 'Past Month',
+            year: 'Past Year'
+        }
+    },
     explore: {
         feed: {
             share: 'Share',

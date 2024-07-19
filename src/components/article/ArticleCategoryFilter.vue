@@ -14,10 +14,14 @@
 import { useArticleStore } from '@/stores/article';
 import endpoints from '@/services/articles';
 
+import i18n from '@/locales';
+
+const { t } = i18n.global;
+
 const base = [
     {
         key: 'all',
-        name: 'All Article',
+        name: t('article.category.default'),
         active: true
     }
 ];
