@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { createVfm } from 'vue-final-modal';
-import { createI18n } from 'vue-i18n';
 
 // Moment
 import moment from 'moment';
@@ -51,13 +50,7 @@ import AtmaText from './components/atma/AtmaText.vue';
 import MixinDevice from './mixins/device';
 import MixinUtilities from './mixins/utilities';
 
-import locales from './locales';
-
-const i18n = createI18n({
-    locale: 'id',
-    fallbackLocale: 'en',
-    messages: locales
-});
+import i18n from './locales';
 
 const pinia = createPinia();
 const vfm = createVfm();
