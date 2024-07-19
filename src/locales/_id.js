@@ -131,6 +131,10 @@ export default {
             week: 'Seminggu Terakhir',
             month: 'Sebulan Terakhir',
             year: 'Setahun Terakhir'
+        },
+        notFound: {
+            title: 'Artikel Tidak Ditemukan',
+            action: 'Lihat Artikel Lain'
         }
     },
     explore: {

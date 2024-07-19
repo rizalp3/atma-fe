@@ -131,6 +131,10 @@ export default {
             week: 'Past Week',
             month: 'Past Month',
             year: 'Past Year'
+        },
+        notFound: {
+            title: 'Article Not Found',
+            action: 'View Other Articles'
         }
     },
     explore: {
