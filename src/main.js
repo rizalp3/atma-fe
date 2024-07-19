@@ -2,6 +2,10 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { createVfm } from 'vue-final-modal';
 
+// Moment
+import moment from 'moment';
+import 'moment/dist/locale/id';
+
 // Vue Feather
 import VueFeather from 'vue-feather';
 
@@ -46,11 +50,14 @@ import AtmaText from './components/atma/AtmaText.vue';
 import MixinDevice from './mixins/device';
 import MixinUtilities from './mixins/utilities';
 
+import i18n from './locales';
+
 const pinia = createPinia();
 const vfm = createVfm();
 
 const app = createApp(App);
 
+app.use(i18n);
 app.use(pinia);
 app.use(vfm);
 app.use(router);
@@ -74,5 +81,9 @@ app.component('AtmaButton', AtmaButton)
 
 app.mixin(MixinDevice);
 app.mixin(MixinUtilities);
+
+// Moment Setup
+moment.locale(i18n?.global?.locale || 'en');
+app.config.globalProperties.moment = moment;
 
 app.mount('#app');

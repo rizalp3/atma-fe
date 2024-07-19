@@ -161,22 +161,22 @@ export default {
                 {
                     path: '/',
                     icon: 'space-dashboard',
-                    title: 'Home'
+                    title: this.$t('route.home')
                 },
                 {
                     path: '/explore',
                     icon: 'explore',
-                    title: 'Explore'
+                    title: this.$t('route.explore')
                 },
                 {
                     path: '/community',
                     icon: 'group',
-                    title: 'Community'
+                    title: this.$t('route.community')
                 },
                 {
                     path: '/report',
                     icon: 'assignment',
-                    title: 'Report'
+                    title: this.$t('route.report')
                 }
             ];
         },

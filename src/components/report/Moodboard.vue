@@ -15,7 +15,7 @@
                             </div>
 
                             <div class="moodboard__tooltip-title">
-                                {{ attributes[0].customData.title }}
+                                {{ formatCategory(attributes) }}
                             </div>
 
                             <div class="moodboard__tooltip-date">
@@ -73,6 +73,7 @@ export default {
                     month: moment().month() + 1,
                     year: moment().year()
                 },
+                locale: this.$i18n.locale === 'id' ? 'id' : 'en',
                 masks: {
                     title: 'MMMM YYYY',
                     weekdays: this.isMobile ? 'WW' : 'WWW',
@@ -107,6 +108,16 @@ export default {
 
         formatDate(date) {
             return moment(date).format('D MMM YYYY');
+        },
+
+        formatCategory(data) {
+            const key = data?.[0]?.customData?.title?.toLowerCase?.();
+
+            if (key) {
+                return this.$t(`report.mood.modal.category.${key}`);
+            }
+
+            return '-';
         }
     }
 };

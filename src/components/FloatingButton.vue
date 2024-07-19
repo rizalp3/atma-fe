@@ -12,7 +12,11 @@
             </atma-text>
         </button>
 
-        <div v-else v-tooltip="tooltip" class="floating-button">
+        <div
+            v-else
+            v-tooltip="tooltip || $t('general.authenticated')"
+            class="floating-button"
+        >
             <atma-icon :name="icon" size="24" />
 
             <atma-text v-if="!compact" size="14" weight="500">
@@ -39,7 +43,7 @@ export default {
         },
         tooltip: {
             type: String,
-            default: 'You Need to Login First'
+            default: ''
         },
         compact: {
             type: Boolean,

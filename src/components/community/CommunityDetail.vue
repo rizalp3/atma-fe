@@ -10,7 +10,7 @@
         </template>
 
         <div v-if="isSidebarVariant" class="community-detail__section-title">
-            About
+            {{ $t('community.board.about') }}
         </div>
 
         <atma-markdown
@@ -19,7 +19,7 @@
         />
 
         <div v-if="isSidebarVariant" class="community-detail__section-title">
-            Contact
+            {{ $t('community.board.contact') }}
         </div>
 
         <a

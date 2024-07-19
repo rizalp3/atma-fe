@@ -1,22 +1,24 @@
 <template>
     <div class="login-section">
-        <div class="login-section__title">Login</div>
+        <div class="login-section__title">
+            {{ $t('auth.login.title') }}
+        </div>
 
         <div class="login-section__subtitle">
-            Please enter your account detail
+            {{ $t('auth.login.subtitle') }}
         </div>
 
         <form @submit.prevent="handleSubmit">
             <!-- Email -->
             <div class="login-section__input">
                 <label class="form-label" for="login-email">
-                    Email Address
+                    {{ $t('auth.login.email.label') }}
                 </label>
                 <input
                     v-model="email"
                     :class="['form-control', { 'is-invalid': errors.email }]"
+                    :placeholder="$t('auth.login.email.placeholder')"
                     type="email"
-                    placeholder="example@mail.com"
                     id="login-email"
                     @blur="validateEmail"
                 />
@@ -26,14 +28,14 @@
             <!-- Password -->
             <div class="login-section__input">
                 <label class="form-label" for="login-password">
-                    Password
+                    {{ $t('auth.login.password.label') }}
                 </label>
 
                 <input
                     v-model="password"
                     :class="['form-control', { 'is-invalid': errors.password }]"
                     :type="toggleType"
-                    placeholder="Password"
+                    :placeholder="$t('auth.login.password.placeholder')"
                     id="login-password"
                     @blur="validatePassword"
                 />
@@ -65,14 +67,16 @@
             </div>
 
             <!-- Submit -->
-            <button class="login-section__submit" type="submit">Login</button>
+            <button class="login-section__submit" type="submit">
+                {{ $t('auth.login.submit') }}
+            </button>
 
             <!-- Register -->
             <div class="login-section__register">
-                <div>Don't have an account yet?</div>
+                <div>{{ $t('auth.login.register.text') }}</div>
 
                 <button type="button" @click="handleRedirectToRegister">
-                    Sign Up
+                    {{ $t('auth.login.register.action') }}
                 </button>
             </div>
         </form>
@@ -126,15 +130,17 @@ export default {
             const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
             if (this.email === '') {
-                this.errors.email = 'Email is required';
+                this.errors.email = this.$t('auth.login.email.error.required');
             } else if (!emailRegex.test(this.email)) {
-                this.errors.email = 'Invalid email address';
+                this.errors.email = this.$t('auth.login.email.error.invalid');
             }
         },
 
         validatePassword() {
             if (this.password === '') {
-                this.errors.password = `Password can't be empty`;
+                this.errors.password = this.$t(
+                    'auth.login.password.error.required'
+                );
             }
         },
 
@@ -174,7 +180,7 @@ export default {
 
             if (response.error) {
                 this.errors.general =
-                    response.error.message || 'Something went wrong';
+                    response.error.message || this.$t('auth.login.error');
             }
         },
 

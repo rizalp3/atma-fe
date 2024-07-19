@@ -1,7 +1,7 @@
 <template>
     <atma-modal
         v-model="value"
-        title="Add New Question"
+        :title="$t('community.quiz.add.title')"
         :primary-button="submitButton"
         @primary-click="$emit('submit', question)"
     >
@@ -10,9 +10,9 @@
                 v-model="question"
                 class="form-control"
                 type="email"
-                placeholder="Enter your question"
                 maxlength="250"
                 rows="7"
+                :placeholder="$t('community.quiz.add.placeholder')"
             />
 
             <div class="question-modal__counter">{{ counter }}</div>
@@ -47,7 +47,10 @@ export default {
         },
 
         submitButton() {
-            return { title: 'Submit', disabled: this.characterLength <= 0 };
+            return {
+                title: this.$t('community.quiz.add.action'),
+                disabled: this.characterLength <= 0
+            };
         },
 
         counter() {

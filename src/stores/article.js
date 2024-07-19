@@ -1,28 +1,32 @@
 import { defineStore } from 'pinia';
 import moment from 'moment';
 
+import i18n from '@/locales';
+
+const { t } = i18n.global;
+
 const baseFilter = {
     sorting: [
         {
             key: 'trending',
-            name: 'Trending',
+            name: t('article.sort.trending'),
             formula: 'view:desc'
         },
         {
             key: 'recent',
-            name: 'Recent',
+            name: t('article.sort.recent'),
             formula: 'createdAt:desc'
         }
     ],
     time: [
         {
             key: 'any',
-            name: 'Anytime',
+            name: t('article.time.anytime'),
             formula: {}
         },
         {
             key: 'week',
-            name: 'Past Week',
+            name: t('article.time.week'),
             formula: {
                 $between: [
                     moment().subtract(1, 'weeks').format(),
@@ -32,7 +36,7 @@ const baseFilter = {
         },
         {
             key: 'month',
-            name: 'Past Month',
+            name: t('article.time.month'),
             formula: {
                 $between: [
                     moment().subtract(1, 'months').format(),
@@ -42,7 +46,7 @@ const baseFilter = {
         },
         {
             key: 'year',
-            name: 'Past Year',
+            name: t('article.time.year'),
             formula: {
                 $between: [
                     moment().subtract(1, 'years').format(),

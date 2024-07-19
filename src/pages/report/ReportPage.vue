@@ -2,7 +2,9 @@
     <div class="report">
         <div class="report__section-title">
             <atma-icon name="mood" size="24" />
-            <div>Moodboard</div>
+            <div>
+                {{ $t('report.mood.board.title') }}
+            </div>
         </div>
 
         <Teleport to="#utility-bar" :disabled="isTablet">
@@ -17,7 +19,9 @@
 
         <div v-if="isTablet" class="report__section-title">
             <atma-icon name="assignment" size="24" />
-            <div>Stress Level Test</div>
+            <div>
+                {{ $t('report.test.title') }}
+            </div>
         </div>
 
         <Teleport to="#utility-bar" :disabled="isTablet">
@@ -26,7 +30,9 @@
 
         <div class="report__section-title">
             <atma-icon name="task" size="24" />
-            <div>Latest Test Results</div>
+            <div>
+                {{ $t('report.test.result.title') }}
+            </div>
         </div>
 
         <div class="report__result-wrapper">

@@ -15,7 +15,7 @@
         </div>
 
         <atma-text size="16" weight="500" color-scheme="on-surface">
-            About This Session
+            {{ $t('community.quiz.session.about') }}
         </atma-text>
 
         <atma-markdown

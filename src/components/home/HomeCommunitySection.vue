@@ -1,7 +1,7 @@
 <template>
     <div class="home-community">
         <atma-text size="16" weight="600" color-scheme="on-surface">
-            Community
+            {{ $t('home.personal.community') }}
         </atma-text>
 
         <router-link

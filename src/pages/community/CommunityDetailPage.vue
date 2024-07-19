@@ -25,18 +25,16 @@
             :images="post.images"
             :content="post.content"
         />
-
-        <!-- <div class="community-detail__content">
-            <community-question v-if="post.category === 'question'" />
-            <community-post v-else :images="post.images" :text="post.text" />
-        </div> -->
     </div>
 
     <not-found
         v-else
         class="mt-5"
-        title="Post Not Found"
-        :action="{ text: 'View Other Posts', target: '/community' }"
+        :title="$t('community.post.notFound.text')"
+        :action="{
+            text: $t('community.post.notFound.action'),
+            target: '/community'
+        }"
     />
 </template>
 
@@ -107,12 +105,11 @@ export default {
         },
 
         formattedCategory() {
-            const data = {
-                news: 'News',
-                question: 'Q & A'
-            };
+            if (['news', 'question'].includes(this.post.category)) {
+                return this.$t(`community.post.category.${this.post.category}`);
+            }
 
-            return data[this.post.category] || '-';
+            return '-';
         }
     },
 

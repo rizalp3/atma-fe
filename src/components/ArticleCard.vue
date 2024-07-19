@@ -8,7 +8,9 @@
             <div class="article-card__detail">
                 <div class="article-card__date">{{ formattedDate }}</div>
                 <div class="article-card__separator"></div>
-                <div class="article-card__time">{{ time }} min read</div>
+                <div class="article-card__time">
+                    {{ $t('article.readTime', { time }) }}
+                </div>
             </div>
         </div>
 

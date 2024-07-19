@@ -36,7 +36,9 @@ export default {
         },
 
         formattedName() {
-            return this.isSelfTest ? 'Self Test' : this.result.name;
+            return this.isSelfTest
+                ? this.$t('report.test.result.self')
+                : this.result.name;
         },
 
         formattedTime() {
@@ -44,7 +46,9 @@ export default {
         },
 
         formattedLevel() {
-            return `Level ${this.result.value}`;
+            return `${this.$t('report.test.result.level')} ${
+                this.result.value
+            }`;
         },
 
         composeIconClasses() {

@@ -1,7 +1,9 @@
 <template>
     <div class="explore-sidebar">
         <!-- Sorting Section -->
-        <div class="explore-sidebar__section-title">Sort By</div>
+        <div class="explore-sidebar__section-title">
+            {{ $t('explore.filter.sort.title') }}
+        </div>
 
         <div v-for="data in sortingValues" :key="data.key" class="form-check">
             <input
@@ -20,7 +22,9 @@
         </div>
 
         <!-- Time Section -->
-        <div class="explore-sidebar__section-title">Date Posted</div>
+        <div class="explore-sidebar__section-title">
+            {{ $t('explore.filter.time.title') }}
+        </div>
 
         <div
             v-for="data in timeFilterValues"

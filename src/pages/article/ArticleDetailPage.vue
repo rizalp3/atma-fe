@@ -4,8 +4,8 @@
     <not-found
         v-else-if="!article.title"
         class="mt-5"
-        title="Article Not Found"
-        :action="{ text: 'View Other Articles', target: '/article' }"
+        :title="$t('article.notFound.title')"
+        :action="{ text: $t('article.notFound.action'), target: '/article' }"
     />
 
     <div v-else class="article-detail">
