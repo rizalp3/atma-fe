@@ -1,7 +1,7 @@
 <template>
     <atma-modal
         v-model="value"
-        title="SRQ-20 Test"
+        :title="$t('test.start.title')"
         :closable="false"
         :primary-button="primaryButton"
         :secondary-button="secondaryButton"
@@ -9,7 +9,9 @@
         @secondary-click="handleCancel"
     >
         <div class="test-start-modal">
-            <div class="test-start-modal__title">Test Subject</div>
+            <div class="test-start-modal__title">
+                {{ $t('test.start.subject.label') }}
+            </div>
 
             <div class="test-start-modal__options">
                 <div class="form-check">
@@ -22,7 +24,7 @@
                         id="type-self"
                     />
                     <label class="form-check-label" for="type-self">
-                        Yourself
+                        {{ $t('test.start.subject.option.self') }}
                     </label>
                 </div>
 
@@ -36,19 +38,21 @@
                         id="type-others"
                     />
                     <label class="form-check-label" for="type-others">
-                        Other People
+                        {{ $t('test.start.subject.option.others') }}
                     </label>
                 </div>
             </div>
 
             <template v-if="category === 'others'">
-                <div class="test-start-modal__title">Name</div>
+                <div class="test-start-modal__title">
+                    {{ $t('test.start.name.label') }}
+                </div>
 
                 <input
                     v-model="name"
                     class="form-control"
                     type="text"
-                    placeholder="Enter name"
+                    :placeholder="$t('test.start.name.placeholder')"
                 />
             </template>
         </div>
@@ -95,11 +99,14 @@ export default {
         },
 
         primaryButton() {
-            return { title: 'Start Test', disabled: this.isButtonDisabled };
+            return {
+                title: this.$t('test.start.action'),
+                disabled: this.isButtonDisabled
+            };
         },
 
         secondaryButton() {
-            return { title: 'Cancel' };
+            return { title: this.$t('test.start.cancel') };
         }
     },
 

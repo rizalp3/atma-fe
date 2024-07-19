@@ -6,7 +6,7 @@ export default {
         explore: 'Feed',
         community: 'Komunitas',
         report: 'Laporan',
-        test: 'Tes'
+        test: 'Tes SRQ-20'
     },
     general: {
         authenticated: 'Masuk Terlebih Dahulu'
@@ -206,6 +206,56 @@ export default {
                 self: 'Tes Mandiri',
                 level: 'Level'
             }
+        }
+    },
+    test: {
+        start: {
+            title: 'Tes SRQ-20',
+            subject: {
+                label: 'Siapa Yang Melakukan Tes?',
+                option: {
+                    self: 'Saya Sendiri',
+                    others: 'Orang Lain'
+                }
+            },
+            name: {
+                label: 'Nama',
+                placeholder: 'Masukkan nama'
+            },
+            action: 'Mulai Tes',
+            cancel: 'Batal'
+        },
+        option: {
+            yes: 'Ya',
+            no: 'Tidak'
+        },
+        guide: {
+            title: 'Panduan Tes'
+        },
+        counter: '{answerCount} dari 20 Dijawab',
+        submit: 'Kirim Tes',
+        confirmation: {
+            title: 'Konfirmasi',
+            text: 'Anda telah menjawab semua pertanyaan. Lanjut kirimkan tes ini?',
+            action: 'Kirim'
+        },
+        result: {
+            title: 'Hasil Tes',
+            action: 'Selesai Tes',
+            level: 'Level {level}',
+            condition: {
+                1: 'Normal',
+                2: 'Sedikit Stres',
+                3: 'Stres Ringan',
+                4: 'Stres',
+                5: 'Stres Berat'
+            },
+            description: {
+                before: 'Berdasarkan jawaban dari pertanyaan sebelumnya, hasil tes menunjukkan bahwa anda',
+                after: '. Kami sarankan anda menghubungi dokter terkait untuk memvalidasi lebih lanjut hasil pemeriksaan ini.'
+            },
+            disclaimer:
+                'Perlu diingat bahwa tes ini merupakan alat pra-skrining. Silahkan hubungi layanan kesehatan untuk mendapatkan hasil yang lebih akurat.'
         }
     }
 };

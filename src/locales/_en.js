@@ -6,7 +6,7 @@ export default {
         explore: 'Explore',
         community: 'Community',
         report: 'Report',
-        test: 'Test'
+        test: 'SRQ-20 Test'
     },
     general: {
         authenticated: 'Login to Your Account First'
@@ -206,6 +206,56 @@ export default {
                 self: 'Self Test',
                 level: 'Level'
             }
+        }
+    },
+    test: {
+        start: {
+            title: 'SRQ-20 Test',
+            subject: {
+                label: 'Who Does The Test?',
+                option: {
+                    self: 'Yourself',
+                    others: 'Other People'
+                }
+            },
+            name: {
+                label: 'Name',
+                placeholder: 'Enter name'
+            },
+            action: 'Start Test',
+            cancel: 'Cancel'
+        },
+        option: {
+            yes: 'Yes',
+            no: 'No'
+        },
+        guide: {
+            title: 'Test Guide'
+        },
+        counter: '{answerCount} of 20 Answered',
+        submit: 'Submit Test',
+        confirmation: {
+            title: 'Confirmation',
+            text: "You've answered all questions. Continue to submit this test?",
+            action: 'Submit'
+        },
+        result: {
+            title: 'Test Result',
+            action: 'Finish Test',
+            level: 'Level {level}',
+            condition: {
+                1: 'Normal',
+                2: 'Slightly Stress',
+                3: 'Stress',
+                4: 'Very Stress',
+                5: 'Severe Stress'
+            },
+            description: {
+                before: 'Based on the answer to prior questions, the result show that you have a',
+                after: 'condition. We suggest you to contact nearest medical treatmest to further validate this finding.'
+            },
+            disclaimer:
+                'Notice that this test is a pre-screening tool. Please contact medical support to have a more accurate result.'
         }
     }
 };

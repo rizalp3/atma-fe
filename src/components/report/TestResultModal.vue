@@ -14,22 +14,20 @@
             <div class="test-result-modal__title">{{ result.name }}</div>
 
             <div class="test-result-modal__subtitle">
-                Level {{ result.level }}
+                {{ $t('test.result.level', { level: result.level }) }}
             </div>
 
             <div class="test-result-modal__description">
-                Based on the answer to prior questions, the result show that you
-                have a <span>{{ result.name }}</span> condition. We suggest you
-                to contact nearest medical treatmest to further validate this
-                finding.
+                {{ $t('test.result.description.before') }}
+                <span>{{ result.name }}</span>
+                {{ $t('test.result.description.after') }}
             </div>
 
             <div class="test-result-modal__disclaimer">
                 <atma-icon name="info" />
 
                 <div>
-                    Notice that this test is a pre-screening tool. Please
-                    contact medical support to have a more accurate result.
+                    {{ $t('test.result.disclaimer') }}
                 </div>
             </div>
         </div>
@@ -65,8 +63,8 @@ export default {
         composeModalAttrs() {
             return {
                 closable: false,
-                title: 'Test Result',
-                primaryButton: { title: 'Finish Test' }
+                title: this.$t('test.result.title'),
+                primaryButton: { title: this.$t('test.result.action') }
             };
         },
 

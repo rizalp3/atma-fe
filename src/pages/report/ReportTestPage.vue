@@ -2,7 +2,7 @@
     <div class="test-page">
         <!-- Test Guide -->
         <Teleport to="#utility-bar-fixed" :disabled="isTablet">
-            <accordion-card title="Test Guide" name="test-guide">
+            <accordion-card :title="$t('test.guide.title')" name="test-guide">
                 <atma-markdown
                     class="test-page__guide"
                     :content="testGuideContent"
@@ -29,7 +29,7 @@
                         @click="chooseAnswer(1, i)"
                     >
                         <atma-icon :name="composeAnswerIcon(1, i)" size="18" />
-                        Yes
+                        {{ $t('test.option.yes') }}
                     </button>
 
                     <!-- No Answer -->
@@ -38,7 +38,7 @@
                         @click="chooseAnswer(0, i)"
                     >
                         <atma-icon :name="composeAnswerIcon(0, i)" size="18" />
-                        No
+                        {{ $t('test.option.no') }}
                     </button>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                         <atma-icon class="test-footer__icon" name="task-alt" />
 
                         <div class="test-footer__count">
-                            {{ answerCount }} of 20 Answered
+                            {{ $t('test.counter', { answerCount }) }}
                         </div>
                     </div>
 
@@ -62,7 +62,7 @@
                         :disabled="!isAllAnswered"
                         @click="isModalConfirmationShown = true"
                     >
-                        Submit Test
+                        {{ $t('test.submit') }}
                     </atma-button>
                 </div>
             </Teleport>
@@ -75,12 +75,12 @@
     <!-- Confirmation Modal -->
     <atma-modal
         v-model="isModalConfirmationShown"
-        title="Confirmation"
-        :primary-button="{ title: 'Submit' }"
+        :title="$t('test.confirmation.title')"
+        :primary-button="{ title: $t('test.confirmation.action') }"
         @primary-click="handleSubmit"
     >
         <atma-text size="16" weight="400" color-scheme="outline">
-            You've answered all questions. Continue to submit this test?
+            {{ $t('test.confirmation.text') }}
         </atma-text>
     </atma-modal>
 
@@ -138,13 +138,18 @@ export default {
         },
 
         testGuideContent() {
-            return `The following 20 questions are related to certain pains and problems, that may have bothered you in **the last 30 days**.\n\nIf you think the question applies or relate to you in the last 30 days, answer **Yes**.\n\nAnd if the question doesn't applies or relates to you, answer **No**.`;
+            return this.$i18n.locale === 'id'
+                ? `20 pertanyaan berikut ini berkaitan dengan rasa sakit dan masalah yang mungkin anda rasakan dalam **30 hari terakhir**.\n\nJika anda merasa pertanyaan yang ditanyakan relevan dengan apa yang anda rasakan dalam 30 hari terakhir, jawablah **Ya**.\n\nDan jika pertanyaan tersebut tidak relevan dengan apa yang anda rasakan, jawablah **Tidak**.`
+                : `The following 20 questions are related to certain pains and problems, that may have bothered you in **the last 30 days**.\n\nIf you think the question applies or relate to you in the last 30 days, answer **Yes**.\n\nAnd if the question doesn't applies or relates to you, answer **No**.`;
         }
     },
 
     methods: {
         resetData() {
-            this.questions = [...QuestionList];
+            const locale = this.$i18n.locale === 'id' ? 'id' : 'en';
+
+            this.questions = [...QuestionList[locale]];
+
             this.answers = Array.from(
                 { length: this.questions.length },
                 () => -1
@@ -177,15 +182,30 @@ export default {
             const score = this.answers.reduce((sum, val) => sum + val, 0);
 
             if (score < 5) {
-                this.result = { level: 1, name: 'Normal' };
+                this.result = {
+                    level: 1,
+                    name: this.$t('test.result.condition.1')
+                };
             } else if (score < 9) {
-                this.result = { level: 2, name: 'Slightly Stress' };
+                this.result = {
+                    level: 2,
+                    name: this.$t('test.result.condition.2')
+                };
             } else if (score < 13) {
-                this.result = { level: 3, name: 'Stress' };
+                this.result = {
+                    level: 3,
+                    name: this.$t('test.result.condition.3')
+                };
             } else if (score < 17) {
-                this.result = { level: 4, name: 'Very Stress' };
+                this.result = {
+                    level: 4,
+                    name: this.$t('test.result.condition.4')
+                };
             } else {
-                this.result = { level: 5, name: 'Severe Stress' };
+                this.result = {
+                    level: 5,
+                    name: this.$t('test.result.condition.5')
+                };
             }
         },
 
