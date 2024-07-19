@@ -166,5 +166,46 @@ export default {
                 cancel: 'Cancel'
             }
         }
+    },
+    report: {
+        mood: {
+            board: {
+                title: 'Moodboard'
+            },
+            card: {
+                title: 'Daily Mood',
+                subtitle:
+                    'Tell us what you feel throughout the day and track your mood over time.',
+                action: "Report Today's Mood",
+                disabled: 'Reported Today'
+            },
+            modal: {
+                title: 'What Do You Feel?',
+                category: {
+                    joy: 'Joy',
+                    love: 'Love',
+                    surprise: 'Suprise',
+                    neutral: 'Neutral',
+                    anger: 'Anger',
+                    sad: 'Sad',
+                    fear: 'Fear'
+                },
+                action: 'Submit'
+            }
+        },
+        test: {
+            title: 'Stress Level Test',
+            detail: {
+                title: 'SRQ-20 Test',
+                question: '20 Questions',
+                option: 'Yes/No',
+                action: 'Take a Test'
+            },
+            result: {
+                title: 'Latest Test Results',
+                self: 'Self Test',
+                level: 'Level'
+            }
+        }
     }
 };

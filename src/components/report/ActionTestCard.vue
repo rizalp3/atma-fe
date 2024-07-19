@@ -1,5 +1,9 @@
 <template>
-    <accordion-card class="action-test-card" title="SRQ-20 Test" name="test">
+    <accordion-card
+        class="action-test-card"
+        name="test"
+        :title="$t('report.test.detail.title')"
+    >
         <test-description />
 
         <template #footer>
@@ -10,7 +14,7 @@
                 radius="12"
                 @click="handleRedirect"
             >
-                Take A Test
+                {{ $t('report.test.detail.action') }}
             </atma-button>
         </template>
     </accordion-card>

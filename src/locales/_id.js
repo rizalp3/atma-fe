@@ -166,5 +166,46 @@ export default {
                 cancel: 'Batal'
             }
         }
+    },
+    report: {
+        mood: {
+            board: {
+                title: 'Papan Mood'
+            },
+            card: {
+                title: 'Mood Harian',
+                subtitle:
+                    'Beritahu apa yang anda rasakan sepanjang hari dan lacak suasana hati anda dari waktu ke waktu.',
+                action: 'Lapor Mood Hari Ini',
+                disabled: 'Sudah Laporan'
+            },
+            modal: {
+                title: 'Apa Yang Anda Rasakan?',
+                category: {
+                    joy: 'Gembira',
+                    love: 'Penuh Perasaan',
+                    surprise: 'Kaget',
+                    neutral: 'Netral',
+                    anger: 'Marah',
+                    sad: 'Sedih',
+                    fear: 'Takut'
+                },
+                action: 'Kirim'
+            }
+        },
+        test: {
+            title: 'Tes Tingkat Stres',
+            detail: {
+                title: 'Tes SRQ-20',
+                question: '20 Pertanyaan',
+                option: 'Ya/Tidak',
+                action: 'Mulai Tes'
+            },
+            result: {
+                title: 'Hasil Tes Terbaru',
+                self: 'Tes Mandiri',
+                level: 'Level'
+            }
+        }
     }
 };

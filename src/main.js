@@ -83,7 +83,7 @@ app.mixin(MixinDevice);
 app.mixin(MixinUtilities);
 
 // Moment Setup
-moment.locale('id');
+moment.locale(i18n?.global?.locale || 'en');
 app.config.globalProperties.moment = moment;
 
 app.mount('#app');

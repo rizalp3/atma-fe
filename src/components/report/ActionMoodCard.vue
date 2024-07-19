@@ -1,10 +1,11 @@
 <template>
     <div v-bind="$attrs" class="mood-card">
-        <div class="mood-card__title">Daily Mood</div>
+        <div class="mood-card__title">
+            {{ $t('report.mood.card.title') }}
+        </div>
 
         <div class="mood-card__subtitle">
-            Tell us what you feel throughout the day and track your mood over
-            time.
+            {{ $t('report.mood.card.subtitle') }}
         </div>
 
         <atma-button
@@ -28,7 +29,9 @@
                 class="mood-modal__category"
             >
                 <!-- Category Name -->
-                <div class="mood-modal__title">{{ mood.name }}</div>
+                <div class="mood-modal__title">
+                    {{ composeMoodName(mood.name) }}
+                </div>
 
                 <!-- Emoji List -->
                 <div class="mood-modal__wrapper">
@@ -82,14 +85,16 @@ export default {
         },
 
         composeActionText() {
-            return this.disabled ? 'Reported Today' : `Report Today's Mood`;
+            return this.disabled
+                ? this.$t('report.mood.card.disabled')
+                : this.$t('report.mood.card.action');
         },
 
         composeModalAttrs() {
             return {
-                title: 'How Do You Feel?',
+                title: this.$t('report.mood.modal.title'),
                 primaryButton: {
-                    title: 'Submit',
+                    title: this.$t('report.mood.modal.action'),
                     disabled: !this.active.category
                 }
             };
@@ -106,6 +111,10 @@ export default {
                 'mood-modal__item': true,
                 'mood-modal__item--active': isActive
             };
+        },
+
+        composeMoodName(key) {
+            return this.$t(`report.mood.modal.category.${key}`);
         },
 
         showModal() {
