@@ -69,6 +69,14 @@ export default {
         TestResult
     },
 
+    beforeRouteEnter(to) {
+        const isAuthenticated = localStorage.getItem('token');
+
+        if (!isAuthenticated) {
+            return { name: 'NotFound' };
+        }
+    },
+
     data() {
         return {
             isLoading: false,

@@ -15,17 +15,18 @@
 
                 <!-- Navbar -->
                 <nav role="navigation">
-                    <router-link
-                        v-for="(item, i) in items"
-                        v-slot="{ isActive }"
-                        class="nav-item"
-                        exact-active-class="nav-item--active"
-                        :to="item.path"
-                        :key="i"
-                    >
-                        <atma-icon :name="item.icon" :fill="isActive" />
-                        <div class="nav-title">{{ item.title }}</div>
-                    </router-link>
+                    <template v-for="(item, i) in items" :key="i">
+                        <router-link
+                            v-if="isNavItemShown(item.authenticated)"
+                            v-slot="{ isActive }"
+                            class="nav-item"
+                            exact-active-class="nav-item--active"
+                            :to="item.path"
+                        >
+                            <atma-icon :name="item.icon" :fill="isActive" />
+                            <div class="nav-title">{{ item.title }}</div>
+                        </router-link>
+                    </template>
                 </nav>
             </div>
         </div>
@@ -91,21 +92,26 @@
         <!-- Bottom Bar -->
         <div v-if="!$route.meta.customBottomBar" class="bottom-navbar">
             <nav class="bottom-navbar__wrapper" role="navigation">
-                <div v-for="(item, i) in items" :key="`bottom-navbar-${i}`">
-                    <router-link
-                        v-slot="{ isActive }"
-                        class="bottom-navbar__item"
-                        exact-active-class="bottom-navbar__item--active"
-                        :to="item.path"
-                    >
-                        <div class="bottom-navbar__item-icon">
-                            <atma-icon :name="item.icon" :fill="isActive" />
-                        </div>
-                        <div class="bottom-navbar__item-title">
-                            {{ item.title }}
-                        </div>
-                    </router-link>
-                </div>
+                <template
+                    v-for="(item, i) in items"
+                    :key="`bottom-navbar-${i}`"
+                >
+                    <div v-if="isNavItemShown(item.authenticated)">
+                        <router-link
+                            v-slot="{ isActive }"
+                            class="bottom-navbar__item"
+                            exact-active-class="bottom-navbar__item--active"
+                            :to="item.path"
+                        >
+                            <div class="bottom-navbar__item-icon">
+                                <atma-icon :name="item.icon" :fill="isActive" />
+                            </div>
+                            <div class="bottom-navbar__item-title">
+                                {{ item.title }}
+                            </div>
+                        </router-link>
+                    </div>
+                </template>
             </nav>
         </div>
 
@@ -176,7 +182,8 @@ export default {
                 {
                     path: '/report',
                     icon: 'assignment',
-                    title: this.$t('route.report')
+                    title: this.$t('route.report'),
+                    authenticated: true
                 }
             ];
         },
@@ -207,6 +214,14 @@ export default {
     },
 
     methods: {
+        isNavItemShown(isNeedAuth) {
+            if (!isNeedAuth) {
+                return true;
+            }
+
+            return !!this.authStore.isAuthenticated;
+        },
+
         getTheme() {
             return localStorage.getItem('color-theme') || 'light';
         },
