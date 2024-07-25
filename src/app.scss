@@ -201,6 +201,8 @@
 
     background: var(--system-color-surface);
 
+    z-index: 100;
+
     &__wrapper {
         width: 100%;
         max-width: 500px;
