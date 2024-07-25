@@ -24,7 +24,7 @@
 export default {
     name: 'QuestionModal',
 
-    props: ['modelValue'],
+    props: ['modelValue', 'loading'],
 
     data() {
         return {
@@ -49,7 +49,8 @@ export default {
         submitButton() {
             return {
                 title: this.$t('community.quiz.add.action'),
-                disabled: this.characterLength <= 0
+                disabled: this.characterLength <= 0,
+                loading: !!this.loading
             };
         },
 

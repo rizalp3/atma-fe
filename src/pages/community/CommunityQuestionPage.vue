@@ -88,6 +88,7 @@
     <question-modal
         v-if="isAddModalShown"
         v-model="isAddModalShown"
+        :loading="isLoading"
         @submit="handleAddQuestion"
     />
 </template>
@@ -124,6 +125,8 @@ export default {
 
     data() {
         return {
+            isLoading: false,
+
             isDetailModalShown: false,
             isAddModalShown: false,
             isDeleteModalShown: false,
@@ -164,10 +167,12 @@ export default {
             return {
                 title: this.$t('community.quiz.delete.title'),
                 primaryButton: {
-                    title: this.$t('community.quiz.delete.action')
+                    title: this.$t('community.quiz.delete.action'),
+                    loading: this.isLoading
                 },
                 secondaryButton: {
-                    title: this.$t('community.quiz.delete.cancel')
+                    title: this.$t('community.quiz.delete.cancel'),
+                    disabled: this.isLoading
                 }
             };
         },
@@ -246,6 +251,8 @@ export default {
         },
 
         async handleAddQuestion(question) {
+            this.isLoading = true;
+
             const payload = {
                 data: {
                     post: [this.post.id],
@@ -261,9 +268,13 @@ export default {
 
                 this.isAddModalShown = false;
             }
+
+            this.isLoading = false;
         },
 
         async handleDeleteQuestion() {
+            this.isLoading = true;
+
             const response = await endpoint.deleteQuestion(this.data.id);
 
             if (response.data) {
@@ -271,6 +282,8 @@ export default {
 
                 this.isDeleteModalShown = false;
             }
+
+            this.isLoading = false;
         }
     }
 };

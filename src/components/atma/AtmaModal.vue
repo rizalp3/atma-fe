@@ -27,11 +27,8 @@
         <div v-if="isFooterShown" class="atma-modal__footer">
             <atma-button
                 v-if="secondaryButton.title"
-                class="atma-modal__button"
+                v-bind="composeButtonAttrs(secondaryButton)"
                 variant="secondary"
-                radius="12"
-                :disabled="secondaryButton.disabled"
-                :icon="secondaryButton.icon"
                 @click="$emit('secondaryClick')"
             >
                 {{ secondaryButton.title }}
@@ -39,11 +36,8 @@
 
             <atma-button
                 v-if="primaryButton.title"
-                class="atma-modal__button"
+                v-bind="composeButtonAttrs(primaryButton)"
                 variant="primary"
-                radius="12"
-                :disabled="primaryButton.disabled"
-                :icon="primaryButton.icon"
                 @click="$emit('primaryClick')"
             >
                 {{ primaryButton.title }}
@@ -88,6 +82,16 @@ export default {
     },
 
     methods: {
+        composeButtonAttrs({ icon, disabled, loading }) {
+            return {
+                class: 'atma-modal__button',
+                radius: '12',
+                icon,
+                disabled,
+                loading
+            };
+        },
+
         closeModal() {
             this.$emit('update:modelValue', false);
         }

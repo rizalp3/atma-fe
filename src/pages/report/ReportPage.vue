@@ -10,8 +10,9 @@
         <Teleport to="#utility-bar" :disabled="isTablet">
             <action-mood-card
                 class="mb-3"
+                :loading="isLoading"
                 :disabled="isTodayMoodReported"
-                @add-success="getMoods"
+                @add-success="getMoods(true)"
             />
         </Teleport>
 
@@ -123,7 +124,13 @@ export default {
             }
         },
 
-        async getMoods() {
+        async getMoods(isNew = false) {
+            if (isNew) {
+                this.moods.unshift({
+                    date: moment().format('YYYY-MM-DD')
+                });
+            }
+
             const response = await endpoint.getMoods();
 
             if (response.data) {

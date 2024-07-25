@@ -60,13 +60,20 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
             isShowModal: false,
+            isFetching: false,
+
             MoodList,
+
             active: {
                 category: '',
                 emoji: 0
@@ -77,7 +84,8 @@ export default {
     computed: {
         composeActionAttrs() {
             return {
-                disabled: this.disabled,
+                loading: this.loading,
+                disabled: !this.loading && this.disabled,
                 icon: this.disabled ? 'check-circle' : 'add-reaction',
                 radius: '12',
                 variant: 'primary'
@@ -95,7 +103,8 @@ export default {
                 title: this.$t('report.mood.modal.title'),
                 primaryButton: {
                     title: this.$t('report.mood.modal.action'),
-                    disabled: !this.active.category
+                    disabled: !this.active.category,
+                    loading: this.isFetching
                 }
             };
         }
@@ -127,6 +136,8 @@ export default {
         },
 
         async handleAddMood() {
+            this.isFetching = true;
+
             const category = this.MoodList.find(
                 ({ name }) => name === this.active.category
             );
@@ -144,6 +155,8 @@ export default {
                 this.$emit('addSuccess');
                 this.isShowModal = false;
             }
+
+            this.isFetching = false;
         }
     }
 };

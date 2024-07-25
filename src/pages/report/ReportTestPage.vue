@@ -76,7 +76,10 @@
     <atma-modal
         v-model="isModalConfirmationShown"
         :title="$t('test.confirmation.title')"
-        :primary-button="{ title: $t('test.confirmation.action') }"
+        :primary-button="{
+            title: $t('test.confirmation.action'),
+            loading: isLoading
+        }"
         @primary-click="handleSubmit"
     >
         <atma-text size="16" weight="400" color-scheme="outline">
@@ -108,6 +111,8 @@ export default {
 
     data() {
         return {
+            isLoading: false,
+
             isModalStartShown: false,
             isModalConfirmationShown: false,
             isModalResultShown: false,
@@ -210,6 +215,8 @@ export default {
         },
 
         async handleSubmit() {
+            this.isLoading = true;
+
             this.calculateScore();
 
             const payload = {
@@ -223,6 +230,7 @@ export default {
             const response = await endpoint.addTestResult(payload);
 
             this.isModalConfirmationShown = false;
+            this.isLoading = false;
 
             if (response?.data?.id) {
                 this.isModalResultShown = true;
